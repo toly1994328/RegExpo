@@ -1,23 +1,27 @@
-class Selection {
+class UserSelection {
   final int activeLeftNavId;
   final int activeRightNavId;
-  final int activeTabIndex;
+  final int activeTabId;
+  final int activeExampleId;
 
-  Selection({
+  UserSelection({
     this.activeLeftNavId = 1,
     this.activeRightNavId = 0,
-    this.activeTabIndex =0,
+    this.activeTabId =0,
+    this.activeExampleId =0,
   });
 
-  Selection copyWith({
+  UserSelection copyWith({
     int? activeLeftNavId,
     int? activeRightNavId,
-    int? activeTabIndex,
+    int? activeTabId,
+    int? activeExampleId,
   }) {
-    return Selection(
+    return UserSelection(
       activeLeftNavId: activeLeftNavId ?? this.activeLeftNavId,
       activeRightNavId: activeRightNavId ?? this.activeRightNavId,
-      activeTabIndex: activeTabIndex ?? this.activeTabIndex,
+      activeTabId: activeTabId ?? this.activeTabId,
+      activeExampleId: activeExampleId ?? this.activeExampleId,
     );
   }
 }

@@ -1,24 +1,42 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/directory/models/reg_example.dart';
 
 import '../model/tab_bean.dart';
 
 class TabCubit extends Cubit<TabList> {
   TabCubit() : super(TabList.test);
 
-  int _createIndex = 0;
+  int _createIndex = 10000;
 
   void addUntitled() {
     state.tabs.add(TabBean(
-      name: 'untitled$_createIndex.dart',
-      flag: true,
-      content: 'untitled$_createIndex.dart',
+      id: _createIndex,
+      name: 'untitled${_createIndex-10000}',
+      flag: false,
+      content: '',
     ));
     _createIndex ++;
     emit(TabList(tabs: state.tabs));
   }
 
-  void deleteAt(int index) {
-    state.tabs.removeAt(index);
+  void deleteById(int id) {
+    state.tabs.removeWhere((e)=>e.id==id);
+    emit(TabList(tabs: state.tabs));
+  }
+
+  void addExample(RegExample example) {
+    Iterable<TabBean> tabs = state.tabs.where((e)=>e.id==example.id);
+
+    // 已经存在
+    if(tabs.isNotEmpty){
+      state.tabs.remove(tabs.first);
+    }
+    state.tabs.insert(0,TabBean(
+      id: example.id,
+      name: example.title,
+      flag: false,
+      content: example.content,
+    ));
     emit(TabList(tabs: state.tabs));
   }
 }

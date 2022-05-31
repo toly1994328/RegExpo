@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/res/gap.dart';
 import 'package:regexpo/src/directory/models/reg_example.dart';
-
+import 'package:regexpo/src/navigation/bloc/bloc_exp.dart';
 
 class ExamplePanel extends StatefulWidget {
   const ExamplePanel({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _ExamplePanelState extends State<ExamplePanel> {
   List<RegExample> items = [];
   int _position = 0;
   bool isInput = false;
-
+  final ScrollController controller = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -43,10 +44,14 @@ class _ExamplePanelState extends State<ExamplePanel> {
         ),
         Gap.dividerH,
         Expanded(
-          child: ListView.builder(
-            itemCount: items.length,
-            itemExtent: 70,
-            itemBuilder: _buildItem,
+          child: BlocBuilder<SelectionCubit, UserSelection>(
+            buildWhen: (p, n) => p.activeExampleId != n.activeExampleId,
+            builder: (_, s) => ListView.builder(
+              controller: controller,
+              itemCount: items.length,
+              itemExtent: 70,
+              itemBuilder: (c, index) => _buildItem(c, index, s.activeExampleId),
+            ),
           ),
         )
       ],
@@ -63,17 +68,21 @@ class _ExamplePanelState extends State<ExamplePanel> {
     if (mounted) setState(() {});
   }
 
-  Widget _buildItem(BuildContext context, int index) {
+  Widget _buildItem(BuildContext context, int index, int activeId) {
+    RegExample example = items[index];
     return GestureDetector(
       onTap: () {
-        print('=======${items[index].title}====');
-        // widget.contentTextCtrl.value = items[index];
-        setState(() {
-          _position = index;
-        });
+        BlocProvider.of<SelectionCubit>(context).selectExample(example.id);
+        BlocProvider.of<TabCubit>(context).addExample(example);
+
+        // print('=======${items[index].title}====');
+        // // widget.contentTextCtrl.value = items[index];
+        // setState(() {
+        //   _position = index;
+        // });
       },
       child: RegTestWidget(
-        active: _position == index,
+        active: example.id == activeId,
         item: items[index],
       ),
     );

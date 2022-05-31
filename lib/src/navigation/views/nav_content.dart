@@ -15,10 +15,10 @@ class LeftNavContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectionCubit, Selection>(builder: buildByState);
+    return BlocBuilder<SelectionCubit, UserSelection>(builder: buildByState);
   }
 
-  Widget buildByState(BuildContext context, Selection state) {
+  Widget buildByState(BuildContext context, UserSelection state) {
     if (state.activeLeftNavId == 0) {
       return const SizedBox.shrink();
     }
@@ -44,10 +44,10 @@ class RightNavContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectionCubit, Selection>(builder: buildByState);
+    return BlocBuilder<SelectionCubit, UserSelection>(builder: buildByState);
   }
 
-  Widget buildByState(BuildContext context, Selection state) {
+  Widget buildByState(BuildContext context, UserSelection state) {
     if (state.activeRightNavId == 0) {
       return const SizedBox.shrink();
     }

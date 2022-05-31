@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc_exp.dart';
 
 
-class SelectionCubit extends Cubit<Selection> {
-  SelectionCubit() : super(Selection());
+class SelectionCubit extends Cubit<UserSelection> {
+  SelectionCubit() : super(UserSelection());
 
   void selectNav(NavBean navBean){
     if (navBean.isLeft) {
@@ -27,9 +27,11 @@ class SelectionCubit extends Cubit<Selection> {
     }
   }
 
-
-  void selectTab(int index){
-    emit(state.copyWith(activeTabIndex: index));
+  void selectTab(int id){
+    emit(state.copyWith(activeTabId: id));
   }
 
+  void selectExample(int id){
+    emit(state.copyWith(activeExampleId: id,activeTabId: id));
+  }
 }

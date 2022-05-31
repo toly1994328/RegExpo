@@ -7,7 +7,7 @@ import '../bloc/bloc_exp.dart';
 import 'foot_bar.dart';
 import 'nav_bar.dart';
 import 'nav_content.dart';
-import 'main_content.dart';
+import '../../content/views/main_content.dart';
 import 'tab_bar.dart';
 import 'top_bar.dart';
 

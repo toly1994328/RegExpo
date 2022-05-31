@@ -12,7 +12,7 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectionCubit, Selection>(
+    return BlocBuilder<SelectionCubit, UserSelection>(
         buildWhen: (p, n) =>
             p.activeLeftNavId != n.activeLeftNavId ||
             p.activeRightNavId != n.activeRightNavId,
@@ -24,7 +24,7 @@ class NavBar extends StatelessWidget {
     cubit.selectNav(navBean);
   }
 
-  Widget buildByState(BuildContext context, Selection state) {
+  Widget buildByState(BuildContext context, UserSelection state) {
     return Container(
       width: width,
       color: const Color(0xffF2F2F2),
@@ -40,7 +40,7 @@ class NavBar extends StatelessWidget {
     );
   }
 
-  List<Widget> buildNavByType(NavType type, Selection selection) {
+  List<Widget> buildNavByType(NavType type, UserSelection selection) {
     final int activeLeftNavId = selection.activeLeftNavId;
     final int activeRightNavId = selection.activeRightNavId;
 

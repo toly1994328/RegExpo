@@ -15,8 +15,8 @@ class MultiTabBar extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: BlocBuilder<SelectionCubit, Selection>(
-                buildWhen: (p, n) => p.activeTabIndex != n.activeTabIndex,
+              child: BlocBuilder<SelectionCubit, UserSelection>(
+                buildWhen: (p, n) => p.activeTabId != n.activeTabId,
                 builder: (_, selection) => BlocBuilder<TabCubit, TabList>(
                   builder: (ctx, state) => buildByState(ctx, state, selection),
                 ),
@@ -37,17 +37,17 @@ class MultiTabBar extends StatelessWidget {
   }
 
   Widget buildByState(
-      BuildContext context, TabList state, Selection selection) {
-    final int activeNavIndex = selection.activeTabIndex;
+      BuildContext context, TabList state, UserSelection selection) {
+    final int activeTabId = selection.activeTabId;
     return ListView(
         scrollDirection: Axis.horizontal,
         children: state.tabs.asMap().keys.map((int index) {
           TabBean tab = state.tabs[index];
-          bool active = activeNavIndex == index;
+          bool active = activeTabId == tab.id;
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              BlocProvider.of<SelectionCubit>(context).selectTab(index);
+              BlocProvider.of<SelectionCubit>(context).selectTab(tab.id);
             },
             child: Container(
               height: 25,
@@ -69,14 +69,8 @@ class MultiTabBar extends StatelessWidget {
                                 : Colors.black)),
                     const SizedBox(width: 5),
                     GestureDetector(
-                        onTap: () {
-                          if (index == selection.activeTabIndex) {
-                            int i = index - 1;
-                            BlocProvider.of<SelectionCubit>(context)
-                                .selectTab(i > 0 ? i : 0);
-                          }
-                          BlocProvider.of<TabCubit>(context).deleteAt(index);
-                        },
+                        onTap: () =>
+                            onDelete(context, tab, selection, index, state),
                         child: const Icon(Icons.close,
                             size: 13, color: Color(0xffBFC5C8))),
                   ],
@@ -85,5 +79,19 @@ class MultiTabBar extends StatelessWidget {
             ),
           );
         }).toList());
+  }
+
+  void onDelete(BuildContext context, TabBean tab, UserSelection selection,
+      int index, TabList state) {
+    if (tab.id == selection.activeTabId) {
+      if (state.tabs.length != 1) {
+        int i = index == 0 ? 1 : index - 1;
+        BlocProvider.of<SelectionCubit>(context).selectTab(state.tabs[i].id);
+      } else {
+        BlocProvider.of<SelectionCubit>(context).selectTab(0);
+      }
+    }
+
+    BlocProvider.of<TabCubit>(context).deleteById(tab.id);
   }
 }
