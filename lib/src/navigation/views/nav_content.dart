@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/directory/views/example_panel.dart';
+import 'package:regexpo/src/directory/views/input_panel.dart';
 
 
 import '../bloc/bloc_exp.dart';
@@ -26,6 +28,9 @@ class LeftNavContent extends StatelessWidget {
         .singleWhere((element) => element.id == state.activeLeftNavId);
 
     Widget child = Text(activeNav.name);
+    if(state.activeLeftNavId == 1){
+      child = ExamplePanel();
+    }
     return DraggablePanel(
       left: true,
       child: child,
@@ -46,12 +51,16 @@ class RightNavContent extends StatelessWidget {
     if (state.activeRightNavId == 0) {
       return const SizedBox.shrink();
     }
+
     NavBean activeNav = BlocProvider.of<NavCubit>(context)
         .state
         .tabs
         .singleWhere((element) => element.id == state.activeRightNavId);
 
     Widget child = Text(activeNav.name);
+    if(state.activeRightNavId == 4){
+      child = InputPanel();
+    }
     return DraggablePanel(
       left: false,
       child: child,
@@ -71,7 +80,7 @@ class DraggablePanel extends StatefulWidget {
 }
 
 class _DraggablePanelState extends State<DraggablePanel> {
-  double width = 140;
+  double width = 200;
 
   @override
   Widget build(BuildContext context) {
