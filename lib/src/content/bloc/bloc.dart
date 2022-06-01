@@ -1,12 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../model/match_result.dart';
 import '../model/regexp_config.dart';
-import 'state.dart';
 import 'event.dart';
+import 'state.dart';
 
 class MatchBloc extends Bloc<MatchEvent, MatchState> {
 
@@ -23,12 +22,13 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
     fontWeight: FontWeight.bold,
   );
 
-  void _onMatchRegex(MatchRegex event, Emitter<MatchState> emit) async{
+
+  void _onMatchRegex(MatchRegex event, Emitter<MatchState> emit) async {
     String pattern = event.regex;
     String src = event.content;
     RegExpConfig config = event.config;
-    MatchInfo? selectMatch ;
-    if (pattern.isEmpty||src.isEmpty) {
+    MatchInfo? selectMatch;
+    if (pattern.isEmpty || src.isEmpty) {
       emit(MatchSuccess(results: const [], span: TextSpan(text: src)));
     }
     // 生成正则表达式
@@ -43,6 +43,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
       );
     } catch (e) {
       emit(MatchSuccess(results: const [], span: TextSpan(text: src)));
+      return;
     }
 
     List<TextSpan> span = [];

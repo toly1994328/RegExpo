@@ -7,7 +7,12 @@ class SelectionCubit extends Cubit<UserSelection> {
   SelectionCubit() : super(UserSelection());
 
   void updateRegex(String regex){
+    print('===updateRegex======$regex===');
     emit(state.copyWith(regex: regex));
+  }
+
+  void updateRecommendIndex(int index){
+    emit(state.copyWith(recommendIndex: index));
   }
 
   void selectNav(NavBean navBean){
@@ -32,10 +37,10 @@ class SelectionCubit extends Cubit<UserSelection> {
   }
 
   void selectTab(int id){
-    emit(state.copyWith(activeTabId: id));
+    emit(state.copyWith(activeTabId: id,recommendIndex: 0));
   }
 
   void selectExample(int id){
-    emit(state.copyWith(activeExampleId: id,activeTabId: id));
+    emit(state.copyWith(activeExampleId: id,activeTabId: id,recommendIndex: 0));
   }
 }
