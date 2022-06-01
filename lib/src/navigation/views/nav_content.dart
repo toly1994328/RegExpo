@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/content/views/recommend_panel.dart';
 import 'package:regexpo/src/directory/views/example_panel.dart';
 import 'package:regexpo/src/directory/views/input_panel.dart';
 
@@ -60,6 +61,9 @@ class RightNavContent extends StatelessWidget {
     Widget child = Text(activeNav.name);
     if(state.activeRightNavId == 4){
       child = InputPanel();
+    }
+    if(state.activeRightNavId == 7){
+      child = RecommendPanel();
     }
     return DraggablePanel(
       left: false,

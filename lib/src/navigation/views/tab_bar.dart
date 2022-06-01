@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/content/bloc/bloc.dart';
+import 'package:regexpo/src/content/bloc/event.dart';
+import 'package:regexpo/src/directory/bloc/bloc.dart';
+import 'package:regexpo/src/directory/bloc/state.dart';
+import 'package:regexpo/src/directory/models/reg_example.dart';
 
 import '../bloc/bloc_exp.dart';
 import '../bloc/tab_cubic.dart';
@@ -22,18 +27,30 @@ class MultiTabBar extends StatelessWidget {
                 ),
               ),
             ),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                BlocProvider.of<TabCubit>(context).addUntitled();
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Icon(Icons.add, size: 18, color: Color(0xffBFC5C8)),
-              ),
-            ),
+            // GestureDetector(
+            //   behavior: HitTestBehavior.opaque,
+            //   onTap: () {
+            //     BlocProvider.of<TabCubit>(context).addUntitled();
+            //   },
+            //   child: const Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 8.0),
+            //     child: Icon(Icons.add, size: 18, color: Color(0xffBFC5C8)),
+            //   ),
+            // ),
           ],
         ));
+  }
+
+  void activeTab(BuildContext context, TabBean tab) {
+    BlocProvider.of<SelectionCubit>(context).selectTab(tab.id);
+    ExampleState state = BlocProvider.of<ExampleBloc>(context).state;
+    MatchBloc matchBloc = BlocProvider.of<MatchBloc>(context);
+    if (state is FullExampleState) {
+      RegExample example =
+          state.data.firstWhere((element) => element.id == tab.id);
+      matchBloc.add(
+          MatchRegex(content: example.content, regex: example.recommend.first));
+    }
   }
 
   Widget buildByState(
@@ -46,9 +63,7 @@ class MultiTabBar extends StatelessWidget {
           bool active = activeTabId == tab.id;
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () {
-              BlocProvider.of<SelectionCubit>(context).selectTab(tab.id);
-            },
+            onTap: () => activeTab(context, tab),
             child: Container(
               height: 25,
               color: active ? Colors.white : null,
@@ -61,16 +76,11 @@ class MultiTabBar extends StatelessWidget {
                         size: 13, color: Color(0xffBFC5C8)),
                     const SizedBox(width: 2),
                     Text(tab.name,
-                        style: TextStyle(
-                            height: 1,
-                            fontSize: 12,
-                            color: tab.flag
-                                ? const Color(0xff007800)
-                                : Colors.black)),
+                        style: const TextStyle(height: 1, fontSize: 12)),
                     const SizedBox(width: 5),
                     GestureDetector(
                         onTap: () =>
-                            onDelete(context, tab, selection, index, state),
+                            deleteTab(context, tab, selection, index, state),
                         child: const Icon(Icons.close,
                             size: 13, color: Color(0xffBFC5C8))),
                   ],
@@ -81,17 +91,21 @@ class MultiTabBar extends StatelessWidget {
         }).toList());
   }
 
-  void onDelete(BuildContext context, TabBean tab, UserSelection selection,
-      int index, TabList state) {
+  void deleteTab(
+    BuildContext context,
+    TabBean tab,
+    UserSelection selection,
+    int index,
+    TabList state,
+  ) {
     if (tab.id == selection.activeTabId) {
       if (state.tabs.length != 1) {
         int i = index == 0 ? 1 : index - 1;
-        BlocProvider.of<SelectionCubit>(context).selectTab(state.tabs[i].id);
+        activeTab(context, state.tabs[i]);
       } else {
         BlocProvider.of<SelectionCubit>(context).selectTab(0);
       }
     }
-
     BlocProvider.of<TabCubit>(context).deleteById(tab.id);
   }
 }

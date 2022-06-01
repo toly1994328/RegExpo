@@ -17,14 +17,12 @@ class TabList{
 class TabBean extends Equatable{
   final int id;
   final String name;
-  final bool flag;
-  final String content;
 
-  TabBean({required this.name,required this.flag,required this.content,required this.id});
+  TabBean({required this.name,required this.id});
 
   @override
   String toString() {
-    return 'TabBean{name: $name, flag: $flag, content: $content}';
+    return 'TabBean{name: $name,}';
   }
 
   @override

@@ -1,11 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/res/gap.dart';
+import 'package:regexpo/src/content/bloc/bloc.dart';
+import 'package:regexpo/src/content/bloc/event.dart';
+import 'package:regexpo/src/directory/bloc/event.dart';
+import 'package:regexpo/src/directory/bloc/state.dart';
 import 'package:regexpo/src/directory/models/reg_example.dart';
 import 'package:regexpo/src/navigation/bloc/bloc_exp.dart';
+
+import '../bloc/bloc.dart';
 
 class ExamplePanel extends StatefulWidget {
   const ExamplePanel({Key? key}) : super(key: key);
@@ -15,14 +18,14 @@ class ExamplePanel extends StatefulWidget {
 }
 
 class _ExamplePanelState extends State<ExamplePanel> {
-  List<RegExample> items = [];
-  int _position = 0;
-  bool isInput = false;
+  // List<RegExample> items = [];
+
   final ScrollController controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
-    _loadTestData();
+    BlocProvider.of<ExampleBloc>(context).add(FetchExample());
   }
 
   @override
@@ -44,48 +47,52 @@ class _ExamplePanelState extends State<ExamplePanel> {
         ),
         Gap.dividerH,
         Expanded(
-          child: BlocBuilder<SelectionCubit, UserSelection>(
-            buildWhen: (p, n) => p.activeExampleId != n.activeExampleId,
-            builder: (_, s) => ListView.builder(
-              controller: controller,
-              itemCount: items.length,
-              itemExtent: 70,
-              itemBuilder: (c, index) => _buildItem(c, index, s.activeExampleId),
-            ),
+          child: BlocConsumer<ExampleBloc,ExampleState>(
+            listener: _listenExampleState,
+            builder: _buildByState,
           ),
         )
       ],
     );
   }
 
-  void _loadTestData() async {
-    String dataStr = await rootBundle.loadString('assets/data.json');
-    items = json
-        .decode(dataStr)
-        .map<RegExample>((e) => RegExample.fromJson((e)))
-        .toList();
-    // _position = items.indexWhere((element) => element.title == widget.contentTextCtrl.value.title);
-    if (mounted) setState(() {});
-  }
-
-  Widget _buildItem(BuildContext context, int index, int activeId) {
-    RegExample example = items[index];
+  Widget _buildItem(BuildContext context, RegExample example, int activeId) {
     return GestureDetector(
-      onTap: () {
-        BlocProvider.of<SelectionCubit>(context).selectExample(example.id);
-        BlocProvider.of<TabCubit>(context).addExample(example);
-
-        // print('=======${items[index].title}====');
-        // // widget.contentTextCtrl.value = items[index];
-        // setState(() {
-        //   _position = index;
-        // });
-      },
+      onTap: () => activeExample(context, example),
       child: RegTestWidget(
         active: example.id == activeId,
-        item: items[index],
+        item: example,
       ),
     );
+  }
+
+  void activeExample(BuildContext context, RegExample example) {
+    BlocProvider.of<SelectionCubit>(context).selectExample(example.id);
+    BlocProvider.of<TabCubit>(context).addExample(example);
+    BlocProvider.of<MatchBloc>(context).add(MatchRegex(content: example.content, regex: example.recommend.first));
+  }
+
+  void _listenExampleState(BuildContext context, state) {
+    if (state is FullExampleState) {
+      activeExample(context, state.data.first);
+    }
+  }
+
+  Widget _buildByState(BuildContext context, state) {
+    if (state is FullExampleState) {
+      return BlocBuilder<SelectionCubit, UserSelection>(
+        buildWhen: (p, n) => p.activeExampleId != n.activeExampleId,
+        builder: (_, s) => ListView.builder(
+          controller: controller,
+          itemCount: state.data.length,
+          itemExtent: 70,
+          itemBuilder: (c, index) =>
+              _buildItem(c, state.data[index], s.activeExampleId),
+        ),
+      );
+    }
+
+    return Center(child: const Text('Empty'));
   }
 }
 

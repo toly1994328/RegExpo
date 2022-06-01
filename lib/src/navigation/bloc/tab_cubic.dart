@@ -12,8 +12,6 @@ class TabCubit extends Cubit<TabList> {
     state.tabs.add(TabBean(
       id: _createIndex,
       name: 'untitled${_createIndex-10000}',
-      flag: false,
-      content: '',
     ));
     _createIndex ++;
     emit(TabList(tabs: state.tabs));
@@ -34,8 +32,6 @@ class TabCubit extends Cubit<TabList> {
     state.tabs.insert(0,TabBean(
       id: example.id,
       name: example.title,
-      flag: false,
-      content: example.content,
     ));
     emit(TabList(tabs: state.tabs));
   }

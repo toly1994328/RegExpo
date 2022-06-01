@@ -6,6 +6,10 @@ import 'bloc_exp.dart';
 class SelectionCubit extends Cubit<UserSelection> {
   SelectionCubit() : super(UserSelection());
 
+  void updateRegex(String regex){
+    emit(state.copyWith(regex: regex));
+  }
+
   void selectNav(NavBean navBean){
     if (navBean.isLeft) {
       final int activeNavId = state.activeLeftNavId;

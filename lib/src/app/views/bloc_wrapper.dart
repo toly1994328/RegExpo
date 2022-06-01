@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/content/bloc/bloc.dart';
+import 'package:regexpo/src/directory/bloc/bloc.dart';
 
 import '../../navigation/bloc/bloc_exp.dart';
 import '../../navigation/bloc/nav_cubic.dart';
@@ -27,6 +29,12 @@ class _BlocWrapperState extends State<BlocWrapper> {
         ),
         BlocProvider<NavCubit>(
           create: (context) => NavCubit(),
+        ),
+        BlocProvider<MatchBloc>(
+          create: (context) => MatchBloc(),
+        ),
+        BlocProvider<ExampleBloc>(
+          create: (context) => ExampleBloc(),
         ),
       ],
       child: widget.child,

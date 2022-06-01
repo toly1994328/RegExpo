@@ -11,7 +11,6 @@ import 'package:regexpo/src/directory/models/reg_example.dart';
 
 class InputPanel extends StatefulWidget {
   // final ValueNotifier<RegTestItem> contentTextCtrl;
-
   const InputPanel({Key? key})
       : super(key: key);
 
