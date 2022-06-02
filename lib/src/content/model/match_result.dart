@@ -27,4 +27,9 @@ class MatchInfo {
     this.startPos = 0,
     this.endPos = 0,
   });
+
+  @override
+  String toString() {
+    return 'MatchInfo{content: $content, groupNum: $groupNum, startPos: $startPos, matchIndex: $matchIndex, endPos: $endPos, end: $end}';
+  }
 }

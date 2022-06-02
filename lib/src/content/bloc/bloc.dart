@@ -27,7 +27,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
     String pattern = event.regex;
     String src = event.content;
     RegExpConfig config = event.config;
-    MatchInfo? selectMatch;
+    MatchInfo? selectMatch = event.selectMatch;
     if (pattern.isEmpty || src.isEmpty) {
       emit(MatchSuccess(results: const [], span: TextSpan(text: src)));
     }
@@ -145,6 +145,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
   List<MatchInfo> _collectMatchInfo(RegExpMatch match, int index) {
     List<MatchInfo> result = [];
     String fullContent = match.group(0) ?? '';
+
     result.add(MatchInfo(
         content: fullContent,
         groupNum: 0,
@@ -152,7 +153,6 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
         endPos: match.end,
         matchIndex: index,
         end: match.groupCount == 0));
-
     for (int j = 1; j <= match.groupCount; j++) {
       String? content = match.group(j);
       if (content != null) {

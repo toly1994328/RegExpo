@@ -16,11 +16,10 @@ class SingleFilter<T> extends StatefulWidget {
 
   final void Function(int index) onItemClick;
 
-
-
-  const SingleFilter(
-      {required this.data,
-      required this.onItemClick});
+   const SingleFilter({Key? key,
+    required this.data,
+    required this.onItemClick,
+  }) : super(key: key);
 
   @override
   _SingleFilterState createState() => _SingleFilterState();
@@ -28,6 +27,8 @@ class SingleFilter<T> extends StatefulWidget {
 
 class _SingleFilterState<T> extends State<SingleFilter<T>> {
   final List<int> _selected = <int>[];
+
+
 
   @override
   void didUpdateWidget(covariant SingleFilter<T> oldWidget) {

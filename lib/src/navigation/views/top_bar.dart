@@ -77,8 +77,7 @@ class _RegexInputState extends State<RegexInput> {
     ExampleState exampleState = BlocProvider.of<ExampleBloc>(context).state;
     MatchBloc matchBloc = BlocProvider.of<MatchBloc>(context);
     if (exampleState is FullExampleState) {
-      RegExample example =
-          exampleState.data.firstWhere((element) => element.id == tabId);
+      RegExample example = exampleState.data.firstWhere((element) => element.id == tabId);
       matchBloc.add(MatchRegex(content: example.content, regex: regex));
     }
   }

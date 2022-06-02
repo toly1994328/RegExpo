@@ -46,8 +46,7 @@ class MultiTabBar extends StatelessWidget {
     ExampleState state = BlocProvider.of<ExampleBloc>(context).state;
     MatchBloc matchBloc = BlocProvider.of<MatchBloc>(context);
     if (state is FullExampleState) {
-      RegExample example =
-          state.data.firstWhere((element) => element.id == tab.id);
+      RegExample example = state.data.firstWhere((element) => element.id == tab.id);
       matchBloc.add(
           MatchRegex(content: example.content, regex: example.recommend.first));
     }

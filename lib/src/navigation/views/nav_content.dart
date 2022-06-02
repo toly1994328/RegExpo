@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/content/views/match_panel.dart';
 import 'package:regexpo/src/content/views/recommend_panel.dart';
 import 'package:regexpo/src/directory/views/example_panel.dart';
 import 'package:regexpo/src/directory/views/input_panel.dart';
@@ -31,6 +32,9 @@ class LeftNavContent extends StatelessWidget {
     Widget child = Text(activeNav.name);
     if(state.activeLeftNavId == 1){
       child = ExamplePanel();
+    }
+    if(state.activeLeftNavId == 2){
+      child = MatchPanel();
     }
     return DraggablePanel(
       left: true,

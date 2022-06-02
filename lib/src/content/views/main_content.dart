@@ -5,9 +5,7 @@ import 'package:regexpo/src/content/bloc/bloc.dart';
 import 'package:regexpo/src/content/bloc/state.dart';
 
 import '../../navigation/bloc/selection_cubic.dart';
-import '../../navigation/bloc/tab_cubic.dart';
 import '../../navigation/model/selection.dart';
-import '../../navigation/model/tab_bean.dart';
 
 class MainContent extends StatefulWidget {
   const MainContent({Key? key}) : super(key: key);
@@ -24,14 +22,13 @@ class _MainContentState extends State<MainContent> {
       alignment: Alignment.center,
       child: BlocBuilder<SelectionCubit, UserSelection>(
         buildWhen: (p, n) => p.activeTabId != n.activeTabId,
-        builder: (_, selection) => BlocBuilder<TabCubit, TabList>(
-            builder: (ctx, state) => buildByState(ctx, state, selection)),
+        builder: (ctx, selection) => buildByState(ctx, selection),
       ),
     );
   }
 
-  Widget buildByState(BuildContext ctx, TabList state, UserSelection selection) {
-    if(state.tabs.isEmpty) return Text('暂无内容');
+  Widget buildByState(BuildContext ctx, UserSelection selection) {
+    if(selection.activeTabId==0) return const Text('暂无内容');
     return ListView(
       children: [
         Align(
