@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/app/res/gap.dart';
 import 'package:regexpo/src/content/bloc/event.dart';
 import 'package:regexpo/src/directory/bloc/bloc.dart';
 import 'package:regexpo/src/directory/bloc/state.dart';
@@ -32,6 +33,7 @@ class MatchPanel extends StatelessWidget{
             ],
           ),
         ),
+        Gap.dividerH,
         Expanded(
           child: BlocBuilder<MatchBloc, MatchState>(
             // buildWhen: (p,n)=>p.runtimeType!=n.runtimeType,
@@ -93,7 +95,6 @@ class _MatchPanelMatchPanelListState extends State<MatchListView> {
   @override
   void dispose() {
     _ctrl.dispose();
-
     super.dispose();
   }
 

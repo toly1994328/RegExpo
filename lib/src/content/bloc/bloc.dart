@@ -30,6 +30,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
     MatchInfo? selectMatch = event.selectMatch;
     if (pattern.isEmpty || src.isEmpty) {
       emit(MatchSuccess(results: const [], span: TextSpan(text: src)));
+      return;
     }
     // 生成正则表达式
     late RegExp regExp;

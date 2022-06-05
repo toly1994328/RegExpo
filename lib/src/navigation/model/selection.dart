@@ -10,7 +10,7 @@ class UserSelection extends Equatable{
 
   const UserSelection({
     this.activeLeftNavId = 1,
-    this.activeRightNavId = 0,
+    this.activeRightNavId = 7,
     this.activeTabId =0,
     this.activeExampleId =0,
     this.recommendIndex = 0,

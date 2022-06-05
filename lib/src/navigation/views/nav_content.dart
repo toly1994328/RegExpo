@@ -6,6 +6,7 @@ import 'package:regexpo/src/content/views/match_panel.dart';
 import 'package:regexpo/src/content/views/recommend_panel.dart';
 import 'package:regexpo/src/directory/views/example_panel.dart';
 import 'package:regexpo/src/directory/views/input_panel.dart';
+import 'package:regexpo/src/tool/tool_panel.dart';
 
 
 import '../bloc/bloc_exp.dart';
@@ -68,6 +69,9 @@ class RightNavContent extends StatelessWidget {
     }
     if(state.activeRightNavId == 7){
       child = RecommendPanel();
+    }
+    if(state.activeRightNavId == 5){
+      child = ToolPanel();
     }
     return DraggablePanel(
       left: false,

@@ -31,7 +31,6 @@ class SelectionCubit extends Cubit<UserSelection> {
         emit(state.copyWith(activeRightNavId: 0));
       } else {
         emit(state.copyWith(activeRightNavId: navBean.id));
-
       }
     }
   }

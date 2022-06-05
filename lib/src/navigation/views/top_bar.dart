@@ -39,19 +39,25 @@ class RegexInput extends StatefulWidget {
 
 class _RegexInputState extends State<RegexInput> {
   final TextEditingController regTextCtrl = TextEditingController();
-
+  final FocusNode _focusNode = FocusNode();
+  
   @override
   Widget build(BuildContext context) {
+    print('=====_RegexInputState#build========');
     return SizedBox(
         height: 28,
         child: BlocListener<SelectionCubit, UserSelection>(
           listenWhen: (p, n) => p.regex != n.regex,
           listener: _listenRegexChange,
           child: TextField(
+            focusNode: _focusNode,
             controller: regTextCtrl,
             style: const TextStyle(fontSize: 12),
             maxLines: 1,
-            onChanged: (str) => updateRegex(str),
+            onChanged: (str) {
+              SelectionCubit selectionCubit = BlocProvider.of<SelectionCubit>(context);
+              selectionCubit.updateRegex(str);
+            },
             decoration: const InputDecoration(
                 filled: true,
                 contentPadding: EdgeInsets.only(top: 0),
@@ -68,12 +74,15 @@ class _RegexInputState extends State<RegexInput> {
   }
 
   void _listenRegexChange(BuildContext context, UserSelection state) {
-    regTextCtrl.text = state.regex;
+    if(!_focusNode.hasFocus){
+      regTextCtrl.text = state.regex;
+    }
     updateRegex(state.regex);
   }
 
   void updateRegex(String regex) {
-    int tabId = BlocProvider.of<SelectionCubit>(context).state.activeTabId;
+    SelectionCubit selectionCubit = BlocProvider.of<SelectionCubit>(context);
+    int tabId = selectionCubit.state.activeTabId;
     ExampleState exampleState = BlocProvider.of<ExampleBloc>(context).state;
     MatchBloc matchBloc = BlocProvider.of<MatchBloc>(context);
     if (exampleState is FullExampleState) {
