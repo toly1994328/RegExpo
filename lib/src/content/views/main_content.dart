@@ -36,7 +36,9 @@ class _MainContentState extends State<MainContent> {
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: BlocBuilder<MatchBloc, MatchState>(
-              builder: (_, s) => Text.rich(s.span),
+              builder: (_, s) {
+                return Text.rich(s.span);
+              },
             ),
           ),
         ),

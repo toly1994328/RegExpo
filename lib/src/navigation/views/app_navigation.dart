@@ -24,13 +24,13 @@ class AppNavigation extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                NavBar(items: navItemList.leftNav),
+                const NavBar(left: true,),
                 Gap.dividerV,
-                const LeftNavContent(),
+                const NavContent(left: true,),
                 Expanded(child: _buildContent()),
-                const RightNavContent(),
+                const NavContent(left: false,),
                 Gap.dividerV,
-                NavBar(items: navItemList.rightNav),
+                const NavBar(left: false),
               ],
             ),
           ),

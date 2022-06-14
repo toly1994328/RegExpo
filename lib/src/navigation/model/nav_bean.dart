@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../app/iconfont/toly_icon.dart';
-
-
 class NavItemList {
   final List<NavBean> tabs;
 
@@ -15,34 +11,6 @@ class NavItemList {
   List<NavBean> get rightNav => tabs
       .where((element) =>element.isRight)
       .toList();
-
-  static NavItemList defaultNav = NavItemList(tabs: const [
-    NavBean(name: 'Examples', icon: TolyIcon.icon_dir, id: 1),
-    NavBean(name: 'Matches', icon: TolyIcon.icon_dot_all, id: 2,),
-    NavBean(name: 'Favorites',
-        icon: Icons.security_rounded,
-        id: 3,
-        type: NavType.leftDown,),
-    NavBean(
-        name: 'Input Panel',
-        icon: TolyIcon.icon_input,
-        id: 4,
-        type: NavType.rightTop),    NavBean(
-        name: 'Recommend',
-        icon: Icons.lightbulb_outline,
-        id: 7,
-        type: NavType.rightTop),
-    NavBean(
-        name: 'Help Me',
-        icon: TolyIcon.icon_help,
-        id: 6,
-        type: NavType.rightDown),
-    NavBean(
-        name: 'NoteBook',
-        icon: TolyIcon.icon_note,
-        id: 5,
-        type: NavType.rightTop),
-  ]);
 }
 
 enum NavType {
@@ -65,6 +33,20 @@ class NavBean {
     this.type = NavType.leftTop,
   });
 
-   bool get isLeft => type == NavType.leftTop || type == NavType.leftDown;
-   bool get isRight => type == NavType.rightTop || type == NavType.rightDown;
+  bool get isLeft => type == NavType.leftTop || type == NavType.leftDown;
+  bool get isRight => type == NavType.rightTop || type == NavType.rightDown;
+
+  NavBean copyWith({
+    int? id,
+    String? name,
+    IconData? icon,
+    NavType? type,
+  }) {
+    return NavBean(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      icon: icon ?? this.icon,
+      type: type ?? this.type,
+    );
+  }
 }

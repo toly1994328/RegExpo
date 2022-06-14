@@ -14,6 +14,9 @@ class MatchSuccess extends MatchState {
   final List<MatchInfo> results;
   final int matchTime;
 
+  int get matchCount => results.where((element) => !element.isGroup).length;
+  int get groupCount => results.where((element) => element.isGroup).length;
+
   const MatchSuccess({
     required this.results,
     this.matchTime = 0,
@@ -21,7 +24,7 @@ class MatchSuccess extends MatchState {
   }) : super(span: span);
 
   @override
-  List<Object?> get props => [results];
+  List<Object?> get props => [results,span];
 }
 
 class MatchError extends MatchState {

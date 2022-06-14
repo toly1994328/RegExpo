@@ -42,12 +42,11 @@ class MatchPanel extends StatelessWidget{
                 return MatchListView(
                   s.results,
                   onSelectItem: (MatchInfo? info) {
-                    print(info);
                     selectMatchInfo(context,info);
                   },
                 );
               }
-              return Text('匹配异常');
+              return Center(child: const Text('匹配异常',style: TextStyle(color: Colors.red),));
             },
           ),
         ),
@@ -61,17 +60,10 @@ class MatchPanel extends StatelessWidget{
         .activeTabId;
     String regex =
         BlocProvider.of<SelectionCubit>(context).state.regex;
-    ExampleState exampleState =
-        BlocProvider.of<ExampleBloc>(context).state;
     MatchBloc matchBloc = BlocProvider.of<MatchBloc>(context);
-    if (exampleState is FullExampleState) {
-      RegExample example = exampleState.data
-          .firstWhere((element) => element.id == tabId);
       matchBloc.add(MatchRegex(
-          content: example.content,
           regex: regex,
           selectMatch: info));
-    }
   }
 }
 
@@ -192,7 +184,6 @@ class _MatchPanelMatchPanelListState extends State<MatchListView> {
   }
 
   void _highLightItem(MatchInfo matchInfo, int index,bool active) {
-    print(active);
     if(!active){
       widget.onSelectItem?.call(null);
       setState(() {

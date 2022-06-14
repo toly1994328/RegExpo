@@ -7,7 +7,7 @@ class RegExample extends Equatable{
   final List<String> recommend;
   final String content;
 
-  RegExample({
+  const RegExample({
     required this.id,
     required this.title,
     required this.subtitle,

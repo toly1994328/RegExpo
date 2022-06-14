@@ -81,7 +81,7 @@ class _ExamplePanelState extends State<ExamplePanel> {
   Widget _buildByState(BuildContext context, state) {
     if (state is FullExampleState) {
       return BlocBuilder<SelectionCubit, UserSelection>(
-        buildWhen: (p, n) => p.activeExampleId != n.activeExampleId,
+        // buildWhen: (p, n) => p.activeExampleId != n.activeExampleId,
         builder: (_, s) => ListView.builder(
           controller: controller,
           itemCount: state.data.length,

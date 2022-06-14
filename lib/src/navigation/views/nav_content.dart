@@ -1,52 +1,13 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/content/views/match_panel.dart';
-import 'package:regexpo/src/content/views/recommend_panel.dart';
-import 'package:regexpo/src/directory/views/example_panel.dart';
-import 'package:regexpo/src/directory/views/input_panel.dart';
-import 'package:regexpo/src/tool/tool_panel.dart';
-
+import 'package:regexpo/src/navigation/views/nav_content_factory.dart';
 
 import '../bloc/bloc_exp.dart';
-import '../bloc/selection_cubic.dart';
-import '../model/selection.dart';
 
-class LeftNavContent extends StatelessWidget {
-  const LeftNavContent({Key? key}) : super(key: key);
+class NavContent extends StatelessWidget {
+  final bool left;
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SelectionCubit, UserSelection>(builder: buildByState);
-  }
-
-  Widget buildByState(BuildContext context, UserSelection state) {
-    if (state.activeLeftNavId == 0) {
-      return const SizedBox.shrink();
-    }
-    NavBean activeNav = BlocProvider.of<NavCubit>(context)
-        .state
-        .tabs
-        .singleWhere((element) => element.id == state.activeLeftNavId);
-
-    Widget child = Text(activeNav.name);
-    if(state.activeLeftNavId == 1){
-      child = ExamplePanel();
-    }
-    if(state.activeLeftNavId == 2){
-      child = MatchPanel();
-    }
-    return DraggablePanel(
-      left: true,
-      child: child,
-    );
-  }
-}
-
-class RightNavContent extends StatelessWidget {
-
-  const RightNavContent({Key? key}) : super(key: key);
+  const NavContent({Key? key, required this.left}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,31 +15,19 @@ class RightNavContent extends StatelessWidget {
   }
 
   Widget buildByState(BuildContext context, UserSelection state) {
-    if (state.activeRightNavId == 0) {
-      return const SizedBox.shrink();
+    int id = left ? state.activeLeftNavId : state.activeRightNavId;
+    Widget child = NavContentFactory.getContentById(id);
+    if (id == 0) {
+      return child;
     }
 
-    NavBean activeNav = BlocProvider.of<NavCubit>(context)
-        .state
-        .tabs
-        .singleWhere((element) => element.id == state.activeRightNavId);
-
-    Widget child = Text(activeNav.name);
-    if(state.activeRightNavId == 4){
-      child = InputPanel();
-    }
-    if(state.activeRightNavId == 7){
-      child = RecommendPanel();
-    }
-    if(state.activeRightNavId == 5){
-      child = ToolPanel();
-    }
     return DraggablePanel(
-      left: false,
+      left: left,
       child: child,
     );
   }
 }
+
 
 class DraggablePanel extends StatefulWidget {
   final Widget child;

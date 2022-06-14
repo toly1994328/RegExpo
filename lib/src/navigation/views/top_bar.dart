@@ -43,7 +43,6 @@ class _RegexInputState extends State<RegexInput> {
   
   @override
   Widget build(BuildContext context) {
-    print('=====_RegexInputState#build========');
     return SizedBox(
         height: 28,
         child: BlocListener<SelectionCubit, UserSelection>(
@@ -81,13 +80,7 @@ class _RegexInputState extends State<RegexInput> {
   }
 
   void updateRegex(String regex) {
-    SelectionCubit selectionCubit = BlocProvider.of<SelectionCubit>(context);
-    int tabId = selectionCubit.state.activeTabId;
-    ExampleState exampleState = BlocProvider.of<ExampleBloc>(context).state;
     MatchBloc matchBloc = BlocProvider.of<MatchBloc>(context);
-    if (exampleState is FullExampleState) {
-      RegExample example = exampleState.data.firstWhere((element) => element.id == tabId);
-      matchBloc.add(MatchRegex(content: example.content, regex: regex));
-    }
+    matchBloc.add(MatchRegex(regex: regex));
   }
 }

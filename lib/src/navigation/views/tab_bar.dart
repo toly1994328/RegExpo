@@ -7,7 +7,6 @@ import 'package:regexpo/src/directory/bloc/state.dart';
 import 'package:regexpo/src/directory/models/reg_example.dart';
 
 import '../bloc/bloc_exp.dart';
-import '../bloc/tab_cubic.dart';
 
 class MultiTabBar extends StatelessWidget {
   const MultiTabBar({Key? key}) : super(key: key);
@@ -27,16 +26,6 @@ class MultiTabBar extends StatelessWidget {
                 ),
               ),
             ),
-            // GestureDetector(
-            //   behavior: HitTestBehavior.opaque,
-            //   onTap: () {
-            //     BlocProvider.of<TabCubit>(context).addUntitled();
-            //   },
-            //   child: const Padding(
-            //     padding: EdgeInsets.symmetric(horizontal: 8.0),
-            //     child: Icon(Icons.add, size: 18, color: Color(0xffBFC5C8)),
-            //   ),
-            // ),
           ],
         ));
   }
@@ -47,8 +36,8 @@ class MultiTabBar extends StatelessWidget {
     MatchBloc matchBloc = BlocProvider.of<MatchBloc>(context);
     if (state is FullExampleState) {
       RegExample example = state.data.firstWhere((element) => element.id == tab.id);
-      matchBloc.add(
-          MatchRegex(content: example.content, regex: example.recommend.first));
+      matchBloc.add(MatchRegex(content: example.content, regex: example.recommend.first));
+      BlocProvider.of<SelectionCubit>(context).updateRegex(example.recommend.first);
     }
   }
 

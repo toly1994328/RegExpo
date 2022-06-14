@@ -6,17 +6,6 @@ import '../model/tab_bean.dart';
 class TabCubit extends Cubit<TabList> {
   TabCubit() : super(TabList.test);
 
-  int _createIndex = 10000;
-
-  void addUntitled() {
-    state.tabs.add(TabBean(
-      id: _createIndex,
-      name: 'untitled${_createIndex-10000}',
-    ));
-    _createIndex ++;
-    emit(TabList(tabs: state.tabs));
-  }
-
   void deleteById(int id) {
     state.tabs.removeWhere((e)=>e.id==id);
     emit(TabList(tabs: state.tabs));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/app/res/cons.dart';
 import 'package:regexpo/src/content/bloc/bloc.dart';
 import 'package:regexpo/src/directory/bloc/bloc.dart';
 
@@ -28,7 +29,9 @@ class _BlocWrapperState extends State<BlocWrapper> {
           create: (context) => TabCubit(),
         ),
         BlocProvider<NavCubit>(
-          create: (context) => NavCubit(),
+          create: (context) => NavCubit(
+              navItemList: Cons.defaultNav
+          ),
         ),
         BlocProvider<MatchBloc>(
           create: (context) => MatchBloc(),

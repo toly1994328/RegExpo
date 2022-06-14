@@ -25,7 +25,13 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
 
   void _onMatchRegex(MatchRegex event, Emitter<MatchState> emit) async {
     String pattern = event.regex;
-    String src = event.content;
+    String src ;
+    if(event.content==null){
+      src = state.span.toPlainText();
+    }else{
+      src = event.content!;
+    }
+
     RegExpConfig config = event.config;
     MatchInfo? selectMatch = event.selectMatch;
     if (pattern.isEmpty || src.isEmpty) {
@@ -43,7 +49,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
         caseSensitive: config.caseSensitive,
       );
     } catch (e) {
-      emit(MatchSuccess(results: const [], span: TextSpan(text: src)));
+      emit(MatchError(error: '规则错误 无效正则',span: TextSpan(text: src)));
       return;
     }
 
@@ -54,6 +60,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
     int matchTime = endTime-startTime;
     if (allMatches.isEmpty) {
       emit(MatchSuccess(results: const [], span: TextSpan(text: src)));
+      return;
     }
 
     int start = 0;
