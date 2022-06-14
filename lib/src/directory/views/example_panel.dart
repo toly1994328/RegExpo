@@ -25,7 +25,7 @@ class _ExamplePanelState extends State<ExamplePanel> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ExampleBloc>(context).add(FetchExample());
+    BlocProvider.of<ExampleBloc>(context).add(const FetchExample());
   }
 
   @override

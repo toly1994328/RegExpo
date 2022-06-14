@@ -9,17 +9,6 @@ class Logo extends StatelessWidget {
       spacing: 8,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
-        // Text(
-        //   'Flutter\nRegExpo',
-        //   textAlign: TextAlign.center,
-        //   style: TextStyle(fontSize: 10, color: Colors.black,
-        //       fontWeight: FontWeight.bold,
-        //       shadows: [
-        //         Shadow(
-        //             color: Colors.grey, offset: Offset(.2, .2), blurRadius: .2)
-        //       ]
-        //   ),
-        // ),
         Container(
           decoration: BoxDecoration(
               color: Colors.white,

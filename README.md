@@ -1,16 +1,7 @@
-# regexpo
 
-A Flutter project for try regex in multi platform.
+#### Flutter 实现的正则表达式校验工具
 
-## Getting Started
+- 桌面版: 
 
-This project is a starting point for a Flutter application.
+![img.webp](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d95f155bbe74aa4bcd13cce9883c1b7~tplv-k3u1fbpfcp-watermark.image?)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
