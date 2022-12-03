@@ -1,46 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/res/cons.dart';
-import 'package:regexpo/src/content/bloc/bloc.dart';
-import 'package:regexpo/src/directory/bloc/bloc.dart';
+import 'package:regexpo/src/blocs/blocs.dart';
 
-import '../../navigation/bloc/bloc_exp.dart';
-import '../../navigation/bloc/nav_cubic.dart';
-
-
-class BlocWrapper extends StatefulWidget {
+class BlocWrapper extends StatelessWidget {
   final Widget child;
 
-  const BlocWrapper({Key? key, required this.child}) : super(key: key);
+  const BlocWrapper({super.key, required this.child});
 
-  @override
-  State<BlocWrapper> createState() => _BlocWrapperState();
-}
-
-class _BlocWrapperState extends State<BlocWrapper> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SelectionCubit>(
-          create: (context) => SelectionCubit(),
-        ),
-        BlocProvider<TabCubit>(
-          create: (context) => TabCubit(),
-        ),
-        BlocProvider<NavCubit>(
-          create: (context) => NavCubit(
-              navItemList: Cons.defaultNav
-          ),
-        ),
-        BlocProvider<MatchBloc>(
-          create: (context) => MatchBloc(),
-        ),
-        BlocProvider<ExampleBloc>(
-          create: (context) => ExampleBloc(),
-        ),
+        BlocProvider<AppConfigBloc>(create: (_) => AppConfigBloc()),
+        BlocProvider<RecordBloc>(create: (_) => RecordBloc()),
+        BlocProvider<LinkRegexBloc>(create: (_) => LinkRegexBloc()),
+        BlocProvider<MatchBloc>(create: (_) => MatchBloc()),
       ],
-      child: widget.child,
+      child: child,
     );
   }
 }

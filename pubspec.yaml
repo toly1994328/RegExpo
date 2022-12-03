@@ -30,12 +30,16 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_bloc: ^8.0.1
-  equatable: ^2.0.3
-
-  desktop_window: ^0.4.0
-
   cupertino_icons: ^1.0.2
+  desktop_window: ^0.4.0 #桌面尺寸
+  sqflite: ^2.2.0+3
+  sqflite_common_ffi: ^2.2.0+1
+  path_provider: ^2.0.11
+  flutter_bloc: ^8.1.1
+  shared_preferences: ^2.0.15
+  equatable: ^2.0.5
+  dio: ^4.0.6
+  file_picker: ^5.2.2
 
 dev_dependencies:
   flutter_test:

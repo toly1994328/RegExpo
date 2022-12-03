@@ -6,7 +6,7 @@ main() async{
   String fontName ='TolyIcon';
   String fileName ='toly_icon';
   String resDir="assets/iconfont";//资源文件夹
-  String outFile='lib/src/app/iconfont/$fileName.dart';//输出文件地址
+  String outFile='lib/app/src/iconfont/$fileName.dart';//输出文件地址
 
   String result = """import 'package:flutter/widgets.dart';
 //Power By 张风捷特烈--- Generated file. Do not edit.
