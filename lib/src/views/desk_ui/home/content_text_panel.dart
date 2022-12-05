@@ -68,6 +68,7 @@ class EmptyContent extends StatelessWidget {
           ),
           OutlinedButton(
               style: OutlinedButton.styleFrom(
+                foregroundColor: Theme.of(context).primaryColor,
                   side: BorderSide(color: Theme.of(context).primaryColor)),
               onPressed: () => insertTestData(context),
               child: const Text('导入测试数据')),

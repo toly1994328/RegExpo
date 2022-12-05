@@ -45,6 +45,8 @@ class _EditRecordPanelState extends State<EditRecordPanel> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: CustomIconInput(
+            fontSize: 14,
+            height: 32,
             controller: titleCtrl,
             hintText: "输入记录名称...",
             icon: Icons.drive_file_rename_outline,
@@ -67,32 +69,20 @@ class _EditRecordPanelState extends State<EditRecordPanel> {
   Future<bool> _onConform() async {
     if (!checkAllow()) return false;
     RecordBloc bloc = context.read<RecordBloc>();
-    int result = -1;
-    LoadType operation ;
+    bool result = false;
     if (widget.model == null) {
       // 说明是添加
-      operation = LoadType.add;
-      result = await bloc.repository.insert(Record.i(
-        title: titleCtrl.text,
-        content: contentCtrl.text,
-      ));
-
+      result = await bloc.insert(titleCtrl.text, contentCtrl.text);
     } else {
       // 说明是修改
-      operation = LoadType.edit;
-      result = await bloc.repository.update(
+      result = await bloc.update(
         widget.model!.copyWith(
           title: titleCtrl.text,
           content: contentCtrl.text,
         ),
       );
     }
-    if (result > 0) {
-      bloc.loadRecord(operation: operation);
-    } else {
-      return false;
-    }
-    return true;
+    return result;
   }
 
   bool checkAllow() {

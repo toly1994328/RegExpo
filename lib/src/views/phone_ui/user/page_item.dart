@@ -30,11 +30,11 @@ class MePageItem extends StatelessWidget {
           // Gap.sfl10,
 
 
-    _buildItem(context, TolyIcon.wb_sunny, '应用设置', ''),
+    _buildItem(context, TolyIcon.icon_setting, '应用设置', ''),
           _buildItem(
-              context, TolyIcon.wb_sunny, '数据管理', ''),
+              context, TolyIcon.icon_user_edit, '账号设置', ''),
           _buildItem(
-              context, TolyIcon.wb_sunny, '我的收藏', ''),
+              context, TolyIcon.icon_manager, '数据管理', ''),
           // Gap.sfl10,
           SizedBox(height: 10,child: ColoredBox(color:Theme.of(context).scaffoldBackgroundColor),),
 
@@ -45,16 +45,14 @@ class MePageItem extends StatelessWidget {
                 Icons.update,
                 '版本信息',
                 ''
-                // UnitRouter.version_info,
               ),
               // const Positioned(left: 40, top: 10, child: UpdateRedPoint())
             ],
           ),
-          _buildItem(context, Icons.info, '关于应用', ''),
-
-          // Gap.sfl10,
+          _buildItem(context, TolyIcon.icon_about, '关于应用', ''),
           SizedBox(height: 10,child: ColoredBox(color:Theme.of(context).scaffoldBackgroundColor),),
-          _buildItem(context, TolyIcon.icon_help, '联系本王', ''),
+          _buildItem(context, TolyIcon.icon_cafi, '联系本王', ''),
+          _buildItem(context, Icons.edit_calendar_outlined, '意见反馈', ''),
         ],
       ),
     );

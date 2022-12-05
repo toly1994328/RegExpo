@@ -2,21 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/app/res/gap.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/custom/dialog/option_bottom_dialog.dart';
 import 'package:regexpo/src/models/models.dart';
-import 'package:regexpo/src/app/res/gap.dart';
+import 'package:regexpo/src/views/desk_ui/link_regex/edit_regex_panel.dart';
 
-class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget{
+import 'delete_link_regex.dart';
+
+class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
   const LinkRegexTab({super.key});
 
   @override
   Widget build(BuildContext context) {
     Color color = Theme.of(context).backgroundColor;
-    return Container(
+    return SizedBox(
       height: 26,
       // color: color,
-      child:Row(
+      child: Row(
         children: [
           Expanded(
             child: BlocBuilder<LinkRegexBloc, LinkRegexState>(
@@ -29,11 +32,22 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget{
   }
 
   Widget _buildByState(BuildContext context, LinkRegexState state) {
+    TextStyle style = const TextStyle(height: 1, fontSize: 12);
+    if (state is EmptyLinkRegexState) {
+      return Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text(
+          "暂无链接正则",
+          style: style.copyWith(color: Colors.grey),
+        ),
+      );
+    }
+
     Color primaryColor = Theme.of(context).primaryColor;
-    final int activeTabId = state.activeRegex?.id??-1;
+    final int activeTabId = state.activeRegex?.id ?? -1;
     List<LinkRegex> regexes = [];
 
-    if(state is LoadedLinkRegexState){
+    if (state is LoadedLinkRegexState) {
       regexes = state.regexes;
     }
 
@@ -49,8 +63,8 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget{
             child: Container(
               decoration: BoxDecoration(
                   border: active?Border(
-                  bottom: BorderSide(color: primaryColor)
-                ):null
+                      bottom: BorderSide(color: primaryColor)
+                  ):null
               ),
               height: 25,
               child: Row(
@@ -87,10 +101,50 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget{
         context: context,
         builder: (context) => PickBottomDialog(
           tasks: [
-            AsyncItem(task: () {}, info: '修改正则'),
-            AsyncItem(task: () {},info: '删除正则'),
-          ],
+                AsyncItem(task: () => showAddDialog(context), info: '添加正则'),
+                AsyncItem(task: () =>showEditeDialog(context), info: '修改正则'),
+                AsyncItem(
+                    task: () async {
+                      Color color = Theme.of(context).backgroundColor;
+                      await showDialog(
+                          context: context,
+                          builder: (_) => Dialog(
+                                backgroundColor: color,
+                                child: PhoneDeleteRegex(
+                                  model: tab,
+                                ),
+                              ));
+                    },
+                    info: '删除正则'),
+              ],
         ));
   }
 
+  void showAddDialog(BuildContext context) {
+    Color color = Theme.of(context).backgroundColor;
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => Dialog(
+          backgroundColor: color,
+          child:SizedBox(
+              height: 350,
+              child:  const EditRegexPanel()),
+        ));
+  }
+
+  void showEditeDialog(BuildContext context) {
+    Color color = Theme.of(context).backgroundColor;
+    LinkRegexBloc bloc = context.read<LinkRegexBloc>();
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => Dialog(
+          backgroundColor: color,
+          child: SizedBox(
+              height: 350,
+              child: EditRegexPanel(model: bloc.state.activeRegex,)),
+        ));
+  }
 }

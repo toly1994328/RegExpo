@@ -44,13 +44,16 @@ class _EditRegexPanelState extends State<EditRegexPanel> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: CustomInputPanel(
               controller: contentCtrl,
               hintText: '输入正则表达式...',
             ),
           ),
         ),
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }
@@ -59,27 +62,18 @@ class _EditRegexPanelState extends State<EditRegexPanel> {
     if (!checkAllow()) return false;
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     Record? record = context.read<RecordBloc>().state.active;
-    if(record == null) return false;
-    int result = -1;
+    if (record == null) return false;
+    bool result = false;
     if (widget.model == null) {
       // 说明是添加
-      result = await bloc.repository.insert(LinkRegex.i(
-         regex: contentCtrl.text,
-          recordId: record.id
-      ));
-
+      result = await bloc.insert(contentCtrl.text, record.id);
     } else {
       // 说明是修改
-      result = await bloc.repository.update(widget.model!.copyWith(
-        regex: contentCtrl.text,
-      ),);
+      result = await bloc.update(
+        widget.model!.copyWith(regex: contentCtrl.text),
+      );
     }
-    if (result > 0) {
-      bloc.loadLinkRegex(recordId: record.id);
-    } else {
-      return false;
-    }
-    return true;
+    return result;
   }
 
   bool checkAllow() {

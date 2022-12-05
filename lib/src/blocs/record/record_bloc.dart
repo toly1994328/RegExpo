@@ -1,13 +1,15 @@
 import 'dart:async';
-import 'dart:collection';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart' as path;
+import 'package:regexpo/src/blocs/blocs.dart';
 
 import '../../models/record/record.dart';
 import '../../repository/impl/db_recode_repository.dart';
 import '../../repository/recode_repository.dart';
-import 'package:regexpo/src/blocs/blocs.dart';
 
 enum LoadType {
   load, // 加载
@@ -58,13 +60,63 @@ class RecordBloc extends Cubit<RecordState> {
     emit(state);
   }
 
+  Future<bool> deleteById(int id) async {
+    int result = await repository.deleteById(id);
+    if (result > 0) {
+      loadRecord(operation: LoadType.delete);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> openFile(File file) async {
+    String content = file.readAsStringSync();
+    if (content.length > 1000) {
+      content = content.substring(0, 1000);
+    }
+    bool result = await insert(
+      path.basenameWithoutExtension(file.path),
+      content,
+    );
+    if (result) {
+      loadRecord(operation: LoadType.add);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> insert(String title, String content) async {
+    int result = await repository.insert(Record.i(
+      title: title,
+      content: content,
+    ));
+    if (result > 0) {
+      loadRecord(operation: LoadType.add);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> update(Record record) async {
+    int result = await repository.update(record);
+    if (result > 0) {
+      loadRecord(operation: LoadType.edit);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<List<Record>> _loadRefresh() async {
     int length = 0;
     if (state is! LoadedRecordState) {
       length = 25;
     } else {
       LoadedRecordState oldState = state as LoadedRecordState;
-      length = oldState.records.length;
+      length = max(oldState.records.length, 25);
     }
 
     List<Record> records = await repository.search(
@@ -106,6 +158,10 @@ class RecordBloc extends Cubit<RecordState> {
         return activeId ?? records.first.id;
       case LoadType.delete:
         if (state is LoadedRecordState) {
+          // 如果不是删除已激活的元素
+          if (records.where((e) => e.id == activeId).isNotEmpty) {
+            return activeId!;
+          }
           return state.records[state.nextActiveId].id;
         }
         return -1;

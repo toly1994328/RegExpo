@@ -54,6 +54,16 @@ class LoadedLinkRegexState extends LinkRegexState {
 
   LinkRegex get activeLinkRegex => regexes.singleWhere((e) => e.id == activeLinkRegexId);
 
+  int get nextActiveIndex {
+    int targetIndex = regexes.indexOf(activeLinkRegex);
+    if(targetIndex==regexes.length-1){
+      // 说明是最后一个，取前一个为激活索引
+      return targetIndex - 1;
+    }
+    // 说明在中间，取下一个元素索引
+    return targetIndex + 1;
+  }
+
   @override
   List<Object?> get props => [activeLinkRegexId, regexes];
 }

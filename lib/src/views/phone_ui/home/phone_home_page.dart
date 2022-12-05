@@ -38,13 +38,13 @@ class _PhoneHomePageState extends State<PhoneHomePage> {
         onItemTap: _onItemTap,
       ),
       body: PageView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageCtrl,
-        children: [
+        children: const [
           HomeContent(),
-          const RecordPage(),
-          const RegexNotePage(),
-          const UserPage(),
+          RecordPage(),
+          RegexNotePage(),
+          UserPage(),
         ],
       ),
     );
@@ -72,7 +72,7 @@ class RegexNotePage extends StatelessWidget {
         title: Text("正则语法速查",style: TextStyle(color: titleColor,fontSize: 16),),
         elevation: 0,
       ),
-      body: RegexNoteList(),
+      body: const RegexNoteList(fontSize: 14,),
     );
   }
 }
@@ -118,7 +118,6 @@ class PhoneHomeTopBar extends StatelessWidget implements PreferredSizeWidget {
       bottom: const LinkRegexTab(),
       titleSpacing: 0,
       backgroundColor: color,
-      // iconTheme: IconThemeData(color: iconColor),
       elevation: 0,
       title: const PhoneRegexInput(),
       actions: [
@@ -134,17 +133,9 @@ class PhoneHomeTopBar extends StatelessWidget implements PreferredSizeWidget {
     return const Size.fromHeight(kToolbarHeight + 26);
   }
 
-  void _onFileSelect(BuildContext context, File file) async {
-    String content = file.readAsStringSync();
-    if (content.length > 1000) {
-      content = content.substring(0, 1000);
-    }
+  void _onFileSelect(BuildContext context, File file) {
     RecordBloc bloc = context.read<RecordBloc>();
-    await bloc.repository.insert(Record.i(
-      title: path.basenameWithoutExtension(file.path),
-      content: content,
-    ));
-    bloc.loadRecord(operation: LoadType.add);
+    bloc.openFile(file);
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
+import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/views/phone_ui/match/match_panel.dart';
 
 class HomePopIcon extends StatelessWidget {
@@ -103,6 +104,19 @@ class HomePopIcon extends StatelessWidget {
       showMatchDialog(context);
       return;
     }
+
+    if (value == 'save') {
+      saveRegex(context);
+      return;
+    }
+  }
+
+  void saveRegex(BuildContext context){
+    LinkRegexBloc bloc = context.read<LinkRegexBloc>();
+    Record? record = context.read<RecordBloc>().state.active;
+    if (record == null) return;
+    String regex = context.read<MatchBloc>().state.pattern;
+    bloc.insert(regex, record.id);
   }
 
   void showMatchDialog(BuildContext context) {

@@ -118,17 +118,8 @@ class _DeskHomePageState extends State<DeskHomePage> {
   }
 
   void _onFileSelect(File file) async{
-    String content = file.readAsStringSync();
-    if(content.length>1000){
-      content = content.substring(0,1000);
-    }
-    print("content.length:${content.length}");
     RecordBloc bloc = context.read<RecordBloc>();
-    await bloc.repository.insert(Record.i(
-      title: path.basenameWithoutExtension(file.path),
-      content: content,
-    ));
-    bloc.loadRecord(operation: LoadType.add);
+    bloc.openFile(file);
   }
 
   void _onRegexChange(String value) {

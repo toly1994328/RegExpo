@@ -75,7 +75,6 @@ class LinkRegexTopBar extends StatelessWidget {
 
   void showEditeDialog(BuildContext context) {
     Color color = Theme.of(context).backgroundColor;
-
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     showDialog(
         context: context,
@@ -92,7 +91,6 @@ class LinkRegexTopBar extends StatelessWidget {
 
   void showDeleteDialog(BuildContext context) {
     Color color = Theme.of(context).backgroundColor;
-
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     LinkRegex? record = bloc.state.activeRegex;
     if(record == null) return;
@@ -108,13 +106,4 @@ class LinkRegexTopBar extends StatelessWidget {
         ));
   }
 
-  void refresh(BuildContext context) {
-    // RecordBloc bloc = context.read<RecordBloc>();
-    // bloc.loadRecord(operation: LoadType.refresh);
-  }
-
-  Future<void> _onRefresh(BuildContext context) async{
-    // RecordBloc bloc = context.read<RecordBloc>();
-    // bloc.loadRecord(operation: LoadType.refresh);
-  }
 }

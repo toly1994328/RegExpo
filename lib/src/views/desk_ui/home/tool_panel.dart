@@ -6,8 +6,6 @@ class ToolPanel extends StatelessWidget {
 
   const ToolPanel({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     Color? color = Theme.of(context).backgroundColor;
@@ -145,7 +143,9 @@ class RegexNoteList extends StatelessWidget {
     },
   ];
 
-  const RegexNoteList({super.key});
+  final double fontSize;
+
+  const RegexNoteList({super.key, this.fontSize = 12});
 
   @override
   Widget build(BuildContext context) {
@@ -153,38 +153,42 @@ class RegexNoteList extends StatelessWidget {
       separatorBuilder: (_, index) => const Divider(),
       itemBuilder: (_, index) {
         Map<String, dynamic> item = data[index];
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  item['title'],
-                  style: TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.bold),
-                ),
-                Spacer(),
-                Text(
-                  '${item['rule']}',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 0.0),
-              child: Text(
-                "${item['desc']}",
-                maxLines: 4,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    item['title'],
+                    style: TextStyle(
+                        fontSize: fontSize, fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Text(
+                    '${item['rule']}',
+                    style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  )
+                ],
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 6,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 0.0),
+                child: Text(
+                  "${item['desc']}",
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ),
+            ],
+          ),
         );
       },
+
       itemCount: data.length,
     );
   }

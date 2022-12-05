@@ -1,11 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/models/models.dart';
-import 'package:regexpo/src/views/desk_ui/record/delete_record_panel.dart';
-import 'package:regexpo/src/views/desk_ui/record/edit_record_panel.dart';
 
+import 'delete_record_panel.dart';
 import 'record_edit_page.dart';
 
 class PhoneRecordItem extends StatefulWidget {
@@ -96,22 +93,18 @@ class _PhoneRecordItemState extends State<PhoneRecordItem>    with SingleTickerP
         context: context,
         builder: (_) => Dialog(
           backgroundColor: color,
-          child: DeleteRecordPanel(model: widget.record,),
-        ));
+              child: PhoneDeleteRecord(
+                model: widget.record,
+              ),
+            ));
     close();
   }
 
   void _showEditDialog(BuildContext context) {
     close();
-    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>RecordEditPage(record:widget.record)));
-    // Color color = Theme.of(context).backgroundColor;
-    // showDialog(
-    //     context: context,
-    //     barrierDismissible: false,
-    //     builder: (_) => Dialog(
-    //       backgroundColor: color,
-    //       child: EditRecordPanel(model: record,),
-    //     ));
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => RecordEditPage(record: widget.record)),
+    );
   }
 
   double offsetX = 0;

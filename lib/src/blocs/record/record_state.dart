@@ -10,7 +10,9 @@ abstract class RecordState extends Equatable {
   Record? get active {
     RecordState state = this;
     if (state is LoadedRecordState) {
-      return state.activeRecord;
+      if(state.records.where((e) => e.id==state.activeRecordId).isNotEmpty){
+        return state.activeRecord;
+      }
     }
     return null;
   }

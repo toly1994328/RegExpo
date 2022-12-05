@@ -4,26 +4,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/components.dart';
 import 'package:regexpo/src/models/models.dart';
-import 'package:regexpo/src/views/desk_ui/record/edit_record_panel.dart';
 
 class RecordEditPage extends StatelessWidget {
-  final Record record;
-  const RecordEditPage({super.key,required this.record});
+  final Record? record;
+
+  const RecordEditPage({super.key, this.record});
 
   @override
   Widget build(BuildContext context) {
     Color? color = Theme.of(context).backgroundColor;
     Color? titleColor = Theme.of(context).textTheme.displayMedium?.color;
+    String title = record == null ? "添加记录" : "修改记录";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         titleSpacing: 0,
         centerTitle: true,
         backgroundColor: color,
-        title: Text("修改记录",style: TextStyle(color: titleColor,fontSize: 16),),
+        title: Text(
+          title,
+          style: TextStyle(color: titleColor, fontSize: 16),
+        ),
         elevation: 0,
       ),
-      body: _EditRecordPanel(model: record,),
+      body: _EditRecordPanel(
+        model: record,
+      ),
     );
   }
   //修改记录
@@ -86,15 +92,18 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
           child: Row(children: [
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: StadiumBorder(), elevation: 0),
-                      onPressed: loading
-                          ? null
-                          : _onConform,
-                      child: loading ? CupertinoActivityIndicator() : Text("确定")),
-                ))
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    shape: const StadiumBorder(),
+                    elevation: 0,
+                  ),
+                  onPressed: loading ? null : _onConform,
+                  child: loading
+                      ? const CupertinoActivityIndicator()
+                      : const Text("确定")),
+            ))
           ]),
         )
       ],
@@ -108,27 +117,20 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
     loading = true;
     setState(() {});
     RecordBloc bloc = context.read<RecordBloc>();
-    int result = -1;
-    LoadType operation ;
+    bool result = false;
     if (widget.model == null) {
       // 说明是添加
-      operation = LoadType.add;
-      result = await bloc.repository.insert(Record.i(
-        title: titleCtrl.text,
-        content: contentCtrl.text,
-      ));
+      result = await bloc.insert(titleCtrl.text, contentCtrl.text);
     } else {
       // 说明是修改
-      operation = LoadType.edit;
-      result = await bloc.repository.update(
+      result = await bloc.update(
         widget.model!.copyWith(
           title: titleCtrl.text,
           content: contentCtrl.text,
         ),
       );
     }
-    if (result > 0) {
-      bloc.loadRecord(operation: operation);
+    if (result) {
       Navigator.of(context).pop();
     }
     loading = false;

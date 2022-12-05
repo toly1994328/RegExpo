@@ -8,6 +8,7 @@ import 'package:regexpo/src/views/desk_ui/record/record_panel.dart';
 
 import 'loaded_record.dart';
 import 'phone_record_item.dart';
+import 'record_edit_page.dart';
 
 class RecordPage extends StatelessWidget {
   const RecordPage({super.key});
@@ -23,6 +24,12 @@ class RecordPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: color,
         title: Text("记录管理",style: TextStyle(color: titleColor,fontSize: 16),),
+        actions: [Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: IconButton(
+              splashRadius: 20,
+              onPressed: ()=>_toAddPage(context), icon: Icon(Icons.add)),
+        )],
         elevation: 0,
       ),
       body: BlocBuilder<RecordBloc,RecordState>(
@@ -57,5 +64,10 @@ class RecordPage extends StatelessWidget {
       );
     }
     return const SizedBox();
+  }
+
+  void _toAddPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>RecordEditPage()));
+
   }
 }

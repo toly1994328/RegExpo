@@ -31,12 +31,6 @@ class DeleteRecordPanel extends StatelessWidget {
 
   Future<bool> _onConform(BuildContext context) async {
     RecordBloc bloc = context.read<RecordBloc>();
-    int result = await bloc.repository.deleteById(model.id);
-    if (result > 0) {
-      bloc.loadRecord(operation: LoadType.delete);
-      return true;
-    } else {
-      return false;
-    }
+    return await bloc.deleteById(model.id);
   }
 }
