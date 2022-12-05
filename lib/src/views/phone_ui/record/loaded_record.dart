@@ -6,29 +6,26 @@ import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/views/phone_ui/record/phone_record_item.dart';
 import 'package:regexpo/src/views/splash/splash_page.dart';
 
-import 'record_item.dart';
 
-class LoadedPanel extends StatefulWidget {
+class PhoneLoadedPanel extends StatefulWidget {
   final LoadedRecordState state;
-  final ValueChanged<Record> onSelectRecord;
 
-  const LoadedPanel({
+  const PhoneLoadedPanel({
     super.key,
     required this.state,
-    required this.onSelectRecord,
   });
 
   @override
-  State<LoadedPanel> createState() => _LoadedPanelState();
+  State<PhoneLoadedPanel> createState() => _PhoneLoadedPanelState();
 }
 
-class _LoadedPanelState extends State<LoadedPanel> {
+class _PhoneLoadedPanelState extends State<PhoneLoadedPanel> {
   final ScrollController _scrollCtrl = ScrollController();
 
   @override
   void initState() {
-    _scrollCtrl.addListener(_onScroll);
     super.initState();
+    _scrollCtrl.addListener(_onScroll);
   }
 
   @override
@@ -40,8 +37,8 @@ class _LoadedPanelState extends State<LoadedPanel> {
   void _onScroll() {
     if (_shouldLoadMore) {
       context.read<RecordBloc>().loadRecord(
-      operation: LoadType.more
-    );
+          operation: LoadType.more
+      );
     }
   }
 
@@ -63,13 +60,11 @@ class _LoadedPanelState extends State<LoadedPanel> {
       itemCount: widget.state.records.length,
       itemExtent: 70,
       itemBuilder: (c, index) {
-        return RecordItem(
-          onTap: () => widget.onSelectRecord(widget.state.records[index]),
+        return PhoneRecordItem(
+          key: Key(widget.state.records[index].id.toString()),
           record: widget.state.records[index],
-          active: widget.state.records[index].id == widget.state.activeRecordId,
         );
       },
     );
   }
-
 }

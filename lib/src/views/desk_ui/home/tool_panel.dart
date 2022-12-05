@@ -6,10 +6,44 @@ class ToolPanel extends StatelessWidget {
 
   const ToolPanel({Key? key}) : super(key: key);
 
-  // type: 0 正则关键字
+
+
+  @override
+  Widget build(BuildContext context) {
+    Color? color = Theme.of(context).backgroundColor;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 25,
+          padding: const EdgeInsets.only(left: 8, right: 4),
+          alignment: Alignment.centerLeft,
+          color: color,
+          child: Row(
+            children: const [
+              Text(
+                '正则语法速查',
+                style: TextStyle(fontSize: 11),
+              ),
+              Spacer(),
+            ],
+          ),
+        ),
+        Gap.dividerH,
+        Expanded(
+            child: RegexNoteList())
+      ],
+    );
+  }
+}
+
+
+class RegexNoteList extends StatelessWidget {
+   // type: 0 正则关键字
   // type: 1 位置匹配
   // type: 2 简写规则
-  final List<Map<String, dynamic>> helpMap = const [
+  List<Map<String, dynamic>> get data=>  const [
     {
       "type": 0,
       "title": "横向排列",
@@ -111,69 +145,47 @@ class ToolPanel extends StatelessWidget {
     },
   ];
 
+  const RegexNoteList({super.key});
+
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: 25,
-          padding: const EdgeInsets.only(left: 8, right: 4),
-          alignment: Alignment.centerLeft,
-          color: color,
-          child: Row(
-            children: const [
-              Text(
-                '正则语法速查',
-                style: TextStyle(fontSize: 11),
-              ),
-              Spacer(),
-            ],
-          ),
-        ),
-        Gap.dividerH,
-        Expanded(
-            child: ListView.separated(padding: EdgeInsets.all(10),
-          separatorBuilder: (_, index) => const Divider(),
-          itemBuilder: (_, index) {
-            Map<String, dynamic> item = helpMap[index];
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView.separated(padding: EdgeInsets.all(10),
+      separatorBuilder: (_, index) => const Divider(),
+      itemBuilder: (_, index) {
+        Map<String, dynamic> item = data[index];
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      item['title'],
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(),
-                    Text(
-                      '${item['rule']}',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    )
-                  ],
+                Text(
+                  item['title'],
+                  style: TextStyle(
+                      fontSize: 12, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  height: 6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  child: Text(
-                    "${item['desc']}",
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-                ),
+                Spacer(),
+                Text(
+                  '${item['rule']}',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                )
               ],
-            );
-          },
-          itemCount: helpMap.length,
-        ))
-      ],
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: Text(
+                "${item['desc']}",
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ),
+          ],
+        );
+      },
+      itemCount: data.length,
     );
   }
 }

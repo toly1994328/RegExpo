@@ -32,7 +32,7 @@ class RecordCacheBar extends StatelessWidget {
 
   Widget _buildByState(BuildContext context, RecordState state) {
     Color color = Theme.of(context).brightness==Brightness.dark?const Color(0xff4E5254):Colors.white;
-    final int activeTabId = state.activeRecord?.id??-1;
+    final int activeTabId = state.active?.id??-1;
     return ListView(
         scrollDirection: Axis.horizontal,
         children: state.cacheRecord.asMap().keys.map((int index) {

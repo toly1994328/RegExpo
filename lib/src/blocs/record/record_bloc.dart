@@ -95,7 +95,7 @@ class RecordBloc extends Cubit<RecordState> {
 
   int _handleActiveId(List<Record> records, LoadType operation) {
     RecordState state = this.state;
-    int? activeId = state.activeRecord?.id;
+    int? activeId = state.active?.id;
     switch (operation) {
       case LoadType.load:
       case LoadType.add:
@@ -113,7 +113,7 @@ class RecordBloc extends Cubit<RecordState> {
   }
 
   void select(int id) {
-    if(state.activeRecord?.id==id) return;
+    if(state.active?.id==id) return;
     if(state is! LoadedRecordState) return;
     LoadedRecordState _state = state as LoadedRecordState;
     // 维护 cache tab
@@ -131,7 +131,7 @@ class RecordBloc extends Cubit<RecordState> {
   }
 
   void selectCacheTab(int id) {
-    if(state.activeRecord?.id==id) return;
+    if(state.active?.id==id) return;
     if(state is! LoadedRecordState) return;
     emit(state.copyWith(activeRecordId: id));
   }
@@ -176,7 +176,7 @@ class RecordBloc extends Cubit<RecordState> {
       }
       break;
       case LoadType.edit:
-        int activeId = state.activeRecord?.id??records.first.id;
+        int activeId = state.active?.id??records.first.id;
         int targetIndex = cache.lastIndexWhere((e) => e.id==activeId);
         if(targetIndex!=-1){
           // 修改的记录包含在缓存中

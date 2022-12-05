@@ -16,14 +16,14 @@ import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'right_nav_content.dart';
 import 'package:path/path.dart' as path;
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class DeskHomePage extends StatefulWidget {
+  const DeskHomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<DeskHomePage> createState() => _DeskHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _DeskHomePageState extends State<DeskHomePage> {
   final PageController _leftCtrl = PageController();
   final PageController _rightCtrl = PageController();
 

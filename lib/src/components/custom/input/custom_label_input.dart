@@ -4,6 +4,8 @@ class CustomIconInput extends StatelessWidget {
   final TextEditingController? controller;
   final String hintText;
   final IconData icon;
+  final double height;
+  final double fontSize;
   final ValueChanged<String>? onChanged;
 
   const CustomIconInput({
@@ -12,6 +14,8 @@ class CustomIconInput extends StatelessWidget {
     required this.icon,
     this.onChanged,
     this.hintText = "请输入...",
+    this.height = 30,
+    this.fontSize = 12,
   });
 
   @override
@@ -19,11 +23,11 @@ class CustomIconInput extends StatelessWidget {
     Color? backgroundColor = Theme.of(context).inputDecorationTheme.fillColor;
 
     return SizedBox(
-      height: 30,
+      height: height,
       child: TextField(
         onChanged: onChanged,
         controller: controller,
-        style: const TextStyle(fontSize: 12),
+        style:  TextStyle(fontSize: fontSize),
         maxLines: 1,
         decoration:  InputDecoration(
             filled: true,
@@ -36,7 +40,7 @@ class CustomIconInput extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
             hintText: hintText,
-            hintStyle: const TextStyle(fontSize: 12)),
+            hintStyle:  TextStyle(fontSize: fontSize)),
       ),
     );
   }

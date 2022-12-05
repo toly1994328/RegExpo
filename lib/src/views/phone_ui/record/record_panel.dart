@@ -7,7 +7,7 @@ class RecordDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.light
       ),
       child: Drawer(
@@ -32,9 +32,9 @@ class UnitDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      padding: EdgeInsets.only(top: 10, left: 15),
+      padding: const EdgeInsets.only(top: 10, left: 15),
       margin: EdgeInsets.zero,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/images/draw_bg3.webp'),
             fit: BoxFit.cover),
@@ -47,19 +47,19 @@ class UnitDrawerHeader extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: <Widget>[
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                     boxShadow: [BoxShadow(blurRadius: 1, color: Colors.blue)]),
-                padding: EdgeInsets.all(2),
-                child: CircleAvatar(
+                padding: const EdgeInsets.all(2),
+                child: const CircleAvatar(
                   backgroundImage: AssetImage('assets/images/icon_head.webp'),
                 ),
               ),
               // FlutterLogo(
               //   size: 35,
               // ),
-              Text(
+              const Text(
                 'RegExpo',
                 style: TextStyle(fontSize: 24, color: Colors.white, shadows: [
                   Shadow(
@@ -68,7 +68,7 @@ class UnitDrawerHeader extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Padding(
@@ -76,22 +76,22 @@ class UnitDrawerHeader extends StatelessWidget {
             child: Text(
               '基于 Flutter 框架实现的， 全平台正则表达式交互学习应用。',
               style: TextStyle(fontSize: 15, color: Colors.white, shadows: [
-                Shadow(color: color, offset: Offset(.5, .5), blurRadius: 1)
+                Shadow(color: color, offset: const Offset(.5, .5), blurRadius: 1)
               ]),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
             children: <Widget>[
-              Spacer(
+              const Spacer(
                 flex: 5,
               ),
-              Text(
+              const Text(
                 '——Powered By 张风捷特烈',
                 style: TextStyle(fontSize: 15, color: Colors.white, shadows: [
                   Shadow(
@@ -100,7 +100,7 @@ class UnitDrawerHeader extends StatelessWidget {
                       blurRadius: 1)
                 ]),
               ),
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
             ],

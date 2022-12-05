@@ -58,7 +58,7 @@ class _EditRegexPanelState extends State<EditRegexPanel> {
   Future<bool> _onConform() async {
     if (!checkAllow()) return false;
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
-    Record? record = context.read<RecordBloc>().state.activeRecord;
+    Record? record = context.read<RecordBloc>().state.active;
     if(record == null) return false;
     int result = -1;
     if (widget.model == null) {

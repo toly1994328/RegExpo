@@ -13,6 +13,7 @@ void main() {
   runApp(const BlocWrapper(child:  MyApp()));
   if(Platform.isMacOS||Platform.isWindows||Platform.isLinux){
     DesktopWindow.setWindowSize(const Size(900, 600));
+    DesktopWindow.setMinWindowSize(const Size(600, 400));
   }
 }
 

@@ -37,7 +37,7 @@ class DeleteRegexPanel extends StatelessWidget {
   Future<bool> _onConform(BuildContext context) async {
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     int result = await bloc.repository.deleteById(model.id);
-    Record? record = context.read<RecordBloc>().state.activeRecord;
+    Record? record = context.read<RecordBloc>().state.active;
     if(record==null) return false;
     if (result > 0) {
       bloc.loadLinkRegex(recordId: record.id);

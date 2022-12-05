@@ -67,7 +67,6 @@ class _SplashPageState extends State<SplashPage> {
                 ],
               ),
               const Spacer(),
-
             ],
           ),
         ),
@@ -88,7 +87,7 @@ class _SplashPageState extends State<SplashPage> {
     if(state.inited) {
       Widget home = const PlatformUIAdapter(
         mobile: PhoneHomePage(),
-        desk: HomePage(),
+        desk: DeskHomePage(),
       );
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => home),

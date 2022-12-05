@@ -89,7 +89,7 @@ class RecordTopBar extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width / 5),
           child:  Dialog(
             backgroundColor: color,
-            child: EditRecordPanel(model: bloc.state.activeRecord,),
+            child: EditRecordPanel(model: bloc.state.active,),
           ),
         ));
   }
@@ -98,7 +98,7 @@ class RecordTopBar extends StatelessWidget {
     Color color = Theme.of(context).backgroundColor;
 
     RecordBloc bloc = context.read<RecordBloc>();
-    Record? record = bloc.state.activeRecord;
+    Record? record = bloc.state.active;
     if(record == null) return;
     showDialog(
         context: context,

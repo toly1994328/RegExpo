@@ -40,7 +40,7 @@ class CustomInputPanel extends StatelessWidget {
       maxLines: maxLines,
       style: TextStyle(
         fontSize: fontSize,
-        color: color,
+        // color: color,
         height: 1.2,
         // backgroundColor: Colors.white,
       ),

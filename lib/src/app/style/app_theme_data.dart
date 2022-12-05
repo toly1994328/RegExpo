@@ -21,7 +21,7 @@ class AppThemeData{
     // 分割线颜色
     dividerColor: const Color(0xff323232),
     // 主颜色
-    primaryColor: Colors.blue,
+    primaryColor: Colors.cyan,
     // 主内容文字样式
     textTheme: const TextTheme(
       displayMedium: TextStyle(color: Color(0xffA9B7C6), fontSize: 14),

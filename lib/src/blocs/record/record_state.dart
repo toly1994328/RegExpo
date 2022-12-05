@@ -7,7 +7,7 @@ import 'package:regexpo/src/models/models.dart';
 abstract class RecordState extends Equatable {
   const RecordState();
 
-  Record? get activeRecord {
+  Record? get active {
     RecordState state = this;
     if (state is LoadedRecordState) {
       return state.activeRecord;

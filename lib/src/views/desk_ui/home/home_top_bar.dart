@@ -82,7 +82,7 @@ class SaveRegexButton extends StatelessWidget {
 
   void _onSaveLinkRegex(BuildContext context) async{
     String regex = context.read<MatchBloc>().state.pattern;
-    Record? record = context.read<RecordBloc>().state.activeRecord;
+    Record? record = context.read<RecordBloc>().state.active;
     LinkRegexBloc linkRegexBloc = context.read<LinkRegexBloc>();
     if (record != null) {
       await linkRegexBloc.repository.insert(LinkRegex.i(
