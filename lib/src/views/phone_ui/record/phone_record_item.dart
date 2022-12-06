@@ -5,34 +5,11 @@ import 'package:regexpo/src/models/models.dart';
 import 'delete_record_panel.dart';
 import 'record_edit_page.dart';
 
-class PhoneRecordItem extends StatefulWidget {
+class PhoneRecordItem extends StatelessWidget {
   final Record record;
-  const PhoneRecordItem({Key? key, required this.record}) : super(key: key);
-
-  @override
-  State<PhoneRecordItem> createState() => _PhoneRecordItemState();
-}
-
-class _PhoneRecordItemState extends State<PhoneRecordItem>    with SingleTickerProviderStateMixin  {
-
-  late AnimationController _ctrl;
-
-  ValueNotifier<double> factor = ValueNotifier(0);
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(
-      duration: const Duration(milliseconds: 250),
-      vsync: this
-    );
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
+  final ValueNotifier<double>? factor ;
+  final VoidCallback? requestClose ;
+  const PhoneRecordItem({Key? key, required this.record,this.factor,this.requestClose}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +17,8 @@ class _PhoneRecordItemState extends State<PhoneRecordItem>    with SingleTickerP
 
     Color? color = Theme.of(context).scaffoldBackgroundColor;
     TextStyle? title = data.unselectedLabelTextStyle;
-    return GestureDetector(
-      onPanUpdate: _onPanUpdate,
-      onPanEnd: _onPanEnd,
-      onPanStart: _onPanStart,
-      child: SwipeOperation(
+    return SwipeOperation(
         factor: factor,
-        slideWidth: 160,
         actions: [
           GestureDetector(
             onTap: ()=>_showDeleteDialog(context),
@@ -74,94 +46,92 @@ class _PhoneRecordItemState extends State<PhoneRecordItem>    with SingleTickerP
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(widget.record.title, style: title?.copyWith(fontSize: 14)),
+                Text(record.title, style: title?.copyWith(fontSize: 14)),
                 Text(
-                  widget.record.content,
+                  record.content,
                   maxLines: 2,
                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
             )),
-      ),
     );
   }
 
   void _showDeleteDialog(BuildContext context) async {
+    requestClose?.call();
     Color color = Theme.of(context).backgroundColor;
-   await showDialog(
+    await showDialog(
         context: context,
         builder: (_) => Dialog(
           backgroundColor: color,
               child: PhoneDeleteRecord(
-                model: widget.record,
+                model: record,
               ),
             ));
-    close();
+    // close();
   }
 
   void _showEditDialog(BuildContext context) {
-    close();
+    requestClose?.call();
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => RecordEditPage(record: widget.record)),
+      MaterialPageRoute(builder: (_) => RecordEditPage(record: record)),
     );
   }
 
-  double offsetX = 0;
-  double slideWidth = 160;
-  void _onPanUpdate(DragUpdateDetails details) {
-    offsetX +=details.delta.dx;
-
-    if (offsetX > 0) {
-      offsetX = 0;
-    } else if (offsetX.abs() > slideWidth) {
-      offsetX = -slideWidth;
-    }
-
-    factor.value = offsetX / MediaQuery.of(context).size.width;
-  }
-
-  void _onPanStart(DragStartDetails details) {
-  }
-
-  void _onPanEnd(DragEndDetails details) async{
-    if(offsetX.abs()<=slideWidth&&offsetX.abs()>slideWidth/2){
-      // 动画展开
-      Animation<double> anim = Tween<double>(begin: offsetX,end: -slideWidth).animate(_ctrl);
-      anim.addListener(() {
-        factor.value = anim.value / MediaQuery.of(context).size.width;
-      });
-      await _ctrl.forward(from: 0);
-      offsetX = -slideWidth;
-    }else{
-      // 动画关闭
-      close();
-    }
-  }
-
-  void close() async{
-    if(mounted);
-    // 动画展开
-    Animation<double> anim = Tween<double>(begin: offsetX,end: 0).animate(_ctrl);
-    anim.addListener(() {
-      factor.value = anim.value / MediaQuery.of(context).size.width;
-    });
-    await _ctrl.forward(from: 0);
-    offsetX = 0;
-  }
+  // double offsetX = 0;
+  // double slideWidth = 160;
+  // void _onPanUpdate(DragUpdateDetails details) {
+  //   offsetX +=details.delta.dx;
+  //
+  //   if (offsetX > 0) {
+  //     offsetX = 0;
+  //   } else if (offsetX.abs() > slideWidth) {
+  //     offsetX = -slideWidth;
+  //   }
+  //
+  //   factor.value = offsetX / MediaQuery.of(context).size.width;
+  // }
+  //
+  // void _onPanStart(DragStartDetails details) {
+  // }
+  //
+  // void _onPanEnd(DragEndDetails details) async{
+  //   if(offsetX.abs()<=slideWidth&&offsetX.abs()>slideWidth/2){
+  //     // 动画展开
+  //     Animation<double> anim = Tween<double>(begin: offsetX,end: -slideWidth).animate(_ctrl);
+  //     anim.addListener(() {
+  //       factor.value = anim.value / MediaQuery.of(context).size.width;
+  //     });
+  //     await _ctrl.forward(from: 0);
+  //     offsetX = -slideWidth;
+  //   }else{
+  //     // 动画关闭
+  //     close();
+  //   }
+  // }
+  //
+  // void close() async{
+  //   if(mounted);
+  //   // 动画展开
+  //   Animation<double> anim = Tween<double>(begin: offsetX,end: 0).animate(_ctrl);
+  //   anim.addListener(() {
+  //     factor.value = anim.value / MediaQuery.of(context).size.width;
+  //   });
+  //   await _ctrl.forward(from: 0);
+  //   offsetX = 0;
+  // }
 
 }
 
 class SwipeOperation extends StatefulWidget {
   final Widget item;
-  final double slideWidth;
   final List<Widget> actions;
-  final ValueNotifier<double> factor;
+  final ValueNotifier<double>? factor;
 
   const SwipeOperation({
     super.key,
     required this.item,
-    required this.slideWidth,
     required this.factor,
     required this.actions,
   });
@@ -172,7 +142,7 @@ class SwipeOperation extends StatefulWidget {
 
 class _SwipeOperationState extends State<SwipeOperation> {
 
-  ValueNotifier<double> get factor =>widget.factor;
+  ValueNotifier<double>? get factor =>widget.factor;
 
   @override
   Widget build(BuildContext context) {
@@ -190,28 +160,28 @@ class _SwipeOperationState extends State<SwipeOperation> {
 }
 
 class SwipeFlowDelegate extends FlowDelegate {
-  final ValueListenable<double> factor;
+  final ValueListenable<double>? factor;
 
   SwipeFlowDelegate(this.factor) : super(repaint: factor);
 
   @override
   void paintChildren(FlowPaintingContext context) {
-    if(factor.value == 0){
+    if(factor==null||factor!.value == 0){
       context.paintChild(0);
       return;
     }
     Size size = context.size;
-    context.paintChild(0, transform: Matrix4.translationValues(factor.value * size.width, 0, 0));
-    if(factor.value!=0){
+    context.paintChild(0, transform: Matrix4.translationValues(factor!.value * size.width, 0, 0));
+    if(factor!.value!=0){
       context.paintChild(1,
           transform: Matrix4.translationValues(
-              size.width + factor.value * size.width, 0, 0));
+              size.width + factor!.value * size.width, 0, 0));
     }
 
   }
 
   @override
   bool shouldRepaint(covariant SwipeFlowDelegate oldDelegate) {
-    return oldDelegate.factor.value != factor.value;
+    return oldDelegate.factor?.value != factor?.value;
   }
 }
