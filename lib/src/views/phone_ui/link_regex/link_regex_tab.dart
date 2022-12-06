@@ -15,10 +15,8 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
     return SizedBox(
       height: 26,
-      // color: color,
       child: Row(
         children: [
           Expanded(
@@ -34,11 +32,14 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
   Widget _buildByState(BuildContext context, LinkRegexState state) {
     TextStyle style = const TextStyle(height: 1, fontSize: 12);
     if (state is EmptyLinkRegexState) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 8.0),
-        child: Text(
-          "暂无链接正则",
-          style: style.copyWith(color: Colors.grey),
+      return GestureDetector(
+        onTap: ()=>showAddDialog(context),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            "暂无链接正则 +",
+            style: style.copyWith(color: Colors.grey),
+          ),
         ),
       );
     }
@@ -84,40 +85,35 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
 
   void activeTab(BuildContext context, LinkRegex regex) {
     context.read<LinkRegexBloc>().select(regex.id);
-    // RecordBloc bloc = context.read<RecordBloc>();
-    // bloc.selectCacheTab(record.id);
-  }
-  void removeCacheTab(BuildContext context, Record record) {
-    // RecordBloc bloc = context.read<RecordBloc>();
-    // bloc.removeCacheTab(record.id);
   }
 
   @override
-  Size get preferredSize =>     Size.fromHeight(26);
+  Size get preferredSize => const Size.fromHeight(26);
 
   void showOpDialog(BuildContext context, LinkRegex tab) {
     HapticFeedback.mediumImpact();
     showCupertinoModalPopup(
+      context: context,
+      builder: (context) => PickBottomDialog(
+        tasks: [
+          AsyncItem(task: () => showAddDialog(context), info: '添加正则'),
+          AsyncItem(task: () => showEditeDialog(context), info: '修改正则'),
+          AsyncItem(task: () => showDeleteDialog(context, tab), info: '删除正则'),
+        ],
+      ),
+    );
+  }
+
+  void showDeleteDialog(BuildContext context, LinkRegex tab) {
+    Color color = Theme.of(context).backgroundColor;
+    showDialog(
         context: context,
-        builder: (context) => PickBottomDialog(
-          tasks: [
-                AsyncItem(task: () => showAddDialog(context), info: '添加正则'),
-                AsyncItem(task: () =>showEditeDialog(context), info: '修改正则'),
-                AsyncItem(
-                    task: () async {
-                      Color color = Theme.of(context).backgroundColor;
-                      await showDialog(
-                          context: context,
-                          builder: (_) => Dialog(
-                                backgroundColor: color,
-                                child: PhoneDeleteRegex(
-                                  model: tab,
-                                ),
-                              ));
-                    },
-                    info: '删除正则'),
-              ],
-        ));
+        builder: (_) => Dialog(
+              backgroundColor: color,
+              child: PhoneDeleteRegex(
+                model: tab,
+              ),
+            ));
   }
 
   void showAddDialog(BuildContext context) {
@@ -127,11 +123,9 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
         context: context,
         barrierDismissible: false,
         builder: (_) => Dialog(
-          backgroundColor: color,
-          child:SizedBox(
-              height: 350,
-              child:  const EditRegexPanel()),
-        ));
+              backgroundColor: color,
+              child: const SizedBox(height: 350, child: EditRegexPanel()),
+            ));
   }
 
   void showEditeDialog(BuildContext context) {

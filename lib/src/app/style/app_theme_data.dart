@@ -20,6 +20,13 @@ class AppThemeData{
     ),
     // 分割线颜色
     dividerColor: const Color(0xff323232),
+    // 弹框菜单主题
+    popupMenuTheme: PopupMenuThemeData(
+      textStyle: TextStyle(fontSize: 14,color: Colors.white),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+      ),
+    ),
     // 主颜色
     primaryColor: Colors.cyan,
     // 主内容文字样式
@@ -66,6 +73,12 @@ class AppThemeData{
       )
     ),
     dividerColor: const Color(0xffD1D1D1),
+    popupMenuTheme: PopupMenuThemeData(
+      textStyle: TextStyle(fontSize: 14,color: Colors.black),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+      ),
+    ),
     primarySwatch: Colors.blue,
     textTheme: const TextTheme(
       displayMedium: TextStyle(color: Colors.black, fontSize: 14),

@@ -25,9 +25,6 @@ class HomePopIcon extends StatelessWidget {
       onSelected: (v) => _onSelectItem(context, v),
       icon: const Icon(Icons.more_vert_outlined),
       position: PopupMenuPosition.under,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(6)),
-      ),
     );
   }
 
@@ -37,17 +34,9 @@ class HomePopIcon extends StatelessWidget {
         value: "open_file",
         child: Row(
           children: const [
-            Icon(
-              TolyIcon.icon_file,
-              size: 20,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              "打开文件",
-              style: TextStyle(fontSize: 14),
-            ),
+            Icon(TolyIcon.icon_file, size: 20),
+            SizedBox(width: 10),
+            Text("打开文件"),
           ],
         ),
       ),
@@ -55,17 +44,9 @@ class HomePopIcon extends StatelessWidget {
         value: "match",
         child: Row(
           children: const [
-            Icon(
-              TolyIcon.icon_dot_all,
-              size: 22,
-            ),
-            SizedBox(
-              width: 8,
-            ),
-            Text(
-              "匹配详情",
-              style: TextStyle(fontSize: 14),
-            ),
+            Icon(TolyIcon.icon_dot_all, size: 22),
+            SizedBox(width: 8),
+            Text("匹配详情"),
           ],
         ),
       ),
@@ -74,13 +55,8 @@ class HomePopIcon extends StatelessWidget {
         child: Row(
           children: const [
             Icon(TolyIcon.save),
-            SizedBox(
-              width: 7,
-            ),
-            Text(
-              "保存正则",
-              style: TextStyle(fontSize: 14),
-            ),
+            SizedBox(width: 7),
+            Text("保存正则"),
           ],
         ),
       ),
@@ -97,44 +73,44 @@ class HomePopIcon extends StatelessWidget {
       return;
     }
     if (value == 'open_file') {
-      onSelect();
+      _onSelectFile();
       return;
     }
     if (value == 'match') {
-      showMatchDialog(context);
+      _showMatchDialog(context);
       return;
     }
-
     if (value == 'save') {
-      saveRegex(context);
+      _saveRegex(context);
       return;
     }
   }
 
-  void saveRegex(BuildContext context){
+  void _saveRegex(BuildContext context){
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     Record? record = context.read<RecordBloc>().state.active;
     if (record == null) return;
     String regex = context.read<MatchBloc>().state.pattern;
+    if(regex.isEmpty) return;
     bloc.insert(regex, record.id);
   }
 
-  void showMatchDialog(BuildContext context) {
+  void _showMatchDialog(BuildContext context) {
     showCupertinoModalPopup(
         context: context,
         builder: (context) => Container(
           color: Colors.white,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height*0.618,
-          child: PhoneMatchPanel(),
+          child: const PhoneMatchPanel(),
         ));
   }
 
-  void onSelect() async {
+  void _onSelectFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       PlatformFile file = result.files.single;
-      if (file.path != null && file.extension == ".txt") {
+      if (file.path != null && file.extension == "txt") {
         onFileSelect(File(file.path!));
       }
     }
@@ -156,10 +132,7 @@ class _ThemeSwitchMenuItem extends StatelessWidget {
       children: [
         icon,
         const SizedBox(width: 8),
-        const Text(
-          "暗亮切换",
-          style: TextStyle(fontSize: 14),
-        ),
+        const Text("暗亮切换"),
       ],
     );
   }

@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
-
-
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/repository/impl/db/helper/default_data.dart';
-
-import '../record/record_cache_bar.dart';
 
 class ContentTextPanel extends StatelessWidget {
   const ContentTextPanel({super.key});
@@ -21,12 +16,18 @@ class ContentTextPanel extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: BlocBuilder<MatchBloc, MatchState>(
               builder: (_, state) {
-                if(state.content.isEmpty){
+                if (state.content.isEmpty) {
                   return const EmptyContent();
                 }
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                  child: Text.rich(state.inlineSpan,style: Theme.of(context).textTheme.displayMedium,),
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10),
+                    child: Text.rich(
+                      state.inlineSpan,
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                  ),
                 );
               },
             ),

@@ -14,7 +14,7 @@ class RecordDrawer extends StatelessWidget {
         width: MediaQuery.of(context).size.width*0.7,
         child:Column(
           children: const [
-            UnitDrawerHeader(),
+            _UnitDrawerHeader(),
             Expanded(child: RecordPanel()),
           ],
         ),
@@ -24,10 +24,10 @@ class RecordDrawer extends StatelessWidget {
 }
 
 
-class UnitDrawerHeader extends StatelessWidget {
+class _UnitDrawerHeader extends StatelessWidget {
   final Color color;
 
-  const UnitDrawerHeader({this.color = Colors.blue});
+  const _UnitDrawerHeader({super.key, this.color = Colors.blue});
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +56,6 @@ class UnitDrawerHeader extends StatelessWidget {
                   backgroundImage: AssetImage('assets/images/icon_head.webp'),
                 ),
               ),
-              // FlutterLogo(
-              //   size: 35,
-              // ),
               const Text(
                 'RegExpo',
                 style: TextStyle(fontSize: 24, color: Colors.white, shadows: [
@@ -68,9 +65,7 @@ class UnitDrawerHeader extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Text(
@@ -80,18 +75,11 @@ class UnitDrawerHeader extends StatelessWidget {
               ]),
             ),
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 15),
           Row(
-            children: <Widget>[
-              const Spacer(
-                flex: 5,
-              ),
-              const Text(
+            children: const <Widget>[
+              Spacer(flex: 5),
+              Text(
                 '——Powered By 张风捷特烈',
                 style: TextStyle(fontSize: 15, color: Colors.white, shadows: [
                   Shadow(
@@ -100,9 +88,7 @@ class UnitDrawerHeader extends StatelessWidget {
                       blurRadius: 1)
                 ]),
               ),
-              const Spacer(
-                flex: 1,
-              ),
+              Spacer(flex: 1),
             ],
           ),
         ],

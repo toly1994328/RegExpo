@@ -72,8 +72,8 @@ class RecordBloc extends Cubit<RecordState> {
 
   Future<bool> openFile(File file) async {
     String content = file.readAsStringSync();
-    if (content.length > 1000) {
-      content = content.substring(0, 1000);
+    if (content.length > 1500) {
+      content = content.substring(0, 1500);
     }
     bool result = await insert(
       path.basenameWithoutExtension(file.path),

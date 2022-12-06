@@ -7,7 +7,6 @@ import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/feedback_widget.dart';
 import 'package:regexpo/src/components/logo.dart';
-
 import 'package:regexpo/src/models/models.dart';
 
 class HomeTopBar extends StatelessWidget {
@@ -122,8 +121,15 @@ class ThemeSwitchButton extends StatelessWidget {
 
 class RegexInput extends StatefulWidget {
   final ValueChanged<String> onRegexChange;
+  final double height;
+  final double fontSize;
 
-  const RegexInput({super.key, required this.onRegexChange});
+  const RegexInput({
+    super.key,
+    required this.onRegexChange,
+    this.height = 28,
+    this.fontSize = 12,
+  });
 
   @override
   State<RegexInput> createState() => _RegexInputState();
@@ -145,11 +151,11 @@ class _RegexInputState extends State<RegexInput> {
     return BlocListener<LinkRegexBloc, LinkRegexState>(
       listener: _listenLinkRegexChange,
       child: SizedBox(
-        height: 28,
+        height: widget.height,
         child: TextField(
           controller: _ctrl,
           onChanged: widget.onRegexChange,
-          style: const TextStyle(fontSize: 12),
+          style: TextStyle(fontSize: widget.fontSize),
           maxLines: 1,
           decoration: InputDecoration(
               filled: true,
@@ -162,7 +168,7 @@ class _RegexInputState extends State<RegexInput> {
                 borderRadius: BorderRadius.all(Radius.circular(15)),
               ),
               hintText: "输入正则表达式...",
-              hintStyle: const TextStyle(fontSize: 12)),
+              hintStyle:  TextStyle(fontSize: widget.fontSize)),
         ),
       ),
     );
