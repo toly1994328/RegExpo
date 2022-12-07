@@ -78,53 +78,9 @@ class PhoneRecordItem extends StatelessWidget {
       MaterialPageRoute(builder: (_) => RecordEditPage(record: record)),
     );
   }
-
-  // double offsetX = 0;
-  // double slideWidth = 160;
-  // void _onPanUpdate(DragUpdateDetails details) {
-  //   offsetX +=details.delta.dx;
-  //
-  //   if (offsetX > 0) {
-  //     offsetX = 0;
-  //   } else if (offsetX.abs() > slideWidth) {
-  //     offsetX = -slideWidth;
-  //   }
-  //
-  //   factor.value = offsetX / MediaQuery.of(context).size.width;
-  // }
-  //
-  // void _onPanStart(DragStartDetails details) {
-  // }
-  //
-  // void _onPanEnd(DragEndDetails details) async{
-  //   if(offsetX.abs()<=slideWidth&&offsetX.abs()>slideWidth/2){
-  //     // 动画展开
-  //     Animation<double> anim = Tween<double>(begin: offsetX,end: -slideWidth).animate(_ctrl);
-  //     anim.addListener(() {
-  //       factor.value = anim.value / MediaQuery.of(context).size.width;
-  //     });
-  //     await _ctrl.forward(from: 0);
-  //     offsetX = -slideWidth;
-  //   }else{
-  //     // 动画关闭
-  //     close();
-  //   }
-  // }
-  //
-  // void close() async{
-  //   if(mounted);
-  //   // 动画展开
-  //   Animation<double> anim = Tween<double>(begin: offsetX,end: 0).animate(_ctrl);
-  //   anim.addListener(() {
-  //     factor.value = anim.value / MediaQuery.of(context).size.width;
-  //   });
-  //   await _ctrl.forward(from: 0);
-  //   offsetX = 0;
-  // }
-
 }
 
-class SwipeOperation extends StatefulWidget {
+class SwipeOperation extends StatelessWidget {
   final Widget item;
   final List<Widget> actions;
   final ValueNotifier<double>? factor;
@@ -137,26 +93,12 @@ class SwipeOperation extends StatefulWidget {
   });
 
   @override
-  State<SwipeOperation> createState() => _SwipeOperationState();
-}
-
-class _SwipeOperationState extends State<SwipeOperation> {
-
-  ValueNotifier<double>? get factor =>widget.factor;
-
-  @override
   Widget build(BuildContext context) {
-    return  Flow(
+    return Flow(
       delegate: SwipeFlowDelegate(factor),
-      children: [
-        widget.item,
-        Row(
-          children: widget.actions,
-        )
-      ],
+      children: [item, Row(children: actions)],
     );
   }
-
 }
 
 class SwipeFlowDelegate extends FlowDelegate {
@@ -166,18 +108,18 @@ class SwipeFlowDelegate extends FlowDelegate {
 
   @override
   void paintChildren(FlowPaintingContext context) {
-    if(factor==null||factor!.value == 0){
+    if (factor == null || factor!.value == 0) {
       context.paintChild(0);
       return;
     }
     Size size = context.size;
-    context.paintChild(0, transform: Matrix4.translationValues(factor!.value * size.width, 0, 0));
-    if(factor!.value!=0){
-      context.paintChild(1,
-          transform: Matrix4.translationValues(
-              size.width + factor!.value * size.width, 0, 0));
+    Matrix4 m0 = Matrix4.translationValues(factor!.value * size.width, 0, 0);
+    context.paintChild(0, transform: m0);
+    Matrix4 m1 = Matrix4.translationValues(
+        size.width + factor!.value * size.width, 0, 0);
+    if (factor!.value != 0) {
+      context.paintChild(1, transform: m1);
     }
-
   }
 
   @override

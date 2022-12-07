@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/views/phone_ui/record/phone_record_item.dart';
-
 
 class PhoneLoadedPanel extends StatefulWidget {
   final LoadedRecordState state;
@@ -25,11 +26,11 @@ class _PhoneLoadedPanelState extends State<PhoneLoadedPanel> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _scrollCtrl.addListener(_onScroll);
     _ctrl = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
+    _scrollCtrl.addListener(_onScroll);
   }
 
   @override
@@ -80,17 +81,21 @@ class _PhoneLoadedPanelState extends State<PhoneLoadedPanel> with SingleTickerPr
     );
   }
 
-  int _activeIndex = -1;
-  double _offsetX = 0;
-  double slideWidth = 160;
-
   void _onDragDown(DragDownDetails e, int index) async {
     if (index != _activeIndex && _offsetX != 0) {
       await close();
     }
     _activeIndex = index;
     setState(() {});
+    if (_closeTask != null) {
+      _closeTask?.complete();
+      _closeTask = null;
+    }
   }
+
+  int _activeIndex = -1;
+  double _offsetX = 0;
+  double slideWidth = 160;
 
   void _onPanUpdate(DragUpdateDetails details) {
     _offsetX += details.delta.dx;
@@ -103,17 +108,21 @@ class _PhoneLoadedPanelState extends State<PhoneLoadedPanel> with SingleTickerPr
   }
 
   void _onPanEnd(DragEndDetails details) async {
-    if (_offsetX.abs() <= slideWidth && _offsetX.abs() > slideWidth / 2) {
+    if (_offsetX.abs() > slideWidth / 2) {
       open();
     } else {
       close();
     }
   }
 
+  Completer<void>? _closeTask;
+
   // 动画打开，剩余部分
   Future<void> open() async {
-    Animation<double> anim =
-        Tween<double>(begin: _offsetX, end: -slideWidth).animate(_ctrl);
+    if (_closeTask != null) {
+      await _closeTask!.future;
+    }
+    Animation<double> anim = Tween<double>(begin: _offsetX, end: -slideWidth).animate(_ctrl);
     anim.addListener(() {
       factor.value = anim.value / MediaQuery.of(context).size.width;
     });
@@ -121,16 +130,15 @@ class _PhoneLoadedPanelState extends State<PhoneLoadedPanel> with SingleTickerPr
     _offsetX = -slideWidth;
   }
 
+
   // 动画关闭
   Future<void> close() async {
-
-    Animation<double> anim =
-        Tween<double>(begin: _offsetX, end: 0).animate(_ctrl);
+    _closeTask = Completer();
+    Animation<double> anim = Tween<double>(begin: _offsetX, end: 0).animate(_ctrl);
     anim.addListener(() {
       factor.value = anim.value / MediaQuery.of(context).size.width;
     });
     await _ctrl.forward(from: 0);
     _offsetX = 0;
-    _activeIndex = -1;
   }
 }
