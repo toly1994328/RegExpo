@@ -64,6 +64,7 @@ class RecordTopBar extends StatelessWidget {
   }
 
   void showAddDialog(BuildContext context) {
+    Color color = Theme.of(context).backgroundColor;
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -71,7 +72,7 @@ class RecordTopBar extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width / 5),
               child:  Dialog(
-                // backgroundColor: Colors.red,
+                backgroundColor: color,
                 child: EditRecordPanel(),
               ),
             ));

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/components/feedback_widget.dart';
+import 'package:regexpo/src/components/toly_ui/feedback_widget.dart';
 import 'package:regexpo/src/components/logo.dart';
 import 'package:regexpo/src/models/models.dart';
 

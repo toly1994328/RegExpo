@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/repository/impl/db/helper/default_data.dart';
+import 'package:regexpo/src/repositories/impl/db/helper/default_data.dart';
 
 class ContentTextPanel extends StatelessWidget {
   const ContentTextPanel({super.key});

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs.dart';
-import 'package:regexpo/src/repository/parser/regex_parser.dart';
+import 'package:regexpo/src/repositories/parser/regex_parser.dart';
 
 
 class MatchBloc extends Bloc<MatchEvent, MatchState> {

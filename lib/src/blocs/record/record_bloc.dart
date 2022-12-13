@@ -8,8 +8,8 @@ import 'package:path/path.dart' as path;
 import 'package:regexpo/src/blocs/blocs.dart';
 
 import '../../models/record/record.dart';
-import '../../repository/impl/db_recode_repository.dart';
-import '../../repository/recode_repository.dart';
+import '../../repositories/impl/db_recode_repository.dart';
+import '../../repositories/recode_repository.dart';
 
 enum LoadType {
   load, // 加载
@@ -197,12 +197,13 @@ class RecordBloc extends Cubit<RecordState> {
     LoadedRecordState _state = state as LoadedRecordState;
     if(_state.cacheTabs.length==1) return;
     int activeRecordId = _state.activeRecordId;
-    if(_state.activeRecordId == id){
-      //当前激活索引被删除
-      activeRecordId = _state.cacheTabs[_state.nextCacheIndex].id;
-    }
     List<Record> cache = List.of(state.cacheRecord);
     cache.removeWhere((e) => e.id == id);
+    if(_state.activeRecordId == id){
+      //当前激活索引被删除
+      activeRecordId = cache[_state.nextCacheIndex].id;
+    }
+
     RecordState newState = state.copyWith(
         activeRecordId: activeRecordId,
         cacheTabs: cache
@@ -215,13 +216,14 @@ class RecordBloc extends Cubit<RecordState> {
     switch(operation){
       case LoadType.load:
       case LoadType.refresh:
-      case LoadType.add:
       case LoadType.more:
         if(cache.isNotEmpty){
         return cache;
       }else{
         return [records.first];
       }
+      case LoadType.add:
+       return  [records.first,...List.of(cache)];
       case LoadType.delete:
       //如果删除的是已激活页签，需要清除 cache 中的对应元素
       if(state is LoadedRecordState){

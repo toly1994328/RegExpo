@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 
-import '../../models/models.dart';
+import '../models/models.dart';
 
 class BlocRelation extends StatelessWidget {
   final Widget child;

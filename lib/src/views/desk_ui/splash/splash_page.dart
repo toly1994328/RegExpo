@@ -5,11 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/app/style/app_theme_data.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/repository/parser/regex_parser.dart';
+import 'package:regexpo/src/repositories/parser/regex_parser.dart';
 import 'package:regexpo/src/views/desk_ui/home/home_page.dart';
 import 'package:regexpo/src/views/phone_ui/home/phone_home_page.dart';
 
-import '../../models/models.dart';
+import '../../../models/models.dart';
+
 
 class SplashPage extends StatefulWidget {
   final int minCostMs;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:regexpo/src/components/circle_image.dart';
+import 'package:regexpo/src/components/toly_ui/circle_image.dart';
 import 'package:regexpo/src/components/logo.dart';
 
 import 'page_item.dart';

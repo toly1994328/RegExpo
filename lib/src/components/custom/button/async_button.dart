@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:regexpo/src/components/components.dart';
+import '../dialog/custom_dialog_bar.dart';
 
 class AsyncButton extends StatefulWidget {
   final AsyncTask task;

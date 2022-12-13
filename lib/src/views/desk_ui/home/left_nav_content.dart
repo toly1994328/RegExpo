@@ -24,12 +24,6 @@ class _LeftNavContentState extends State<LeftNavContent> {
   double _width = 180;
 
   @override
-  void initState() {
-    print("======_LeftNavContentState#initState========");
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     NavigationRailThemeData data = Theme.of(context).navigationRailTheme;
 

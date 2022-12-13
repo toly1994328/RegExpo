@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'feedback_widget.dart';
+import 'toly_ui/feedback_widget.dart';
 
 class Logo extends StatelessWidget {
   const Logo({Key? key}) : super(key: key);

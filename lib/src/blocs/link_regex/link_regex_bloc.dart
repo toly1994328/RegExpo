@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/models/models.dart';
 
-import '../../models/link_regex/link_regex.dart';
-import '../../repository/impl/db_link_regex_repository.dart';
-import '../../repository/link_regex_repository.dart';
+import '../../repositories/impl/db_link_regex_repository.dart';
+import '../../repositories/link_regex_repository.dart';
 import 'link_regex_state.dart';
 
 

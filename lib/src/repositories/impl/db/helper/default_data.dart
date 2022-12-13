@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:regexpo/src/models/link_regex/link_regex.dart';
-import 'package:regexpo/src/repository/impl/db_link_regex_repository.dart';
-import 'package:regexpo/src/repository/link_regex_repository.dart';
+import 'package:regexpo/src/repositories/impl/db_link_regex_repository.dart';
+import 'package:regexpo/src/repositories/link_regex_repository.dart';
 
 import '../../db_recode_repository.dart';
 import '../../../../models/record/record.dart';

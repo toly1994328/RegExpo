@@ -4,10 +4,11 @@ import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/style/app_theme_data.dart';
+import 'package:regexpo/src/blocs/bloc_wrapper.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'src/app/views/bloc_relation.dart';
-import 'src/app/views/bloc_wrapper.dart';
-import 'src/views/splash/splash_page.dart';
+import 'src/blocs/bloc_relation.dart';
+
+import 'src/views/desk_ui/splash/splash_page.dart';
 
 void main() {
   runApp(const BlocWrapper(child:  MyApp()));

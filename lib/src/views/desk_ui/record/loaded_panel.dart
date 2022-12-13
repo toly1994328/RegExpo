@@ -3,8 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/views/phone_ui/record/phone_record_item.dart';
-import 'package:regexpo/src/views/splash/splash_page.dart';
 
 import 'record_item.dart';
 

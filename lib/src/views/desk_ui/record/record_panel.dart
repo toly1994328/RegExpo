@@ -9,7 +9,7 @@ import 'package:regexpo/src/components/components.dart';
 
 import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/views/splash/splash_page.dart';
+import 'package:regexpo/src/views/desk_ui/splash/splash_page.dart';
 import 'loaded_panel.dart';
 import 'record_top_bar.dart';
 

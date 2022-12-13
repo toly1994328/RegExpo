@@ -11,7 +11,7 @@ class AppThemeData{
     highlightColor: const Color(0xff0D293E),
     // scaffold 背景颜色
     scaffoldBackgroundColor: const Color(0xff2B2B2B),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(color: Colors.white),
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
@@ -21,9 +21,9 @@ class AppThemeData{
     // 分割线颜色
     dividerColor: const Color(0xff323232),
     // 弹框菜单主题
-    popupMenuTheme: PopupMenuThemeData(
+    popupMenuTheme: const PopupMenuThemeData(
       textStyle: TextStyle(fontSize: 14,color: Colors.white),
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(6)),
       ),
     ),
@@ -65,7 +65,7 @@ class AppThemeData{
     backgroundColor: const Color(0xffF2F2F2),
     highlightColor: Colors.blue.withOpacity(0.1),
     scaffoldBackgroundColor: const Color(0xffFAFAFA),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
         iconTheme: IconThemeData(color: Colors.black),
       systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -73,9 +73,9 @@ class AppThemeData{
       )
     ),
     dividerColor: const Color(0xffD1D1D1),
-    popupMenuTheme: PopupMenuThemeData(
+    popupMenuTheme: const PopupMenuThemeData(
       textStyle: TextStyle(fontSize: 14,color: Colors.black),
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(6)),
       ),
     ),

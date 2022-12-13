@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/res/keys.dart';
 import 'package:regexpo/src/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:regexpo/src/repository/impl/db/local_db.dart';
+import 'package:regexpo/src/repositories/impl/db/local_db.dart';
 
 class AppConfigBloc extends Cubit<AppConfig> {
   SharedPreferences? _sp;
