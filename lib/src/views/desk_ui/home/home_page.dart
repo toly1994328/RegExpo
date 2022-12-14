@@ -1,21 +1,18 @@
 import 'dart:io';
 
+import 'package:app_config/app_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/res/cons.dart';
-import 'package:regexpo/src/app/res/gap.dart';
-import 'package:regexpo/src/components/components.dart';
+import 'package:components/components.dart';
 
 import '../record/record_cache_bar.dart';
 import 'content_text_panel.dart';
 import 'home_foot.dart';
 import 'home_top_bar.dart';
 import 'left_nav_content.dart';
-import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'right_nav_content.dart';
-import 'package:path/path.dart' as path;
+
 class DeskHomePage extends StatefulWidget {
   const DeskHomePage({super.key});
 

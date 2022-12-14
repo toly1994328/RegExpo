@@ -11,3 +11,6 @@ export 'navigation/model/nav_tab.dart';
 export 'navigation/views/rail_tab_navigation.dart';
 export 'navigation/views/nav_tab_item.dart';
 export 'rrect_check.dart';
+export 'toly_ui/circle_image.dart';
+export 'toly_ui/feedback_widget.dart';
+export 'logo.dart';

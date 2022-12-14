@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:app_config/app_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/iconfont/toly_icon.dart';
+import 'package:app_config/app_config.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/views/phone_ui/match/match_panel.dart';
@@ -62,7 +63,7 @@ class HomePopIcon extends StatelessWidget {
       ),
       const PopupMenuItem<String>(
         value: "theme",
-        child: _ThemeSwitchMenuItem(),
+        child: ThemeSwitchMenuItem(),
       ),
     ];
   }
@@ -117,23 +118,4 @@ class HomePopIcon extends StatelessWidget {
   }
 }
 
-class _ThemeSwitchMenuItem extends StatelessWidget {
-  const _ThemeSwitchMenuItem({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    ThemeMode mode = context.select<AppConfigBloc, ThemeMode>(
-      (value) => value.state.themeMode,
-    );
-    Widget icon = mode == ThemeMode.dark
-        ? const Icon(TolyIcon.wb_sunny, size: 22)
-        : const Icon(TolyIcon.dark, size: 22);
-    return Row(
-      children: [
-        icon,
-        const SizedBox(width: 8),
-        const Text("暗亮切换"),
-      ],
-    );
-  }
-}

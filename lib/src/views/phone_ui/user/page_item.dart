@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:regexpo/src/app/iconfont/toly_icon.dart';
+import 'package:app_config/app_config.dart';
 
 /// create by 张风捷特烈 on 2020-03-26
 /// contact me by email 1981462002@qq.com

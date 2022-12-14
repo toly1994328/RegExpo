@@ -1,11 +1,10 @@
 import 'dart:io';
 
+import 'package:app_config/app_config.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/style/app_theme_data.dart';
 import 'package:regexpo/src/blocs/bloc_wrapper.dart';
-import 'package:regexpo/src/blocs/blocs.dart';
 import 'src/blocs/bloc_relation.dart';
 
 import 'src/views/desk_ui/splash/splash_page.dart';

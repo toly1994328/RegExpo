@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/res/gap.dart';
+import 'package:app_config/app_config.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/components/custom/dialog/option_bottom_dialog.dart';
+import 'package:components/components.dart';
 import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/views/desk_ui/link_regex/edit_regex_panel.dart';
 

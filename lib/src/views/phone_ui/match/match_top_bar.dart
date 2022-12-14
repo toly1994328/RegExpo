@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/res/gap.dart';
+import 'package:app_config/app_config.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/views/desk_ui/home/home_foot.dart';
 

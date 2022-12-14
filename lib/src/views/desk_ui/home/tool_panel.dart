@@ -1,6 +1,5 @@
+import 'package:app_config/app_config.dart';
 import 'package:flutter/material.dart';
-import 'package:regexpo/src/app/res/gap.dart';
-
 
 class ToolPanel extends StatelessWidget {
 

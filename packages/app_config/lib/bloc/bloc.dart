@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/res/keys.dart';
-import 'package:regexpo/src/models/models.dart';
+import 'package:app_config/model/app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:regexpo/src/repositories/impl/db/local_db.dart';
+
+import '../app_config.dart';
 
 class AppConfigBloc extends Cubit<AppConfig> {
   SharedPreferences? _sp;
@@ -17,7 +17,7 @@ class AppConfigBloc extends Cubit<AppConfig> {
   void initApp() async{
    // 读取数据
    int mode = (await sp).getInt(SpKey.appThemeModel)??0;
-   await LocalDb.instance.initDb();
+   // await LocalDb.instance.initDb();
    emit(state.copyWith(appThemeMode: mode,inited: true));
   }
 

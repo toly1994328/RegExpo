@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/iconfont/toly_icon.dart';
+import 'package:app_config/app_config.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/components/components.dart';
-import 'package:regexpo/src/views/desk_ui/record/loaded_panel.dart';
-import 'package:regexpo/src/views/desk_ui/record/record_panel.dart';
+import 'package:components/components.dart';
 
 import 'loaded_record.dart';
-import 'phone_record_item.dart';
 import 'record_edit_page.dart';
 
 class RecordPage extends StatelessWidget {

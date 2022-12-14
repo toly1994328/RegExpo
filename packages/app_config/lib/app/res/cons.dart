@@ -1,6 +1,7 @@
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
-import 'package:regexpo/src/app/iconfont/toly_icon.dart';
-import 'package:regexpo/src/components/navigation/model/nav_tab.dart';
+
+import '../iconfont/toly_icon.dart';
 
 
 class Cons {

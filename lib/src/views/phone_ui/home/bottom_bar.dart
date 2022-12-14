@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:regexpo/src/app/iconfont/toly_icon.dart';
-
+import 'package:app_config/app_config.dart';
 
 class HomeBottomBar extends StatefulWidget {
   final int initIndex;

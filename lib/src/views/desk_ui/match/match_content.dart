@@ -1,8 +1,9 @@
+import 'package:app_config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/components/components.dart';
+import 'package:components/components.dart';
+
 import 'package:regexpo/src/models/models.dart';
 
 import 'match_panel.dart';
