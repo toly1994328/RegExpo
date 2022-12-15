@@ -40,11 +40,11 @@ class _SplashPageState extends State<SplashPage> {
             children: [
               const Spacer(),
               Wrap(
-                spacing: 20,
+                spacing: 0,
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  const Icon(TolyIcon.icon_dot_all,color: Colors.black,size: 56,),
+                  Image.asset('assets/images/regexpo_logo.png',width: 80,height: 80,),
                   Text.rich(
                     TextSpan(
                       children:[
@@ -88,9 +88,9 @@ class _SplashPageState extends State<SplashPage> {
         mobile: PhoneHomePage(),
         desk: DeskHomePage(),
       );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => home),
-      );
+      // Navigator.of(context).pushReplacement(
+      //   MaterialPageRoute(builder: (_) => home),
+      // );
     }
   }
 
