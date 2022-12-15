@@ -1,38 +1,19 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:app_config/app_config.dart';
-import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/bloc_wrapper.dart';
-import 'package:window_manager/window_manager.dart';
-import 'src/blocs/bloc_relation.dart';
 
+import 'src/blocs/bloc_relation.dart';
+import 'src/views/adapter/platform_adapter_bar.dart';
+import 'src/views/adapter/windows_adapter.dart';
 import 'src/views/desk_ui/splash/splash_page.dart';
 
-void main() async{
-  if(Platform.isMacOS||Platform.isWindows||Platform.isLinux){
-    // DesktopWindow.setWindowSize(const Size(900, 600));
-    // DesktopWindow.setMinWindowSize(const Size(600, 400));
-    WidgetsFlutterBinding.ensureInitialized();
-    // Must add this line.
-    await windowManager.ensureInitialized();
-
-    WindowOptions windowOptions = WindowOptions(
-      size: Size(900, 600),
-      center: true,
-      // backgroundColor: Colors.transparent,
-      // skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.normal,
-    );
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
-
-    runApp(const BlocWrapper(child:  MyApp()));
-
-  }
+void main(){
+  runApp(const BlocWrapper(child:  MyApp()));
+  WindowsAdapter.setSize();
 }
 
 class MyApp extends StatelessWidget {
@@ -44,14 +25,18 @@ class MyApp extends StatelessWidget {
           (value) => value.state.themeMode,
     );
     return BlocRelation(
-      child: MaterialApp(
-        title: 'regexpo',
-        debugShowCheckedModeBanner: false,
-        themeMode: mode,
-        theme: AppThemeData.light,
-        darkTheme:  AppThemeData.dark,
-        home: const SplashPage(),
+      child: PlatformAdapterBar(
+        mode: mode,
+        child: MaterialApp(
+          title: 'regexpo',
+          debugShowCheckedModeBanner: false,
+          themeMode: mode,
+          theme: AppThemeData.light,
+          darkTheme: AppThemeData.dark,
+          home: const SplashPage(),
+        ),
       ),
     );
   }
 }
+
