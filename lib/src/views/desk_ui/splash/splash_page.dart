@@ -88,9 +88,9 @@ class _SplashPageState extends State<SplashPage> {
         mobile: PhoneHomePage(),
         desk: DeskHomePage(),
       );
-      // Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(builder: (_) => home),
-      // );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => home),
+      );
     }
   }
 
