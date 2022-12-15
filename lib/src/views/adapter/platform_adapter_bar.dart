@@ -49,6 +49,7 @@ class PlatformAdapterBar extends StatelessWidget {
   }
 
   Widget buildTitle(Color titleColor) => Row(
+    mainAxisSize: MainAxisSize.min,
     children: [
       Image.asset('assets/images/regexpo_logo.png',width: 20,height: 20,),
       Text(
