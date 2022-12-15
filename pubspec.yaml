@@ -31,7 +31,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  desktop_window: ^0.4.0 #桌面尺寸
   sqflite: ^2.2.0+3
   window_manager: ^0.2.8
   sqflite_common_ffi: ^2.2.0+1
