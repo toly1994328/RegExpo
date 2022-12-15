@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:app_config/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 
-const double kDeskBarHeight = 32;
 const double kMacosBarHeight = 28;
 
 class PlatformAdapterBar extends StatelessWidget {
@@ -19,7 +19,6 @@ class PlatformAdapterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-      final double height = Platform.isMacOS ? kMacosBarHeight : kDeskBarHeight;
       bool dark = mode == ThemeMode.dark;
       Color deskBarColor = dark ? AppThemeData.dark.backgroundColor : AppThemeData.light.backgroundColor;
       Color? titleColor = dark ? AppThemeData.light.backgroundColor : AppThemeData.dark.backgroundColor;
@@ -27,8 +26,17 @@ class PlatformAdapterBar extends StatelessWidget {
         textDirection: TextDirection.ltr,
         child: Column(
           children: [
+            Platform.isWindows||Platform.isLinux?
+              SizedBox(
+                height: kWindowCaptionHeight,
+                child: WindowCaption(
+                  title: buildTitle(titleColor),
+                  backgroundColor: deskBarColor ,
+                  brightness: dark?Brightness.dark:Brightness.light,
+                ),
+              ):
             Container(
-              height: height,
+              height: kMacosBarHeight,
               color: deskBarColor,
               child: NavigationToolbar(middle: buildTitle(titleColor)),
             ),
@@ -40,12 +48,17 @@ class PlatformAdapterBar extends StatelessWidget {
     return child;
   }
 
-  Widget buildTitle(Color titleColor) => Text(
-    'RegExpo',
-    style: TextStyle(
-      color: titleColor,
-      fontSize: 12,
-      fontWeight: FontWeight.bold,
-    ),
+  Widget buildTitle(Color titleColor) => Row(
+    children: [
+      Image.asset('assets/images/regexpo_logo.png',width: 20,height: 20,),
+      Text(
+        'RegExpo',
+        style: TextStyle(
+          color: titleColor,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ],
   );
 }
