@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:app_config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +5,16 @@ import 'package:regexpo/src/blocs/bloc_wrapper.dart';
 
 import 'src/blocs/bloc_relation.dart';
 import 'src/views/adapter/platform_adapter_bar.dart';
+import 'src/views/adapter/system_tray_wrapper.dart';
 import 'src/views/adapter/windows_adapter.dart';
 import 'src/views/desk_ui/splash/splash_page.dart';
 
-void main(){
-  runApp(const BlocWrapper(child:  MyApp()));
+void main() {
+  runApp(
+    const BlocWrapper(
+      child: SystemTrayWrapper(child: MyApp()),
+    ),
+  );
   WindowsAdapter.setSize();
 }
 
