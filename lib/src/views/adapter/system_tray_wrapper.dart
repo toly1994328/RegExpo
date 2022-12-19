@@ -142,6 +142,6 @@ class _SystemTrayWrapperState extends State<SystemTrayWrapper> {
     await buildMenu(menu);
     // set context menu
     await systemTray.setContextMenu(menu);
-    systemTray.registerSystemTrayEventHandler(handleMacosTrayClick);
+    systemTray.registerSystemTrayEventHandler(handleWindowsTrayClick);
   }
 }
