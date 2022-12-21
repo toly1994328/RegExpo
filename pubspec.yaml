@@ -25,7 +25,7 @@ environment:
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
+# versions available, run `flutter pub outdated`.诵读|水调歌头·明月几时有
 dependencies:
   flutter:
     sdk: flutter

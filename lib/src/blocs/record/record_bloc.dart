@@ -201,7 +201,7 @@ class RecordBloc extends Cubit<RecordState> {
     cache.removeWhere((e) => e.id == id);
     if(_state.activeRecordId == id){
       //当前激活索引被删除
-      activeRecordId = cache[_state.nextCacheIndex].id;
+      activeRecordId = _state.nextCacheId;
     }
 
     RecordState newState = state.copyWith(
