@@ -1,21 +1,19 @@
-import 'dart:io';
 
-import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/style/app_theme_data.dart';
 import 'package:regexpo/src/blocs/bloc_wrapper.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
+import 'package:regexpo/src/views/adapter/system_tray_wrapper.dart';
+import 'package:regexpo/src/views/adapter/windows_adapter.dart';
 import 'src/blocs/bloc_relation.dart';
 
+import 'src/views/adapter/platform_adapter_bar.dart';
 import 'src/views/desk_ui/splash/splash_page.dart';
 
 void main() {
-  runApp(const BlocWrapper(child:  MyApp()));
-  if(Platform.isMacOS||Platform.isWindows||Platform.isLinux){
-    DesktopWindow.setWindowSize(const Size(900, 600));
-    DesktopWindow.setMinWindowSize(const Size(600, 400));
-  }
+  runApp(const BlocWrapper(child:  SystemTrayWrapper(child: MyApp())));
+  WindowsAdapter.setSize();
 }
 
 class MyApp extends StatelessWidget {
@@ -27,13 +25,16 @@ class MyApp extends StatelessWidget {
           (value) => value.state.themeMode,
     );
     return BlocRelation(
-      child: MaterialApp(
-        title: 'regexpo',
-        debugShowCheckedModeBanner: false,
-        themeMode: mode,
-        theme: AppThemeData.light,
-        darkTheme:  AppThemeData.dark,
-        home: const SplashPage(),
+      child: PlatformAdapterBar(
+        mode: mode,
+        child: MaterialApp(
+          title: 'regexpo',
+          debugShowCheckedModeBanner: false,
+          themeMode: mode,
+          theme: AppThemeData.light,
+          darkTheme:  AppThemeData.dark,
+          home: const SplashPage(),
+        ),
       ),
     );
   }

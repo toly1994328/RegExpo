@@ -46,7 +46,7 @@ class _SplashPageState extends State<SplashPage> {
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  const Icon(TolyIcon.icon_dot_all,color: Colors.black,size: 56,),
+                  Image.asset('assets/images/regexpo_logo.png',width: 80,height: 80,),
                   Text.rich(
                     TextSpan(
                       children:[

@@ -47,11 +47,7 @@ class EmptyContent extends StatelessWidget {
       child: Column(
         children: [
           const Spacer(),
-          Icon(
-            TolyIcon.icon_regex,
-            size: 64,
-            color: Theme.of(context).primaryColor,
-          ),
+          Image.asset('assets/images/regexpo_logo.png',width: 100,height:100,),
           const SizedBox(
             height: 16,
           ),

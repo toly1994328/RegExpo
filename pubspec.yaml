@@ -31,7 +31,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  desktop_window: ^0.4.0 #桌面尺寸
+  window_manager: ^0.2.8
+  system_tray: ^2.0.2
   sqflite: ^2.2.0+3
   sqflite_common_ffi: ^2.2.0+1
   path_provider: ^2.0.11
@@ -52,6 +53,7 @@ flutter:
 
   assets:
     - assets/images/
+    - windows/runner/resources/app_icon.ico
     - data.json
 
   fonts:
