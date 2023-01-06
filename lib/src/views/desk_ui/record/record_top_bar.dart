@@ -103,13 +103,12 @@ class RecordTopBar extends StatelessWidget {
     if(record == null) return;
     showDialog(
         context: context,
-        builder: (_) => Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width / 4),
-          child:  Dialog(
-            backgroundColor: color,
-            child: DeleteRecordPanel(model: record,),
+        builder: (_) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10)
           ),
+          backgroundColor: color,
+          child: DeleteMessagePanel(model: record,),
         ));
   }
 

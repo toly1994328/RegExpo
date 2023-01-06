@@ -28,18 +28,21 @@ class _CustomDialogBarState extends State<CustomDialogBar> {
   Widget build(BuildContext context) {
     ButtonStyle style = ElevatedButton.styleFrom(
       backgroundColor: widget.color,
-        elevation: 0, padding: EdgeInsets.zero, shape: const StadiumBorder());
+      elevation: 0,
+      padding: EdgeInsets.zero,
+      shape: const StadiumBorder(),
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if(widget.leading==null)
-          GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-            child: const Padding(
-                padding: EdgeInsets.only(right: 20),
+          if (widget.leading == null)
+            GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: const Padding(
+                  padding: EdgeInsets.only(right: 20),
                 child: Icon(Icons.close, size: 20)),
           ),
           if(widget.leading!=null)
