@@ -9,6 +9,7 @@ import 'package:regexpo/src/blocs/blocs.dart';
 
 import '../../models/record/record.dart';
 import '../../repositories/impl/db_recode_repository.dart';
+import '../../repositories/impl/memory_record_repository.dart';
 import '../../repositories/recode_repository.dart';
 
 enum LoadType {
@@ -21,7 +22,7 @@ enum LoadType {
 }
 
 class RecordBloc extends Cubit<RecordState> {
-  final RecoderRepository repository = const DbRecoderRepository();
+  final RecoderRepository repository = MemoryRecordRepository();
 
   RecordBloc() : super(const EmptyRecordState());
 

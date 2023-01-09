@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/models/models.dart';
 
-import '../../repositories/impl/db_link_regex_repository.dart';
+import '../../repositories/impl/memory_link_repository.dart';
+
 import '../../repositories/link_regex_repository.dart';
 import 'link_regex_state.dart';
 
 
 class LinkRegexBloc extends Cubit<LinkRegexState> {
-  final LinkRegexRepository repository = const DbLinkRegexRepository();
+  final LinkRegexRepository repository =  MemoryLinkRepository();
 
   LinkRegexBloc() : super(const EmptyLinkRegexState());
 

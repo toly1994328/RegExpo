@@ -12,20 +12,16 @@ class MatchPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color? color = Theme.of(context).backgroundColor;
-    bool mobile = Platform.isIOS || Platform.isAndroid;
-    TextStyle title = mobile
-        ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
-        : const TextStyle(fontSize: 11);
+    TextStyle title =  const TextStyle(fontSize: 11);
     return Column(
       children: [
         Container(
-          height: mobile ? 36 : 25,
+          height:  25,
           padding: const EdgeInsets.only(left: 8, right: 4),
           alignment: Alignment.centerLeft,
           color: color,
           child: Row(
-            mainAxisAlignment:
-                mobile ? MainAxisAlignment.center : MainAxisAlignment.start,
+            mainAxisAlignment:  MainAxisAlignment.start,
             children: [
               Text(
                 '匹配组信息',
@@ -113,22 +109,22 @@ class _MatchPanelMatchPanelListState extends State<MatchListView> {
         ],
       );
     }
-    bool mobile = Platform.isIOS || Platform.isAndroid;
+    // bool mobile = Platform.isIOS || Platform.isAndroid;
 
     void reset([dynamic v]) {
-      if (!mobile) return;
-      setState(() {
-        _selectIndex = -1;
-      });
-      widget.onSelectItem?.call(null);
+      // if (!mobile) return;
+      // setState(() {
+      //   _selectIndex = -1;
+      // });
+      // widget.onSelectItem?.call(null);
     }
 
     return InkWell(
       onHover: (active) => _highLightItem(matchInfo, index, active),
       onTapDown: !matchInfo.enable
           ? null : (_) {
-              if (!mobile) return;
-              _highLightItem(matchInfo, index, true);
+              // if (!mobile) return;
+              // _highLightItem(matchInfo, index, true);
             },
       onTapUp: !matchInfo.enable ? null : reset,
       onTapCancel: !matchInfo.enable ? null : reset,

@@ -49,13 +49,13 @@ class HomeTopBar extends StatelessWidget {
   }
 
   void onSelect() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      String? path = result.files.single.path;
-      if (path != null) {
-        onFileSelect(File(path));
-      }
-    }
+    // FilePickerResult? result = await FilePicker.platform.pickFiles();
+    // if (result != null) {
+    //   String? path = result.files.single.path;
+    //   if (path != null) {
+    //     onFileSelect(File(path));
+    //   }
+    // }
   }
 }
 

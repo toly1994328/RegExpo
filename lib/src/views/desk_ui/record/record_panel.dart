@@ -21,15 +21,12 @@ class RecordPanel extends StatelessWidget{
     Widget content = BlocBuilder<RecordBloc,RecordState>(
       builder: _buildByState,
     );
-    return PlatformUIAdapter(
-      mobile: content,
-      desk: Column(
-        children: [
-          const RecordTopBar(),
-          Gap.dividerH,
-          Expanded(child: content)
-        ],
-      ) ,
+    return Column(
+      children: [
+        const RecordTopBar(),
+        Gap.dividerH,
+        Expanded(child: content)
+      ],
     );
   }
 

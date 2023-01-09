@@ -118,8 +118,9 @@ class _DeskHomePageState extends State<DeskHomePage> {
   }
 
   void _onFileSelect(File file) async{
-    RecordBloc bloc = context.read<RecordBloc>();
-    bloc.openFile(file);
+    // Toast.
+    // RecordBloc bloc = context.read<RecordBloc>();
+    // bloc.openFile(file);
   }
 
   void _onRegexChange(String value) {

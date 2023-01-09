@@ -86,32 +86,9 @@ class _SplashPageState extends State<SplashPage> {
      await Future.delayed(Duration(milliseconds: delay));
     }
     if(state.inited) {
-      Widget home = const PlatformUIAdapter(
-        mobile: PhoneHomePage(),
-        desk: DeskHomePage(),
-      );
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => home),
+        MaterialPageRoute(builder: (_) => const DeskHomePage()),
       );
     }
-  }
-}
-
-class PlatformUIAdapter extends StatelessWidget {
-  final Widget desk;
-  final Widget mobile;
-
-  const PlatformUIAdapter({
-    super.key,
-    required this.desk,
-    required this.mobile,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (Platform.isAndroid || Platform.isIOS) {
-      return mobile;
-    }
-    return desk;
   }
 }

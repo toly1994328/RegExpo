@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/res/keys.dart';
@@ -23,6 +24,7 @@ class _SystemTrayWrapperState extends State<SystemTrayWrapper> {
 
   @override
   void initState() {
+    if(kIsWeb) return;
     if(Platform.isAndroid||Platform.isIOS) return;
     if (Platform.isWindows) {
       initWindowsSystemTray();
