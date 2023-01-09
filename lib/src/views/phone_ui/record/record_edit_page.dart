@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/components.dart';
 import 'package:regexpo/src/models/models.dart';

@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
-import 'package:regexpo/src/views/phone_ui/record/phone_record_item.dart';
+import 'package:regexpo/src/views/phone_ui/record/slide_record_item.dart';
 
-class PhoneLoadedPanel extends StatefulWidget {
+class PhoneLoadedPanelV1 extends StatefulWidget {
   final LoadedRecordState state;
 
-  const PhoneLoadedPanel({
+  const PhoneLoadedPanelV1({
     super.key,
     required this.state,
   });
 
   @override
-  State<PhoneLoadedPanel> createState() => _PhoneLoadedPanelState();
+  State<PhoneLoadedPanelV1> createState() => _PhoneLoadedPanelV1State();
 }
 
-class _PhoneLoadedPanelState extends State<PhoneLoadedPanel> with SingleTickerProviderStateMixin {
+class _PhoneLoadedPanelV1State extends State<PhoneLoadedPanelV1> with SingleTickerProviderStateMixin {
   final ScrollController _scrollCtrl = ScrollController();
   ValueNotifier<double> factor = ValueNotifier(0);
   late AnimationController _ctrl;
@@ -70,7 +70,7 @@ class _PhoneLoadedPanelState extends State<PhoneLoadedPanel> with SingleTickerPr
           onHorizontalDragDown: (e) => _onDragDown(e, index),
           onHorizontalDragUpdate: _onPanUpdate,
           onHorizontalDragEnd: _onPanEnd,
-          child: PhoneRecordItem(
+          child: SlideRecordItem(
             requestClose: close,
             factor: _activeIndex == index ? factor : null,
             key: Key(widget.state.records[index].id.toString()),

@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:regexpo/src/models/models.dart';
 
 import 'delete_record_panel.dart';
+import 'loaded_record_v2.dart';
 import 'record_edit_page.dart';
+import 'record_piece.dart';
 
-class PhoneRecordItem extends StatelessWidget {
+class SlideRecordItem extends StatelessWidget {
   final Record record;
   final ValueNotifier<double>? factor ;
   final VoidCallback? requestClose ;
-  const PhoneRecordItem({Key? key, required this.record,this.factor,this.requestClose}) : super(key: key);
+  const SlideRecordItem({Key? key, required this.record,this.factor,this.requestClose}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    NavigationRailThemeData data = Theme.of(context).navigationRailTheme;
-
-    Color? color = Theme.of(context).scaffoldBackgroundColor;
-    TextStyle? title = data.unselectedLabelTextStyle;
     return SwipeOperation(
         factor: factor,
         actions: [
@@ -39,22 +37,7 @@ class PhoneRecordItem extends StatelessWidget {
             ),
           )
         ],
-        item: Container(
-            color: color,
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(record.title, style: title?.copyWith(fontSize: 14)),
-                Text(
-                  record.content,
-                  maxLines: 2,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            )),
+        item: RecordPiece(record: record),
     );
   }
 
@@ -69,7 +52,6 @@ class PhoneRecordItem extends StatelessWidget {
                 model: record,
               ),
             ));
-    // close();
   }
 
   void _showEditDialog(BuildContext context) {

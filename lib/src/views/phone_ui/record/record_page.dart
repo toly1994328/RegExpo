@@ -3,11 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/components.dart';
-import 'package:regexpo/src/views/desk_ui/record/loaded_panel.dart';
-import 'package:regexpo/src/views/desk_ui/record/record_panel.dart';
 
-import 'loaded_record.dart';
-import 'phone_record_item.dart';
+import 'loaded_record_v2.dart';
 import 'record_edit_page.dart';
 
 class RecordPage extends StatelessWidget {
@@ -58,10 +55,14 @@ class RecordPage extends StatelessWidget {
       );
     }
     if (state is LoadedRecordState) {
-      return PhoneLoadedPanel(
+      return PhoneLoadedPanelV2(
         state: state,
         // onSelectRecord: _selectRecord,
       );
+      // return PhoneLoadedPanelV1(
+      //   state: state,
+      //   // onSelectRecord: _selectRecord,
+      // );
     }
     return const SizedBox();
   }
@@ -71,3 +72,17 @@ class RecordPage extends StatelessWidget {
 
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
