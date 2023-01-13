@@ -7,7 +7,7 @@ import Foundation
 
 import path_provider_macos
 import screen_retriever
-import shared_preferences_macos
+import shared_preferences_foundation
 import sqflite
 import system_tray
 import window_manager
