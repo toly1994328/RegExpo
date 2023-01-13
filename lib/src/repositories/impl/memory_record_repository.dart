@@ -28,9 +28,14 @@ class MemoryRecordRepository extends RecoderRepository{
       List<dynamic> data = json.decode(dataStr).toList();
       List<Record> result  = [];
       for (int i = 0; i < data.length; i++) {
-        await Future.delayed(const Duration(milliseconds: 1));
-        int id =i+1;
-        result.add(Record.i(id:id,title: data[i]['title'], content: data[i]['content']));
+        int id = i + 1;
+        result.add(
+          Record.i(
+            id: id,
+            title: data[i]['title'],
+            content: data[i]['content'],
+          ),
+        );
       }
       _cache = result;
     }

@@ -22,9 +22,9 @@ enum LoadType {
 }
 
 class RecordBloc extends Cubit<RecordState> {
-  final RecoderRepository repository = MemoryRecordRepository();
+  final RecoderRepository repository;
 
-  RecordBloc() : super(const EmptyRecordState());
+  RecordBloc({required this.repository}) : super(const EmptyRecordState());
 
   void loadRecord({
     LoadType operation = LoadType.load,

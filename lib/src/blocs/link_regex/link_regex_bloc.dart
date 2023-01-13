@@ -11,9 +11,9 @@ import 'link_regex_state.dart';
 
 
 class LinkRegexBloc extends Cubit<LinkRegexState> {
-  final LinkRegexRepository repository =  MemoryLinkRepository();
+  final LinkRegexRepository repository;
 
-  LinkRegexBloc() : super(const EmptyLinkRegexState());
+  LinkRegexBloc({required this.repository}) : super(const EmptyLinkRegexState());
 
   void loadLinkRegex({
     required int recordId,
