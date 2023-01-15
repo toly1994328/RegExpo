@@ -14,7 +14,8 @@ class BlocRelation extends StatelessWidget {
     return MultiBlocListener(
       listeners: [
         BlocListener<RecordBloc, RecordState>(
-          listenWhen: (p, n) => p.active != n.active,
+          listenWhen: (p, n) =>
+              p.active != n.active || p.runtimeType != n.runtimeType,
           listener: _listenRecordState,
         ),
         BlocListener<LinkRegexBloc, LinkRegexState>(

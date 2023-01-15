@@ -76,6 +76,17 @@ class RecordBloc extends Cubit<RecordState> {
     }
   }
 
+  Future<TaskResult> deleteAll() async {
+    try {
+      await repository.deleteAll();
+      loadRecord(operation: LoadType.load,);
+      return const TaskResult.success();
+    } catch (e) {
+      debugPrint(e.toString());
+      return TaskResult.error(msg: "删除失败! $e");
+    }
+  }
+
   Future<TaskResult> openFile(File file) async {
     String content = file.readAsStringSync();
     if (content.length > 1500) {

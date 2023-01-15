@@ -16,4 +16,7 @@ abstract class RecoderRepository {
 
   /// 修改记录
   Future<int> update(Record record);
+
+  /// 删除所有记录
+  Future<void> deleteAll();
 }

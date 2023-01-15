@@ -1,16 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/components.dart';
-import 'package:regexpo/src/models/models.dart';
-import 'package:regexpo/src/models/task_result.dart';
-import 'package:regexpo/src/utils/toast.dart';
+
+
+/// create by 张风捷特烈 on 2020-04-23
+/// contact me by email 1981462002@qq.com
+/// 说明:
 
 class DeleteMessagePanel extends StatelessWidget {
-  final Record model;
+  final String title;
+  final String msg;
+  final AsyncTask task;
 
-  const DeleteMessagePanel({Key? key, required this.model}) : super(key: key);
+  const DeleteMessagePanel({
+    Key? key,
+    required this.title,
+    required this.msg,
+    required this.task,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +34,37 @@ class DeleteMessagePanel extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.warning_amber_rounded,color: Colors.orange,),
-            const SizedBox(width: 20,),
+            const Icon(
+              Icons.warning_amber_rounded,
+              color: Colors.orange,
+            ),
+            const SizedBox(
+              width: 20,
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text("删除提示",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                  Text(
+                    title,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 15,bottom: 15,),
-                    child: Text("数据删除后将无法恢复，是否确认删除标题为 [${model.title}] 记录！",style: TextStyle(fontSize: 14),),
+                    padding: const EdgeInsets.only(
+                      top: 15,
+                      bottom: 15,
+                    ),
+                    child: Text(
+                      msg,
+                      style: const TextStyle(fontSize: 14),
+                    ),
                   ),
                   Row(
                     children: [
                       const Spacer(),
                       OutlinedButton(
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.of(context).pop();
                           },
                           style: OutlinedButton.styleFrom(
@@ -53,16 +73,19 @@ class DeleteMessagePanel extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             shape: const StadiumBorder(),
                           ),
-                          child:  Text(
+                          child: Text(
                             '取消',
-                            style:  TextStyle(fontSize: 12,color: cancelTextColor),
+                            style:
+                            TextStyle(fontSize: 12, color: cancelTextColor),
                           )),
-                      const SizedBox(width: 10,),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       AsyncButton(
-                        style: style,
-                        task: _doTask,
                         conformText: '删除',
-                      )
+                        task: task,
+                        style: style,
+                      ),
                     ],
                   )
                 ],
@@ -72,15 +95,5 @@ class DeleteMessagePanel extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _doTask(BuildContext context) async {
-    RecordBloc bloc = context.read<RecordBloc>();
-    TaskResult result = await bloc.deleteById(model.id);
-    if (result.success) {
-      Navigator.of(context).pop();
-    } else {
-      Toast.error(result.msg);
-    }
   }
 }

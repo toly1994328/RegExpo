@@ -32,4 +32,9 @@ class DbRecoderRepository implements RecoderRepository{
     return dao.update(record);
   }
 
+  @override
+  Future<void> deleteAll() {
+    return dao.deleteAll();
+  }
+
 }
