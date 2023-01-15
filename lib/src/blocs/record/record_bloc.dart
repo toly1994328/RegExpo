@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart' as path;
 import 'package:regexpo/src/blocs/blocs.dart';
+import 'package:regexpo/src/models/task_result.dart';
 
 import '../../models/record/record.dart';
 import '../../repositories/impl/db_recode_repository.dart';
@@ -60,14 +61,20 @@ class RecordBloc extends Cubit<RecordState> {
     emit(state);
   }
 
-  Future<bool> deleteById(int id) async {
-    int result = await repository.deleteById(id);
-    if (result > 0) {
-      loadRecord(operation: LoadType.delete);
-      return true;
-    } else {
-      return false;
+  Future<TaskResult> deleteById(int id) async {
+    try {
+      int  result = await repository.deleteById(id);
+      if (result > 0) {
+        loadRecord(operation: LoadType.delete);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "删除失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "删除失败! $e");
     }
+
   }
 
   Future<bool> openFile(File file) async {

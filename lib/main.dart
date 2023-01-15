@@ -12,7 +12,7 @@ import 'src/views/adapter/platform_adapter_bar.dart';
 import 'src/views/desk_ui/splash/splash_page.dart';
 
 void main() {
-  runApp(const BlocWrapper(child:  SystemTrayWrapper(child: MyApp())));
+  runApp(const BlocWrapper(child: SystemTrayWrapper(child: MyApp())));
   WindowsAdapter.setSize();
 }
 

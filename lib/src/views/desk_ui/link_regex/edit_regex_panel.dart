@@ -37,7 +37,7 @@ class _EditRegexPanelState extends State<EditRegexPanel> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        CustomDialogBar(
+        AsyncDialogBar(
           title: widget.model == null ? "添加关联正则" : "修改记录",
           conformText: "确定",
           onConform: _onConform,
@@ -58,11 +58,11 @@ class _EditRegexPanelState extends State<EditRegexPanel> {
     );
   }
 
-  Future<bool> _onConform() async {
-    if (!checkAllow()) return false;
+  Future<void> _onConform(BuildContext context) async {
+    if (!checkAllow()) return;
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     Record? record = context.read<RecordBloc>().state.active;
-    if (record == null) return false;
+    if (record == null) return;
     bool result = false;
     if (widget.model == null) {
       // 说明是添加
@@ -73,7 +73,9 @@ class _EditRegexPanelState extends State<EditRegexPanel> {
         widget.model!.copyWith(regex: contentCtrl.text),
       );
     }
-    return result;
+    if(result){
+      Navigator.of(context).pop();
+    }
   }
 
   bool checkAllow() {

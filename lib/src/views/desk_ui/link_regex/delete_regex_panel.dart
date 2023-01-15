@@ -19,12 +19,12 @@ class DeleteRegexPanel extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        CustomDialogBar(
+        AsyncDialogBar(
           leading: const Icon(Icons.warning_amber,color: Colors.redAccent,),
           color: Colors.redAccent,
           title: "删除提示",
           conformText: "确定",
-          onConform: () => _onConform(context),
+          onConform: _onConform,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 15,bottom: 30,left: 30,right: 35),
