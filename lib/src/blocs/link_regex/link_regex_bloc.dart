@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/models/task_result.dart';
 
 import '../../repositories/impl/db_link_regex_repository.dart';
 import '../../repositories/link_regex_repository.dart';
@@ -58,37 +59,54 @@ class LinkRegexBloc extends Cubit<LinkRegexState> {
     return -1;
   }
 
-  Future<bool> deleteById(int id,Record? record) async{
-    int result = await repository.deleteById(id);
-    if(record==null) return false;
-    if (result > 0) {
-      loadLinkRegex(recordId: record.id,keepActive: true);
-      return true;
-    } else {
-      return false;
+  Future<TaskResult> deleteById(int id,Record? record) async{
+    if(record==null) return const TaskResult.error(msg: '记录不存在!');
+    try {
+      int result = await repository.deleteById(id);
+      if (result > 0) {
+        loadLinkRegex(recordId: record.id,keepActive: true);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "删除失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "删除失败! $e");
     }
   }
 
-  Future<bool> insert(String regex,int recordId) async{
-    int result = await repository.insert(LinkRegex.i(
-        regex: regex,
-        recordId: recordId
-    ));
-    if (result > 0) {
-      loadLinkRegex(recordId: recordId);
-      return true;
-    } else {
-      return false;
+  Future<TaskResult> insert(String regex,int recordId) async{
+    try {
+      int result = await repository.insert(LinkRegex.i(
+          regex: regex,
+          recordId: recordId
+      ));
+      if (result > 0) {
+        loadLinkRegex(recordId: recordId);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "添加失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "添加失败! $e");
     }
   }
 
-  Future<bool> update(LinkRegex record) async{
+  Future<TaskResult> update(LinkRegex record) async{
     int result = await repository.update(record);
-    if (result > 0) {
+    try {
       loadLinkRegex(recordId: record.recordId,keepActive: true);
-      return true;
-    } else {
-      return false;
+
+      if (result > 0) {
+        loadLinkRegex(recordId: record.recordId,keepActive: true);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "添加失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "添加失败! $e");
     }
   }
 

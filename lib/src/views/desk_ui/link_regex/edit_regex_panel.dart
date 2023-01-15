@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/components.dart';
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/models/task_result.dart';
+import 'package:regexpo/src/utils/toast.dart';
 
 /// create by 张风捷特烈 on 2020-04-23
 /// contact me by email 1981462002@qq.com
@@ -63,18 +65,18 @@ class _EditRegexPanelState extends State<EditRegexPanel> {
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     Record? record = context.read<RecordBloc>().state.active;
     if (record == null) return;
-    bool result = false;
-    if (widget.model == null) {
-      // 说明是添加
+    TaskResult result;
+    if (widget.model == null) {// 说明是添加
       result = await bloc.insert(contentCtrl.text, record.id);
-    } else {
-      // 说明是修改
+    } else {// 说明是修改
       result = await bloc.update(
         widget.model!.copyWith(regex: contentCtrl.text),
       );
     }
-    if(result){
+    if(result.success){
       Navigator.of(context).pop();
+    }else{
+      Toast.error(result.msg);
     }
   }
 

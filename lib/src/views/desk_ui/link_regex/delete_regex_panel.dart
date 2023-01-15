@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/components.dart';
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/models/task_result.dart';
+import 'package:regexpo/src/utils/toast.dart';
 
 
 /// create by 张风捷特烈 on 2020-04-23
@@ -34,11 +36,14 @@ class DeleteRegexPanel extends StatelessWidget {
     );
   }
 
-  Future<bool> _onConform(BuildContext context) async {
+  Future<void> _onConform(BuildContext context) async {
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     Record? record = context.read<RecordBloc>().state.active;
-
-    return await bloc.deleteById(model.id,record);
-
+    TaskResult result = await bloc.deleteById(model.id,record);
+    if(result.success){
+      Navigator.of(context).pop();
+    }else{
+      Toast.error(result.msg);
+    }
   }
 }
