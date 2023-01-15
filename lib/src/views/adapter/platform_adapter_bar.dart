@@ -1,8 +1,10 @@
 import 'dart:io';
 
+
 import 'package:app_config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
+
 
 const double kMacosBarHeight = 28;
 

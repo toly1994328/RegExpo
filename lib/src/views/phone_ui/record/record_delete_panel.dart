@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:components/components.dart';
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/models/task_result.dart';
 
 class PhoneDeleteRecord extends StatelessWidget {
   final Record model;
@@ -44,8 +45,19 @@ class PhoneDeleteRecord extends StatelessWidget {
             textDirection: TextDirection.rtl,
             children: [
               AsyncButton(
-                bgColor: Colors.redAccent,
-                task: () => context.read<RecordBloc>().deleteById(model.id),
+                conformText: "确定",
+                style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    padding: EdgeInsets.zero,
+                    backgroundColor: Colors.redAccent,
+                    shape: const StadiumBorder()),
+                task: (ctx) async {
+                  RecordBloc bloc = context.read<RecordBloc>();
+                  TaskResult result = await bloc.deleteById(model.id);
+                  if (result.success) {
+                    Navigator.of(context).pop();
+                  }
+                },
               ),
             ],
           )

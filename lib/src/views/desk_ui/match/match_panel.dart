@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:app_config/app_config.dart';
+import 'package:flutter/material.dart';
 import 'package:regexpo/src/models/models.dart';
 
 import 'match_content.dart';

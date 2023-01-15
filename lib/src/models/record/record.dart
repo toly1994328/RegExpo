@@ -1,4 +1,6 @@
-class Record {
+import 'package:equatable/equatable.dart';
+
+class Record extends Equatable{
   // 记录表
   static const String tableSql = """
 CREATE TABLE `recoder` (
@@ -59,6 +61,9 @@ CREATE TABLE `recoder` (
 
   @override
   String toString() {
-    return 'Record{id: $id, title: $title}';
+    return 'Record{id: $id, title: $title,content,$content}';
   }
+
+  @override
+  List<Object?> get props => [title,content,id];
 }

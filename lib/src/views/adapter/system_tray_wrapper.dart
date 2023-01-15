@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_tray/system_tray.dart';
 
+import '../../blocs/blocs.dart';
+
 class SystemTrayWrapper extends StatefulWidget {
   final Widget child;
 
@@ -132,15 +134,11 @@ class _SystemTrayWrapperState extends State<SystemTrayWrapper> {
 
   Future<void> initWindowsSystemTray() async {
     String path = 'windows/runner/resources/app_icon.ico';
-
     appWindow = AppWindow();
     systemTray = SystemTray();
-    await systemTray.initSystemTray(
-      iconPath: path,
-    );
+    await systemTray.initSystemTray(iconPath: path);
 
     await buildMenu(menu);
-    // set context menu
     await systemTray.setContextMenu(menu);
     systemTray.registerSystemTrayEventHandler(handleWindowsTrayClick);
   }

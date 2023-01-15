@@ -9,6 +9,8 @@ import 'package:regexpo/src/repositories/parser/regex_parser.dart';
 import 'package:regexpo/src/views/desk_ui/home/home_page.dart';
 import 'package:regexpo/src/views/phone_ui/home/phone_home_page.dart';
 
+import '../../../models/models.dart';
+
 
 class SplashPage extends StatefulWidget {
   final int minCostMs;
@@ -27,6 +29,12 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     _timeRecoder = DateTime.now().millisecondsSinceEpoch;
     _initApp();
+
+  }
+
+  void _initApp() async {
+    await LocalDb.instance.initDb();
+    context.read<AppConfigBloc>().initApp();
   }
 
   @override
@@ -40,7 +48,7 @@ class _SplashPageState extends State<SplashPage> {
             children: [
               const Spacer(),
               Wrap(
-                spacing: 0,
+                spacing: 20,
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
@@ -83,7 +91,7 @@ class _SplashPageState extends State<SplashPage> {
     if(delay>0){
      await Future.delayed(Duration(milliseconds: delay));
     }
-    if (state.inited) {
+    if(state.inited) {
       Widget home = const PlatformUIAdapter(
         mobile: PhoneHomePage(),
         desk: DeskHomePage(),
@@ -92,11 +100,6 @@ class _SplashPageState extends State<SplashPage> {
         MaterialPageRoute(builder: (_) => home),
       );
     }
-  }
-
-  void _initApp() async {
-    await LocalDb.instance.initDb();
-    context.read<AppConfigBloc>().initApp();
   }
 }
 

@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../dialog/custom_dialog_bar.dart';
+
+typedef AsyncTask = Future<void> Function(BuildContext context);
 
 class AsyncButton extends StatefulWidget {
+  final ButtonStyle? style;
   final AsyncTask task;
-  final Color bgColor;
-  final String text;
-  final bool pop;
+  final String conformText;
 
   const AsyncButton({
     super.key,
     required this.task,
-    required this.bgColor,
-    this.text = '确定',
-    this.pop = true,
+    this.style,
+    required this.conformText,
   });
 
   @override
@@ -21,35 +20,31 @@ class AsyncButton extends StatefulWidget {
 }
 
 class _AsyncButtonState extends State<AsyncButton> {
+  bool _loading = false;
+
   @override
   Widget build(BuildContext context) {
-    ButtonStyle style = ElevatedButton.styleFrom(
-        backgroundColor: widget.bgColor,
-        elevation: 0,
-        padding: EdgeInsets.zero,
-        shape: const StadiumBorder());
-
     return ElevatedButton(
         onPressed: _loading ? null : _doTask,
-        style: style,
+        style: widget.style??ElevatedButton.styleFrom(
+            elevation: 0,
+            padding: EdgeInsets.zero,
+            shape: const StadiumBorder()),
         child: _loading
             ? const CupertinoActivityIndicator(radius: 8)
-            : Text(
-          widget.text,
-          style: TextStyle(fontSize: 12),
+            :Text(
+          widget.conformText,
+          style: const TextStyle(fontSize: 12),
         ));
   }
 
-  bool _loading = false;
-
   void _doTask() async {
-    _loading = true;
-    setState(() {});
-    bool success = await widget.task.call();
-    if (success&&widget.pop) {
-      Navigator.of(context).pop();
-    }
-    _loading = false;
-    setState(() {});
+    setState(() {
+      _loading = true;
+    });
+    await widget.task(context);
+    setState(() {
+      _loading = false;
+    });
   }
 }

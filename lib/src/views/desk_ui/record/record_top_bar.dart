@@ -1,12 +1,14 @@
+import 'package:app_config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:app_config/app_config.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:components/components.dart';
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/models/task_result.dart';
+import 'package:regexpo/src/utils/toast.dart';
 
-import 'delete_record_panel.dart';
+import 'delete_message_panel.dart';
 import 'edit_record_panel.dart';
 
 class RecordTopBar extends StatelessWidget {
@@ -44,6 +46,7 @@ class RecordTopBar extends StatelessWidget {
                 ),
               ),
               GestureDetector(
+                onLongPress: () => showDeleteAllDialog(context),
                 onTap: () => showDeleteDialog(context),
                 child: const Icon(TolyIcon.icon_delete,
                     size: 16, color: Colors.redAccent),
@@ -69,13 +72,13 @@ class RecordTopBar extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (_) => Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width / 5),
-              child:  Dialog(
-                backgroundColor: color,
-                child: EditRecordPanel(),
-              ),
-            ));
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
+          child:  Dialog(
+            backgroundColor: color,
+            child: EditRecordPanel(),
+          ),
+        ));
   }
 
   void showEditeDialog(BuildContext context) {
@@ -101,16 +104,58 @@ class RecordTopBar extends StatelessWidget {
     RecordBloc bloc = context.read<RecordBloc>();
     Record? record = bloc.state.active;
     if(record == null) return;
+    String msg = "数据删除后将无法恢复，是否确认删除标题为 [${record.title}] 记录！";
+
     showDialog(
         context: context,
-        builder: (_) => Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width / 4),
-          child:  Dialog(
-            backgroundColor: color,
-            child: DeleteRecordPanel(model: record,),
+        builder: (_) => Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)
+          ),
+          backgroundColor: color,
+          child: DeleteMessagePanel(
+            title: '删除提示',
+            msg: msg,
+            task: _doDeleteTask,
           ),
         ));
+  }
+
+  Future<void> _doDeleteTask(BuildContext context) async {
+    RecordBloc bloc = context.read<RecordBloc>();
+    Record record = bloc.state.active!;
+    TaskResult result = await bloc.deleteById(record.id);
+    if (result.success) {
+      Navigator.of(context).pop();
+    } else {
+      Toast.error('删除异常!');
+    }
+  }
+
+  void showDeleteAllDialog(BuildContext context) {
+    RecordBloc bloc = context.read<RecordBloc>();
+    Record? record = bloc.state.active;
+    if (record == null) return;
+    showDialog(
+        context: context,
+        builder: (_) => Dialog(
+          backgroundColor: const Color(0xffF2F2F2),
+          child: DeleteMessagePanel(
+            title: '删除提示',
+            msg: '数据删除后将无法恢复，是否确认删除所有记录数据！',
+            task: _doDeleteAllTask,
+          ),
+        ));
+  }
+
+  Future<void> _doDeleteAllTask(BuildContext context) async {
+    RecordBloc bloc = context.read<RecordBloc>();
+    TaskResult result = await bloc.deleteAll();
+    if (result.success) {
+      Navigator.of(context).pop();
+    } else {
+      Toast.error('删除异常!');
+    }
   }
 
   void refresh(BuildContext context) {

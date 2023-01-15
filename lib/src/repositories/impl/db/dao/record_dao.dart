@@ -43,4 +43,7 @@ class RecoderDao {
         where: "id = ?",
         whereArgs: [data.id],
       );
+
+  Future<void> deleteAll() =>
+      _database.execute('DELETE FROM recoder');
 }

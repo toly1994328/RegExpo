@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:components/components.dart';
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/models/task_result.dart';
+import 'package:regexpo/src/utils/toast.dart';
 
 class RecordEditPage extends StatelessWidget {
   final Record? record;
@@ -117,12 +119,10 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
     loading = true;
     setState(() {});
     RecordBloc bloc = context.read<RecordBloc>();
-    bool result = false;
-    if (widget.model == null) {
-      // 说明是添加
+    TaskResult result;
+    if (widget.model == null) { // 说明是添加
       result = await bloc.insert(titleCtrl.text, contentCtrl.text);
-    } else {
-      // 说明是修改
+    } else { // 说明是修改
       result = await bloc.update(
         widget.model!.copyWith(
           title: titleCtrl.text,
@@ -130,8 +130,10 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
         ),
       );
     }
-    if (result) {
+    if (result.success) {
       Navigator.of(context).pop();
+    }else{
+      Toast.error(result.msg);
     }
     loading = false;
     setState(() {});

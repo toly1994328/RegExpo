@@ -86,7 +86,7 @@ class LoadedRecordState extends RecordState {
     }
     // 说明在中间，取下一个元素索引
     int index = targetIndex + 1;
-   return cacheTabs[index].id;
+    return cacheTabs[index].id;
   }
 
   @override

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:app_config/app_config.dart';
+import 'package:flutter/material.dart';
+
 
 class HomeBottomBar extends StatefulWidget {
   final int initIndex;

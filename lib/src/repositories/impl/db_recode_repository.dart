@@ -17,6 +17,7 @@ class DbRecoderRepository implements RecoderRepository{
 
   @override
   Future<int> insert(Record record) {
+    // throw "测试异常";
     return dao.insert(record);
   }
 
@@ -29,6 +30,11 @@ class DbRecoderRepository implements RecoderRepository{
   @override
   Future<int> update(Record record) {
     return dao.update(record);
+  }
+
+  @override
+  Future<void> deleteAll() {
+    return dao.deleteAll();
   }
 
 }

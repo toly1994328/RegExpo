@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart' as path;
 import 'package:regexpo/src/blocs/blocs.dart';
+import 'package:regexpo/src/models/task_result.dart';
 
 import '../../models/record/record.dart';
 import '../../repositories/impl/db_recode_repository.dart';
@@ -60,53 +61,79 @@ class RecordBloc extends Cubit<RecordState> {
     emit(state);
   }
 
-  Future<bool> deleteById(int id) async {
-    int result = await repository.deleteById(id);
-    if (result > 0) {
-      loadRecord(operation: LoadType.delete);
-      return true;
-    } else {
-      return false;
+  Future<TaskResult> deleteById(int id) async {
+    try {
+      int  result = await repository.deleteById(id);
+      if (result > 0) {
+        loadRecord(operation: LoadType.delete);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "删除失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "删除失败! $e");
     }
   }
 
-  Future<bool> openFile(File file) async {
+  Future<TaskResult> deleteAll() async {
+    try {
+      await repository.deleteAll();
+      loadRecord(operation: LoadType.load,);
+      return const TaskResult.success();
+    } catch (e) {
+      debugPrint(e.toString());
+      return TaskResult.error(msg: "删除失败! $e");
+    }
+  }
+
+  Future<TaskResult> openFile(File file) async {
     String content = file.readAsStringSync();
     if (content.length > 1500) {
       content = content.substring(0, 1500);
     }
-    bool result = await insert(
+    TaskResult result = await insert(
       path.basenameWithoutExtension(file.path),
       content,
     );
-    if (result) {
+    if (result.success) {
       loadRecord(operation: LoadType.add);
-      return true;
+      return result;
     } else {
-      return false;
+      return result;
     }
   }
 
-  Future<bool> insert(String title, String content) async {
-    int result = await repository.insert(Record.i(
-      title: title,
-      content: content,
-    ));
-    if (result > 0) {
-      loadRecord(operation: LoadType.add);
-      return true;
-    } else {
-      return false;
+  Future<TaskResult> insert(String title, String content) async {
+    try {
+      int result = await repository.insert(Record.i(
+        title: title,
+        content: content,
+      ));
+      if (result > 0) {
+        loadRecord(operation: LoadType.add);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "添加失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "添加失败! $e");
     }
   }
 
-  Future<bool> update(Record record) async {
-    int result = await repository.update(record);
-    if (result > 0) {
-      loadRecord(operation: LoadType.edit);
-      return true;
-    } else {
-      return false;
+  Future<TaskResult> update(Record record) async {
+    try {
+      int result = await repository.update(record);
+      if (result > 0) {
+        loadRecord(operation: LoadType.edit);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "更新失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "更新失败! $e");
     }
   }
 
@@ -218,21 +245,21 @@ class RecordBloc extends Cubit<RecordState> {
       case LoadType.refresh:
       case LoadType.more:
         if(cache.isNotEmpty){
-        return cache;
-      }else{
-        return [records.first];
-      }
+          return cache;
+        }else{
+          return [records.first];
+        }
       case LoadType.add:
-       return  [records.first,...List.of(cache)];
+        return  [records.first,...List.of(cache)];
       case LoadType.delete:
       //如果删除的是已激活页签，需要清除 cache 中的对应元素
-      if(state is LoadedRecordState){
-        LoadedRecordState state = this.state as LoadedRecordState;
-        Record nextActiveRecord = state.records[state.nextActiveId];
-        cache.removeWhere((e) => e.id==state.activeRecordId||e.id==nextActiveRecord.id);
-        return [nextActiveRecord,...List.of(cache)];
-      }
-      break;
+        if(state is LoadedRecordState){
+          LoadedRecordState state = this.state as LoadedRecordState;
+          Record nextActiveRecord = state.records[state.nextActiveId];
+          cache.removeWhere((e) => e.id==state.activeRecordId||e.id==nextActiveRecord.id);
+          return [nextActiveRecord,...List.of(cache)];
+        }
+        break;
       case LoadType.edit:
         int activeId = state.active?.id??records.first.id;
         int targetIndex = cache.lastIndexWhere((e) => e.id==activeId);

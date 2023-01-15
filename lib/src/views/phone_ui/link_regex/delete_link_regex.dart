@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:components/components.dart';
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/models/task_result.dart';
+import 'package:regexpo/src/utils/toast.dart';
 
 class PhoneDeleteRegex extends StatelessWidget {
   final LinkRegex model;
@@ -44,12 +46,21 @@ class PhoneDeleteRegex extends StatelessWidget {
             textDirection: TextDirection.rtl,
             children: [
               AsyncButton(
-                bgColor: Colors.redAccent,
-                task: () async{
+                conformText: "确定",
+                style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    padding: EdgeInsets.zero,
+                    backgroundColor: Colors.redAccent,
+                    shape: const StadiumBorder()),
+                task: (ctx) async{
                   LinkRegexBloc bloc = context.read<LinkRegexBloc>();
                   Record? record = context.read<RecordBloc>().state.active;
-                  bool result = await bloc.deleteById(model.id,record);
-                  return result;
+                  TaskResult result = await bloc.deleteById(model.id,record);
+                  if(result.success){
+                    Navigator.of(context).pop();
+                  }else{
+                    Toast.error(result.msg);
+                  }
                 },
               ),
             ],

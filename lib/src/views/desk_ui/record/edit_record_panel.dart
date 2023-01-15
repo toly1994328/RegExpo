@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:components/components.dart';
-
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/utils/toast.dart';
+
+import '../../../models/task_result.dart';
 
 
 class EditRecordPanel extends StatefulWidget {
@@ -38,7 +40,7 @@ class _EditRecordPanelState extends State<EditRecordPanel> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        CustomDialogBar(
+        AsyncDialogBar(
           title: widget.model == null ? "添加记录" : "修改记录",
           conformText: "确定",
           onConform: _onConform,
@@ -67,10 +69,10 @@ class _EditRecordPanelState extends State<EditRecordPanel> {
     );
   }
 
-  Future<bool> _onConform() async {
-    if (!checkAllow()) return false;
+  Future<void> _onConform(BuildContext context) async {
+    if (!checkAllow()) return ;
     RecordBloc bloc = context.read<RecordBloc>();
-    bool result = false;
+    TaskResult result;
     if (widget.model == null) {
       // 说明是添加
       result = await bloc.insert(titleCtrl.text, contentCtrl.text);
@@ -83,7 +85,11 @@ class _EditRecordPanelState extends State<EditRecordPanel> {
         ),
       );
     }
-    return result;
+    if(result.success){
+      Navigator.of(context).pop();
+    }else{
+      Toast.error(result.msg);
+    }
   }
 
   bool checkAllow() {
@@ -95,12 +101,7 @@ class _EditRecordPanelState extends State<EditRecordPanel> {
       msg = "内容不能为空!";
     }
     if (msg.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Theme.of(context).errorColor,
-          content: Text(msg),
-        ),
-      );
+      Toast.warning(msg);
     }
     return msg.isEmpty;
   }

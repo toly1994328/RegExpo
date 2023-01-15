@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:components/components.dart';
-
 import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
+
 class LoadedRegexPanel extends StatelessWidget {
   final LoadedLinkRegexState state;
 
