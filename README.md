@@ -6,8 +6,6 @@ RegExpo 项目的表现
 
 应用支持暗黑模式和亮色模式的切换：
 
-![2022年12月23日14-40-06.gif](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af5f5cea6e1943c28def73c5704f2a75~tplv-k3u1fbpfcp-watermark.image?)
-
 ![](./doc/screens/pic3.webp)
 
 ---
