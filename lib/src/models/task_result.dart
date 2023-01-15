@@ -1,16 +1,16 @@
 class TaskResult<T> {
   final bool success;
-  final String? msg;
+  final String msg;
   final T? data;
 
   const TaskResult(this.success, this.msg, this.data);
 
-  const TaskResult.error({this.msg})
+  const TaskResult.error({required this.msg})
       : success = false,
         data = null;
 
   const TaskResult.success({
     this.data,
-    this.msg,
+    this.msg = '',
   }) : success = true;
 }

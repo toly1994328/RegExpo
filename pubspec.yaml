@@ -42,6 +42,7 @@ dependencies:
   dio: ^4.0.6
   file_picker: ^5.2.2
   oktoast: ^3.3.1
+  flutter_slidable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -2,20 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
+import 'package:regexpo/src/components/components.dart';
 import 'package:regexpo/src/models/models.dart';
+import 'package:regexpo/src/models/task_result.dart';
+import 'package:regexpo/src/utils/toast.dart';
 
-class DeleteMessagePanel extends StatefulWidget {
+class DeleteMessagePanel extends StatelessWidget {
   final Record model;
 
   const DeleteMessagePanel({Key? key, required this.model}) : super(key: key);
-
-  @override
-  State<DeleteMessagePanel> createState() => _DeleteMessagePanelState();
-}
-
-class _DeleteMessagePanelState extends State<DeleteMessagePanel> {
-
-  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +38,7 @@ class _DeleteMessagePanelState extends State<DeleteMessagePanel> {
                   Text("删除提示",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                   Padding(
                     padding: const EdgeInsets.only(top: 15,bottom: 15,),
-                    child: Text("数据删除后将无法恢复，是否确认删除标题为 [${widget.model.title}] 记录！",style: TextStyle(fontSize: 14),),
+                    child: Text("数据删除后将无法恢复，是否确认删除标题为 [${model.title}] 记录！",style: TextStyle(fontSize: 14),),
                   ),
                   Row(
                     children: [
@@ -63,15 +58,11 @@ class _DeleteMessagePanelState extends State<DeleteMessagePanel> {
                             style:  TextStyle(fontSize: 12,color: cancelTextColor),
                           )),
                       const SizedBox(width: 10,),
-                      ElevatedButton(
-                          onPressed: _loading ? null : _doTask,
-                          style: style,
-                          child: _loading
-                              ? const CupertinoActivityIndicator(radius: 8)
-                              : Text(
-                            '删除',
-                            style: const TextStyle(fontSize: 12),
-                          )),
+                      AsyncButton(
+                        style: style,
+                        task: _doTask,
+                        conformText: '删除',
+                      )
                     ],
                   )
                 ],
@@ -83,9 +74,13 @@ class _DeleteMessagePanelState extends State<DeleteMessagePanel> {
     );
   }
 
-  void _doTask() async{
+  Future<void> _doTask(BuildContext context) async {
     RecordBloc bloc = context.read<RecordBloc>();
-    await bloc.deleteById(widget.model.id);
-    Navigator.of(context).pop();
+    TaskResult result = await bloc.deleteById(model.id);
+    if (result.success) {
+      Navigator.of(context).pop();
+    } else {
+      Toast.error(result.msg);
+    }
   }
 }

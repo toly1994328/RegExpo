@@ -5,6 +5,8 @@ import 'package:regexpo/src/components/components.dart';
 import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/utils/toast.dart';
 
+import '../../../models/task_result.dart';
+
 
 class EditRecordPanel extends StatefulWidget {
   final Record? model;
@@ -70,7 +72,7 @@ class _EditRecordPanelState extends State<EditRecordPanel> {
   Future<void> _onConform(BuildContext context) async {
     if (!checkAllow()) return ;
     RecordBloc bloc = context.read<RecordBloc>();
-    bool result = false;
+    TaskResult result;
     if (widget.model == null) {
       // 说明是添加
       result = await bloc.insert(titleCtrl.text, contentCtrl.text);
@@ -83,8 +85,10 @@ class _EditRecordPanelState extends State<EditRecordPanel> {
         ),
       );
     }
-    if(result){
+    if(result.success){
       Navigator.of(context).pop();
+    }else{
+      Toast.error(result.msg);
     }
   }
 

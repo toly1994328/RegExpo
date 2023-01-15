@@ -74,46 +74,55 @@ class RecordBloc extends Cubit<RecordState> {
       debugPrint(e.toString());
       return  TaskResult.error(msg: "删除失败! $e");
     }
-
   }
 
-  Future<bool> openFile(File file) async {
+  Future<TaskResult> openFile(File file) async {
     String content = file.readAsStringSync();
     if (content.length > 1500) {
       content = content.substring(0, 1500);
     }
-    bool result = await insert(
+    TaskResult result = await insert(
       path.basenameWithoutExtension(file.path),
       content,
     );
-    if (result) {
+    if (result.success) {
       loadRecord(operation: LoadType.add);
-      return true;
+      return result;
     } else {
-      return false;
+      return result;
     }
   }
 
-  Future<bool> insert(String title, String content) async {
-    int result = await repository.insert(Record.i(
-      title: title,
-      content: content,
-    ));
-    if (result > 0) {
-      loadRecord(operation: LoadType.add);
-      return true;
-    } else {
-      return false;
+  Future<TaskResult> insert(String title, String content) async {
+    try {
+      int result = await repository.insert(Record.i(
+        title: title,
+        content: content,
+      ));
+      if (result > 0) {
+        loadRecord(operation: LoadType.add);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "添加失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "添加失败! $e");
     }
   }
 
-  Future<bool> update(Record record) async {
-    int result = await repository.update(record);
-    if (result > 0) {
-      loadRecord(operation: LoadType.edit);
-      return true;
-    } else {
-      return false;
+  Future<TaskResult> update(Record record) async {
+    try {
+      int result = await repository.update(record);
+      if (result > 0) {
+        loadRecord(operation: LoadType.edit);
+        return const TaskResult.success();
+      } else {
+        return const TaskResult.error(msg: "更新失败! ");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return  TaskResult.error(msg: "更新失败! $e");
     }
   }
 
