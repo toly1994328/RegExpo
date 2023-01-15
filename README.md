@@ -1,4 +1,4 @@
-RegExpo 项目的表现
+#### RegExpo 项目的表现
 
 下面来看一下 RegExpo 在不同平台的表现，如下是 Macos 桌面端的视图表现。最主要的功能是输入正则表达式时，主内容区域的文字根据匹配效果，进行高亮显示：
 
@@ -17,8 +17,7 @@ RegExpo 项目的表现
 
 ---
 
-在 `Web` 在也有相同的界面展示效果和交互功能：
-
+在 `Web` 在也有相同的界面展示效果和交互功能：web 版应用请运行 [regexpo_web 分支](https://github.com/toly1994328/RegExpo/tree/regexpo_web)
 
 ![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c51920aaa8bc4f96981d45b158f7caf6~tplv-k3u1fbpfcp-watermark.image?)
 
