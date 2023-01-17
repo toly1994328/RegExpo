@@ -19,13 +19,25 @@ class ContentTextPanel extends StatelessWidget {
                 if (state.content.isEmpty) {
                   return const EmptyContent();
                 }
+                return ListView(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  children: [
+                    Text.rich(
+                      state.inlineSpan,
+                      style: Theme.of(context).textTheme.displayMedium,
+                    )
+                  ],
+                );
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 10),
-                    child: Text.rich(
-                      state.inlineSpan,
-                      style: Theme.of(context).textTheme.displayMedium,
+                    child: RepaintBoundary(
+                      child: Text.rich(
+                        state.inlineSpan,
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
                     ),
                   ),
                 );

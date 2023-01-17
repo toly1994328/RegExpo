@@ -23,6 +23,7 @@ class _SystemTrayWrapperState extends State<SystemTrayWrapper> {
 
   @override
   void initState() {
+    if(Platform.isAndroid||Platform.isIOS) return;
     if (Platform.isWindows) {
       initWindowsSystemTray();
     } else {
