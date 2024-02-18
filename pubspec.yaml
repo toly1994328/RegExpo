@@ -56,7 +56,7 @@ flutter:
   assets:
     - assets/images/
     - windows/runner/resources/app_icon.ico
-    - data.json
+    - assets/data.json
 
   fonts:
     - family: TolyIcon
