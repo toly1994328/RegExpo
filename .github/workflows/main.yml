@@ -30,9 +30,9 @@ jobs:
         env:
           FILE_NAME: lib/common/config/ignoreConfig.dart
           FILE_DATA: class NetConfig { static const CLIENT_ID = "${{ secrets.CLIENT_ID }}"; static const CLIENT_SECRET = "${{ secrets.CLIENT_SECRET }}";}
+      - run: flutter --version
       - run: flutter pub get
-      - run: flutter pub get
-      - run: flutter build apk --release --target-platform=android-arm64 --no-shrink
+      - run: flutter build apk --release --target-platform=android-arm64 --no-shrink --no-sound-null-safety
 
   apk:
     name: Generate APK
