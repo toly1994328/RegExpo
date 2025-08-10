@@ -86,9 +86,10 @@ class _EditRegexPanelState extends State<EditRegexPanel> {
       msg = "内容不能为空!";
     }
     if (msg.isNotEmpty) {
+      Color color = Theme.of(context).colorScheme.surface;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Theme.of(context).errorColor,
+          backgroundColor: color,
           content: Text(msg),
         ),
       );

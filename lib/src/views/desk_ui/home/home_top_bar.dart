@@ -21,7 +21,7 @@ class HomeTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     return Container(
       height: 50,
       color: color,

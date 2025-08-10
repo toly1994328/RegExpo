@@ -13,7 +13,7 @@ class LinkRegexTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     return Container(
       height: 26,
       padding: const EdgeInsets.only(left: 8, right: 4),
@@ -58,7 +58,8 @@ class LinkRegexTopBar extends StatelessWidget {
   }
 
   void showAddDialog(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
+
 
     showDialog(
         context: context,
@@ -74,7 +75,8 @@ class LinkRegexTopBar extends StatelessWidget {
   }
 
   void showEditeDialog(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
+
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     showDialog(
         context: context,
@@ -90,7 +92,8 @@ class LinkRegexTopBar extends StatelessWidget {
   }
 
   void showDeleteDialog(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
+
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     LinkRegex? record = bloc.state.activeRegex;
     if(record == null) return;

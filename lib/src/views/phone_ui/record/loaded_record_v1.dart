@@ -183,7 +183,7 @@ class SlideRecordItem extends StatelessWidget {
 
   void _showDeleteDialog(BuildContext context) async {
     requestClose?.call();
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     await showDialog(
         context: context,
         builder: (_) => Dialog(

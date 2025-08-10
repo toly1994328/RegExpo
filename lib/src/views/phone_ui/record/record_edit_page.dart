@@ -14,7 +14,7 @@ class RecordEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     Color? titleColor = Theme.of(context).textTheme.displayMedium?.color;
     String title = record == null ? "添加记录" : "修改记录";
     return Scaffold(
@@ -148,9 +148,10 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
       msg = "内容不能为空!";
     }
     if (msg.isNotEmpty) {
+      Color color = Theme.of(context).colorScheme.surface;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Theme.of(context).errorColor,
+          backgroundColor: color,
           content: Text(msg),
         ),
       );

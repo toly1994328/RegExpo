@@ -9,8 +9,7 @@ class PhoneMatchTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
-
+    Color color = Theme.of(context).colorScheme.surface;
 
     TextStyle title = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
     return Container(

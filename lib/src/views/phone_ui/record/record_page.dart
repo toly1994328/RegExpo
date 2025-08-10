@@ -13,7 +13,7 @@ class RecordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     Color? titleColor = Theme.of(context).textTheme.displayMedium?.color;
     return Scaffold(
 

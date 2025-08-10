@@ -105,7 +105,8 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
   }
 
   void showDeleteDialog(BuildContext context, LinkRegex tab) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
+
     showDialog(
         context: context,
         builder: (_) => Dialog(
@@ -117,7 +118,8 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
   }
 
   void showAddDialog(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
+
 
     showDialog(
         context: context,
@@ -129,7 +131,7 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
   }
 
   void showEditeDialog(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     showDialog(
         context: context,

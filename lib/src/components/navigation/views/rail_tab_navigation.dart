@@ -25,7 +25,8 @@ class RailTabNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData data = Theme.of(context);
-    Color color = data.backgroundColor;
+    Color color = data.colorScheme.surface;
+
     return Row(
       textDirection: textDirection,
       children: [

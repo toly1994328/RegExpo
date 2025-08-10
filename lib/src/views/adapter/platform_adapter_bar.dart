@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -22,26 +21,28 @@ class PlatformAdapterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
       bool dark = mode == ThemeMode.dark;
-      Color deskBarColor = dark ? AppThemeData.dark.backgroundColor : AppThemeData.light.backgroundColor;
-      Color? titleColor = dark ? AppThemeData.light.backgroundColor : AppThemeData.dark.backgroundColor;
+      Color deskBarColor =
+          dark ? const Color(0xff3C3F41) : const Color(0xffF2F2F2);
+      Color? titleColor =
+          dark ? const Color(0xffF2F2F2) : const Color(0xff3C3F41);
       return Directionality(
         textDirection: TextDirection.ltr,
         child: Column(
           children: [
-            Platform.isWindows||Platform.isLinux?
-              SizedBox(
-                height: kWindowCaptionHeight,
-                child: WindowCaption(
-                  title: buildTitle(titleColor),
-                  backgroundColor: deskBarColor ,
-                  brightness: dark?Brightness.dark:Brightness.light,
-                ),
-              ):
-            Container(
-              height: kMacosBarHeight,
-              color: deskBarColor,
-              child: NavigationToolbar(middle: buildTitle(titleColor)),
-            ),
+            Platform.isWindows || Platform.isLinux
+                ? SizedBox(
+                    height: kWindowCaptionHeight,
+                    child: WindowCaption(
+                      title: buildTitle(titleColor),
+                      backgroundColor: deskBarColor,
+                      brightness: dark ? Brightness.dark : Brightness.light,
+                    ),
+                  )
+                : Container(
+                    height: kMacosBarHeight,
+                    color: deskBarColor,
+                    child: NavigationToolbar(middle: buildTitle(titleColor)),
+                  ),
             Expanded(child: child)
           ],
         ),
@@ -51,17 +52,21 @@ class PlatformAdapterBar extends StatelessWidget {
   }
 
   Widget buildTitle(Color titleColor) => Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Image.asset('assets/images/regexpo_logo.png',width: 20,height: 20,),
-      Text(
-        'RegExpo',
-        style: TextStyle(
-          color: titleColor,
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ],
-  );
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/regexpo_logo.png',
+            width: 20,
+            height: 20,
+          ),
+          Text(
+            'RegExpo',
+            style: TextStyle(
+              color: titleColor,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      );
 }

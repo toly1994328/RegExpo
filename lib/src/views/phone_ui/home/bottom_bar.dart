@@ -32,7 +32,7 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     return BottomNavigationBar(
       backgroundColor: color,
       onTap: _onTap,

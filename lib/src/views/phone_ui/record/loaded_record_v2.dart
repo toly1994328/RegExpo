@@ -116,7 +116,7 @@ class _PhoneLoadedPanelV2State extends State<PhoneLoadedPanelV2> with SingleTick
   ];
 
   void _showDeleteDialog(BuildContext context,Record record) async {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     await showDialog(
         context: context,
         builder: (_) => Dialog(

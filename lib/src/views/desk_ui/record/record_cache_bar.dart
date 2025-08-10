@@ -9,7 +9,7 @@ class RecordCacheBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     return Column(
       children: [
         Container(

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.toly1994.regexpo">
+    >
    <application
         android:label="regexpo"
         android:name="${applicationName}"

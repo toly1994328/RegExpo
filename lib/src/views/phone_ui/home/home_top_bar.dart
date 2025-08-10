@@ -13,7 +13,7 @@ class PhoneHomeTopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
 
     return AppBar(
       bottom: const LinkRegexTab(),

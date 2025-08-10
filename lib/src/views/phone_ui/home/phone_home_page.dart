@@ -56,7 +56,7 @@ class RegexNotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     Color? titleColor = Theme.of(context).textTheme.displayMedium?.color;
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +77,7 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const PhoneHomeTopBar(),

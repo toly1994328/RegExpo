@@ -10,27 +10,27 @@ class AsyncItem {
   final FutureOr Function()? task;
   final String info;
 
-  AsyncItem({this.task,required this.info});
+  AsyncItem({this.task, required this.info});
 }
 
 class PickBottomDialog extends StatelessWidget {
   final List<AsyncItem> tasks;
   final String? message;
 
-  const PickBottomDialog({super.key, required this.tasks,this.message});
+  const PickBottomDialog({super.key, required this.tasks, this.message});
 
   @override
   Widget build(BuildContext context) {
- Color color = Theme.of(context).dialogBackgroundColor;
- Color? divColor = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).dialogBackgroundColor;
+    Color divColor = Theme.of(context).colorScheme.surface;
+
     return Material(
       child: Container(
           color: Colors.white,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if(message!=null)
-                _buildMessage(context,message),
+              if (message != null) _buildMessage(context, message),
               ...tasks
                   .asMap()
                   .keys
@@ -60,7 +60,8 @@ class PickBottomDialog extends StatelessWidget {
           child: const Center(
               child: Text(
             '取消',
-            style: TextStyle(fontSize: 16,
+            style: TextStyle(
+                fontSize: 16,
                 // color: Colors.black,
                 fontWeight: FontWeight.bold),
           )),
@@ -86,8 +87,7 @@ class PickBottomDialog extends StatelessWidget {
                 color: color,
                 border: Border(
                     bottom: index != tasks.length - 1
-                        ? BorderSide(
-                            color: dividerColor, width: 0.5)
+                        ? BorderSide(color: dividerColor, width: 0.5)
                         : BorderSide.none)),
             child: Center(
               child: Text(
@@ -99,20 +99,17 @@ class PickBottomDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildMessage(BuildContext context,String? message) {
+  Widget _buildMessage(BuildContext context, String? message) {
     return Container(
       alignment: Alignment.center,
-      constraints: const BoxConstraints(
-        maxHeight: 52
-      ),
+      constraints: const BoxConstraints(maxHeight: 52),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           border: Border(
               bottom:
-                   BorderSide(
-                  color: Colors.grey.withOpacity(0.2), width: 0.5))),
-      child: Text('${message}', style: const TextStyle(fontSize: 15,color: Colors.grey)),
-
+                  BorderSide(color: Colors.grey.withOpacity(0.2), width: 0.5))),
+      child: Text('${message}',
+          style: const TextStyle(fontSize: 15, color: Colors.grey)),
     );
   }
 }

@@ -11,7 +11,8 @@ class MatchPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
+
     bool mobile = Platform.isIOS || Platform.isAndroid;
     TextStyle title = mobile
         ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
@@ -126,7 +127,8 @@ class _MatchPanelMatchPanelListState extends State<MatchListView> {
     return InkWell(
       onHover: (active) => _highLightItem(matchInfo, index, active),
       onTapDown: !matchInfo.enable
-          ? null : (_) {
+          ? null
+          : (_) {
               if (!mobile) return;
               _highLightItem(matchInfo, index, true);
             },

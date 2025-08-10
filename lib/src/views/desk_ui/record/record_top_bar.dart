@@ -16,7 +16,7 @@ class RecordTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     return Container(
       height: 26,
       padding: const EdgeInsets.only(left: 8, right: 4),
@@ -67,7 +67,7 @@ class RecordTopBar extends StatelessWidget {
   }
 
   void showAddDialog(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -83,7 +83,7 @@ class RecordTopBar extends StatelessWidget {
 
   void showEditeDialog(BuildContext context) {
     RecordBloc bloc = context.read<RecordBloc>();
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
 
     showDialog(
         context: context,
@@ -99,7 +99,7 @@ class RecordTopBar extends StatelessWidget {
   }
 
   void showDeleteDialog(BuildContext context) {
-    Color color = Theme.of(context).backgroundColor;
+    Color color = Theme.of(context).colorScheme.surface;
 
     RecordBloc bloc = context.read<RecordBloc>();
     Record? record = bloc.state.active;
