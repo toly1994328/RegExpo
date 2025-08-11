@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 
-
 class HomeBottomBar extends StatefulWidget {
   final int initIndex;
 
@@ -18,7 +17,7 @@ const Map<String, IconData> kBottomBarMap = {
   '匹配': TolyIcon.icon_dot_all,
   '记录': TolyIcon.icon_dir,
   '手记': TolyIcon.icon_note,
-  '我的': Icons.account_circle,
+  '关于': Icons.info_rounded,
 };
 
 class _HomeBottomBarState extends State<HomeBottomBar> {
@@ -60,5 +59,6 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
           label: key,
           icon: Icon(kBottomBarMap[key]),
         ),
-      ).toList();
+      )
+      .toList();
 }

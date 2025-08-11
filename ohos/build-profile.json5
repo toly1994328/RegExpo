@@ -1,0 +1,70 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "material": {
+          "storeFile": "D:/Files/configs/huawei_key/.p12",
+          "storePassword": "00000018835A7CEC5351E532BA37755AC8BA30EA79AA45A1C93771429A70222CFC7A8D6998635109",
+          "keyAlias": "toly",
+          "keyPassword": "00000018C9D9798AB5DBD0C655BC67E1C4EB8006274DB72CF92D755A2FB872C9F89CF51033D9B7EE",
+          "signAlg": "SHA256withECDSA",
+          "profile": "D:/Files/configs/huawei_key/csr/tolyDebug.p7b",
+          "certpath": "D:/Files/configs/huawei_key/csr/toly.cer"
+        }
+      },
+      {
+        "name": "release",
+        "type": "HarmonyOS",
+        "material": {
+          "storeFile": "D:/Files/configs/huawei_key/regexpo/.p12",
+          "storePassword": "000000182BE495C278633D929134C0C30EEF371FD02DEC28F9AC451F392318211DAA56300DC71A39",
+          "keyAlias": "regexpo",
+          "keyPassword": "0000001831197EB4B74A81848F5BBC13ACF3811ABD0D51564747C43CFECACCB6A93BE1D0040D1729",
+          "signAlg": "SHA256withECDSA",
+          "profile": "D:/Files/configs/huawei_key/regexpo/regexpoRelease.p7b",
+          "certpath": "D:/Files/configs/huawei_key/regexpo/regexpo.cer"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "release",
+        "compatibleSdkVersion": "5.1.0(18)",
+        "runtimeOS": "HarmonyOS",
+      },
+//      {
+//        "name": "release",
+//        "signingConfig": "release",
+//        "compatibleSdkVersion": "5.1.0(18)",
+//        "runtimeOS": "HarmonyOS",
+//      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "profile"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,7 +19,9 @@ class AppThemeData {
                 statusBarColor: Colors.transparent,
                 statusBarIconBrightness: Brightness.light)),
         // 分割线颜色
-        dividerColor: const Color(0xff323232),
+        dividerTheme: DividerThemeData(
+            color: const Color(0xff323232),
+            thickness: 1 / window.devicePixelRatio),
         // 弹框菜单主题
         popupMenuTheme: const PopupMenuThemeData(
           textStyle: TextStyle(fontSize: 14, color: Colors.white),
@@ -71,6 +75,9 @@ class AppThemeData {
           surface: const Color(0xffF2F2F2),
           primary: Colors.blue,
         ),
+        dividerTheme: DividerThemeData(
+            color: const Color(0xffD1D1D1),
+            thickness: 1 / window.devicePixelRatio),
         dividerColor: const Color(0xffD1D1D1),
         popupMenuTheme: const PopupMenuThemeData(
           textStyle: TextStyle(fontSize: 14, color: Colors.black),

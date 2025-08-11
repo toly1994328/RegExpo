@@ -116,11 +116,12 @@ packages:
   file_picker:
     dependency: "direct main"
     description:
-      name: file_picker
-      sha256: "970d33d79e1da667b6da222575fd7f2e30e323ca76251504477e6d51405b2d9a"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "10.2.4"
+      path: "."
+      ref: HEAD
+      resolved-ref: "0866eebecb7efc6d50ee3392c3facb2e9e7fcf18"
+      url: "https://gitee.com/openharmony-sig/fluttertpc_file_picker.git"
+    source: git
+    version: "8.0.6"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -176,14 +177,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.2"
-  js:
-    dependency: transitive
-    description:
-      name: js
-      sha256: "5528c2f391ededb7775ec1daa69e65a2d61276f7552de2b5f7b8d34ee9fd4ab7"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.6.5"
   leak_tracker:
     dependency: transitive
     description:
@@ -267,59 +260,61 @@ packages:
   path_provider:
     dependency: "direct main"
     description:
-      name: path_provider
-      sha256: "050e8e85e4b7fecdf2bb3682c1c64c4887a183720c802d323de8a5fd76d372dd"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.11"
+      path: "packages/path_provider/path_provider"
+      ref: HEAD
+      resolved-ref: "990a80a3a87a6be86488687710433e155ba88f9b"
+      url: "https://gitcode.com/openharmony-tpc/flutter_packages.git"
+    source: git
+    version: "2.1.0"
   path_provider_android:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: a776c088d671b27f6e3aa8881d64b87b3e80201c64e8869b811325de7a76c15e
+      sha256: d0d310befe2c8ab9e7f393288ccbb11b60c019c6b5afc21973eeee4dda2b35e9
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.22"
-  path_provider_ios:
+    version: "2.2.17"
+  path_provider_foundation:
     dependency: transitive
     description:
-      name: path_provider_ios
-      sha256: "03d639406f5343478352433f00d3c4394d52dac8df3d847869c5e2333e0bbce8"
+      name: path_provider_foundation
+      sha256: "4843174df4d288f5e29185bd6e72a6fbdf5a4a4602717eed565497429f179942"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.11"
+    version: "2.4.1"
   path_provider_linux:
     dependency: transitive
     description:
       name: path_provider_linux
-      sha256: ab0987bf95bc591da42dffb38c77398fc43309f0b9b894dcc5d6f40c4b26c379
+      sha256: f7a1fe3a634fe7734c8d3f2766ad746ae2a2884abe22e241a8b301bf5cac3279
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.7"
-  path_provider_macos:
+    version: "2.2.1"
+  path_provider_ohos:
     dependency: transitive
     description:
-      name: path_provider_macos
-      sha256: "2a97e7fbb7ae9dcd0dfc1220a78e9ec3e71da691912e617e8715ff2a13086ae8"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.6"
+      path: "packages/path_provider/path_provider_ohos"
+      ref: HEAD
+      resolved-ref: "990a80a3a87a6be86488687710433e155ba88f9b"
+      url: "https://gitcode.com/openharmony-tpc/flutter_packages.git"
+    source: git
+    version: "2.2.1"
   path_provider_platform_interface:
     dependency: transitive
     description:
       name: path_provider_platform_interface
-      sha256: f0abc8ebd7253741f05488b4813d936b4d07c6bae3e86148a09e342ee4b08e76
+      sha256: "88f5779f72ba699763fa3a3b06aa4bf6de76c8e5de842cf6f29e2e06476c2334"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.5"
+    version: "2.1.2"
   path_provider_windows:
     dependency: transitive
     description:
       name: path_provider_windows
-      sha256: "1cb68ba4cd3a795033de62ba1b7b4564dace301f952de6bfb3cd91b202b6ee96"
+      sha256: bd6f00dbd873bfb70d0761682da2b3a2c2fccc2b9e84c495821639601d81afe7
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.7"
+    version: "2.3.0"
   platform:
     dependency: transitive
     description:
@@ -363,59 +358,69 @@ packages:
   shared_preferences:
     dependency: "direct main"
     description:
-      name: shared_preferences
-      sha256: "95688ad7fc320f8566f28e2ee91b6743c10b433ccc262f6469f3007f2aa62e78"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.16"
+      path: "packages/shared_preferences/shared_preferences"
+      ref: HEAD
+      resolved-ref: "990a80a3a87a6be86488687710433e155ba88f9b"
+      url: "https://gitcode.com/openharmony-tpc/flutter_packages.git"
+    source: git
+    version: "2.2.0"
   shared_preferences_android:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: "8e251f3c986002b65fed6396bce81f379fb63c27317d49743cf289fd0fd1ab97"
+      sha256: "5bcf0772a761b04f8c6bf814721713de6f3e5d9d89caf8d3fe031b02a342379e"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.14"
+    version: "2.4.11"
   shared_preferences_foundation:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "487d82ecac1980d1bf54f3103e335a0bb8f3b080d6cb2dddf2df0f02c177d33d"
+      sha256: "6a52cfcdaeac77cad8c97b539ff688ccfc458c007b4db12be584fbe5c0e49e03"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.0"
+    version: "2.5.4"
   shared_preferences_linux:
     dependency: transitive
     description:
       name: shared_preferences_linux
-      sha256: fbc3cd6826896b66a5f576b025e4f344f780c84ea7f8203097a353370607a2c8
+      sha256: "580abfd40f415611503cae30adf626e6656dfb2f0cee8f465ece7b6defb40f2f"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.2"
+    version: "2.4.1"
+  shared_preferences_ohos:
+    dependency: transitive
+    description:
+      path: "packages/shared_preferences/shared_preferences_ohos"
+      ref: HEAD
+      resolved-ref: "990a80a3a87a6be86488687710433e155ba88f9b"
+      url: "https://gitcode.com/openharmony-tpc/flutter_packages.git"
+    source: git
+    version: "2.2.0"
   shared_preferences_platform_interface:
     dependency: transitive
     description:
       name: shared_preferences_platform_interface
-      sha256: da9431745ede5ece47bc26d5d73a9d3c6936ef6945c101a5aca46f62e52c1cf3
+      sha256: "57cbf196c486bc2cf1f02b85784932c6094376284b3ad5779d1b1c6c6a816b80"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.0"
+    version: "2.4.1"
   shared_preferences_web:
     dependency: transitive
     description:
       name: shared_preferences_web
-      sha256: a4b5bc37fe1b368bbc81f953197d55e12f49d0296e7e412dfe2d2d77d6929958
+      sha256: c49bd060261c9a3f0ff445892695d6212ff603ef3115edbb448509d407600019
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.4"
+    version: "2.4.3"
   shared_preferences_windows:
     dependency: transitive
     description:
       name: shared_preferences_windows
-      sha256: "07c274c2115d4d5e4280622abb09f0980e2c5b1fcdc98ae9f59a3bad5bfc1f26"
+      sha256: "94ef0f72b2d71bc3e700e025db3710911bd51a71cefb65cc609dd0d9a982e3c1"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.2"
+    version: "2.4.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -432,35 +437,38 @@ packages:
   sqflite:
     dependency: "direct main"
     description:
-      name: sqflite
-      sha256: "067ab48dbc66bae05e18073a604443baa35957101bd3905b94f65e764c6d0688"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.2.3"
+      path: sqflite
+      ref: master
+      resolved-ref: "0bd638a416215b9ab74f21eef98e14797827df04"
+      url: "https://gitee.com/openharmony-sig/flutter_sqflite.git"
+    source: git
+    version: "2.2.8+3"
   sqflite_common:
     dependency: transitive
     description:
-      name: sqflite_common
-      sha256: b2ed22d1d62c944ec0dac5cc687ae99cb3331c3ebe146d726ed24704634b5ccd
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.4.1"
+      path: sqflite_common
+      ref: HEAD
+      resolved-ref: "0bd638a416215b9ab74f21eef98e14797827df04"
+      url: "https://gitee.com/openharmony-sig/flutter_sqflite.git"
+    source: git
+    version: "2.4.5+1"
   sqflite_common_ffi:
     dependency: "direct main"
     description:
-      name: sqflite_common_ffi
-      sha256: c282e374de7bfb9a26c22ebcf15bf96ffac08d053c392205b9b3231d4fc4abf3
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.2.1"
+      path: sqflite_common_ffi
+      ref: master
+      resolved-ref: "0bd638a416215b9ab74f21eef98e14797827df04"
+      url: "https://gitee.com/openharmony-sig/flutter_sqflite.git"
+    source: git
+    version: "2.2.5"
   sqlite3:
     dependency: transitive
     description:
       name: sqlite3
-      sha256: db6350456720a4088a364bbe02052d43056a5ffbd4816fe9d28310dcfbe0dc05
+      sha256: "45f168ae2213201b54e09429ed0c593dc2c88c924a1488d6f9c523a255d567cb"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.9.1"
+    version: "2.4.6"
   stack_trace:
     dependency: transitive
     description:
@@ -558,13 +566,13 @@ packages:
     source: hosted
     version: "1.1.1"
   win32:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: win32
-      sha256: daf97c9d80197ed7b619040e86c8ab9a9dad285e7671ee7390f9180cc828a51e
+      sha256: "4d45dc9069dba4619dc0ebd93c7cec5e66d8482cb625a370ac806dcc8165f2ec"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "5.10.1"
+    version: "5.5.5"
   window_manager:
     dependency: "direct main"
     description:
