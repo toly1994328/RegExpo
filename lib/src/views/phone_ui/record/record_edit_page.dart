@@ -37,7 +37,6 @@ class RecordEditPage extends StatelessWidget {
   //修改记录
 }
 
-
 class _EditRecordPanel extends StatefulWidget {
   final Record? model;
 
@@ -48,7 +47,6 @@ class _EditRecordPanel extends StatefulWidget {
 }
 
 class _EditRecordPanelState extends State<_EditRecordPanel> {
-
   final TextEditingController contentCtrl = TextEditingController();
   final TextEditingController titleCtrl = TextEditingController();
 
@@ -71,7 +69,7 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 15,right: 15,top: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
           child: CustomIconInput(
             controller: titleCtrl,
             height: 35,
@@ -94,17 +92,21 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
           child: Row(children: [
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
                     shape: const StadiumBorder(),
                     elevation: 0,
                   ),
                   onPressed: loading ? null : _onConform,
                   child: loading
                       ? const CupertinoActivityIndicator()
-                      : const Text("确定")),
+                      : const Text(
+                          "确 定",
+                          style: TextStyle(fontSize: 16),
+                        )),
             ))
           ]),
         )
@@ -120,9 +122,11 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
     setState(() {});
     RecordBloc bloc = context.read<RecordBloc>();
     TaskResult result;
-    if (widget.model == null) { // 说明是添加
+    if (widget.model == null) {
+      // 说明是添加
       result = await bloc.insert(titleCtrl.text, contentCtrl.text);
-    } else { // 说明是修改
+    } else {
+      // 说明是修改
       result = await bloc.update(
         widget.model!.copyWith(
           title: titleCtrl.text,
@@ -131,8 +135,8 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
       );
     }
     if (result.success) {
-      Navigator.of(context).pop();
-    }else{
+      Navigator.of(context).pop(true);
+    } else {
       Toast.error(result.msg);
     }
     loading = false;
@@ -148,7 +152,7 @@ class _EditRecordPanelState extends State<_EditRecordPanel> {
       msg = "内容不能为空!";
     }
     if (msg.isNotEmpty) {
-      Color color = Theme.of(context).colorScheme.surface;
+      Color color = Theme.of(context).colorScheme.error;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: color,

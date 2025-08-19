@@ -34,6 +34,9 @@ dependencies:
   window_manager: ^0.3.0
   system_tray: ^2.0.2
 
+  file_picker: ^10.1.8
+  file_picker_ohos: ^1.0.1
+
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
   dio: ^4.0.6
@@ -42,7 +45,6 @@ dependencies:
 
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
-  file_picker: ^10.1.8
   sqflite: ^2.2.0+3
   sqflite_common_ffi: ^2.2.0+1
 
@@ -62,8 +64,8 @@ dependency_overrides:
       url: "https://gitee.com/openharmony-sig/flutter_sqflite.git"
       path: "sqflite_common_ffi"
       ref: master
-  file_picker:
-    git: "https://gitee.com/openharmony-sig/fluttertpc_file_picker.git"
+
+
   path_provider:
     git:
       url: "https://gitcode.com/openharmony-tpc/flutter_packages.git"
@@ -81,6 +83,7 @@ flutter:
   assets:
     - assets/images/
     - windows/runner/resources/app_icon.ico
+    - ohos/entry/src/main/resources/base/media/logo.png
     - assets/data.json
 
   fonts:

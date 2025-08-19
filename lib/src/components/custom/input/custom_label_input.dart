@@ -22,26 +22,29 @@ class CustomIconInput extends StatelessWidget {
   Widget build(BuildContext context) {
     Color? backgroundColor = Theme.of(context).inputDecorationTheme.fillColor;
 
-    return SizedBox(
-      height: height,
-      child: TextField(
-        onChanged: onChanged,
-        controller: controller,
-        style:  TextStyle(fontSize: fontSize),
-        maxLines: 1,
-        decoration:  InputDecoration(
-            filled: true,
-            hoverColor: Colors.transparent,
-            contentPadding: const EdgeInsets.only(top: 2),
-            fillColor: backgroundColor,
-            prefixIcon:  Icon(icon, size: 18),
-            border: const UnderlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-            ),
-            hintText: hintText,
-            hintStyle:  TextStyle(fontSize: fontSize)),
-      ),
+    return TextField(
+      onChanged: onChanged,
+      controller: controller,
+      style: TextStyle(fontSize: fontSize),
+      maxLines: 1,
+      decoration: InputDecoration(
+          filled: true,
+          hoverColor: Colors.transparent,
+          isCollapsed: true,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          fillColor: backgroundColor,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Icon(icon, size: 18),
+          ),
+          prefixIconConstraints: BoxConstraints(maxHeight: 30, minHeight: 30),
+          border: const UnderlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+          ),
+          hintText: hintText,
+          hintStyle: TextStyle(fontSize: fontSize)),
     );
   }
 }

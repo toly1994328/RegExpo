@@ -9,6 +9,7 @@ import 'package:regexpo/src/models/models.dart';
 
 import 'record_delete_panel.dart';
 import 'record_edit_page.dart';
+import 'record_detail_page.dart';
 
 class PhoneLoadedPanelV1 extends StatefulWidget {
   final LoadedRecordState state;
@@ -22,7 +23,8 @@ class PhoneLoadedPanelV1 extends StatefulWidget {
   State<PhoneLoadedPanelV1> createState() => _PhoneLoadedPanelV1State();
 }
 
-class _PhoneLoadedPanelV1State extends State<PhoneLoadedPanelV1> with SingleTickerProviderStateMixin {
+class _PhoneLoadedPanelV1State extends State<PhoneLoadedPanelV1>
+    with SingleTickerProviderStateMixin {
   final ScrollController _scrollCtrl = ScrollController();
   ValueNotifier<double> factor = ValueNotifier(0);
   late AnimationController _ctrl;
@@ -46,9 +48,7 @@ class _PhoneLoadedPanelV1State extends State<PhoneLoadedPanelV1> with SingleTick
 
   void _onScroll() {
     if (_shouldLoadMore) {
-      context.read<RecordBloc>().loadRecord(
-          operation: LoadType.more
-      );
+      context.read<RecordBloc>().loadRecord(operation: LoadType.more);
     }
   }
 
@@ -57,9 +57,8 @@ class _PhoneLoadedPanelV1State extends State<PhoneLoadedPanelV1> with SingleTick
     final maxScroll = _scrollCtrl.position.maxScrollExtent;
     final currentScroll = _scrollCtrl.offset;
     final bool down =
-        _scrollCtrl.position.userScrollDirection
-            ==ScrollDirection.reverse;
-    return currentScroll >= (maxScroll * 0.9)&&down;
+        _scrollCtrl.position.userScrollDirection == ScrollDirection.reverse;
+    return currentScroll >= (maxScroll * 0.9) && down;
   }
 
   @override
@@ -126,7 +125,8 @@ class _PhoneLoadedPanelV1State extends State<PhoneLoadedPanelV1> with SingleTick
     if (_closeTask != null) {
       await _closeTask!.future;
     }
-    Animation<double> anim = Tween<double>(begin: _offsetX, end: -slideWidth).animate(_ctrl);
+    Animation<double> anim =
+        Tween<double>(begin: _offsetX, end: -slideWidth).animate(_ctrl);
     anim.addListener(() {
       factor.value = anim.value / MediaQuery.of(context).size.width;
     });
@@ -134,11 +134,11 @@ class _PhoneLoadedPanelV1State extends State<PhoneLoadedPanelV1> with SingleTick
     _offsetX = -slideWidth;
   }
 
-
   // 动画关闭
   Future<void> close() async {
     _closeTask = Completer();
-    Animation<double> anim = Tween<double>(begin: _offsetX, end: 0).animate(_ctrl);
+    Animation<double> anim =
+        Tween<double>(begin: _offsetX, end: 0).animate(_ctrl);
     anim.addListener(() {
       factor.value = anim.value / MediaQuery.of(context).size.width;
     });
@@ -149,9 +149,11 @@ class _PhoneLoadedPanelV1State extends State<PhoneLoadedPanelV1> with SingleTick
 
 class SlideRecordItem extends StatelessWidget {
   final Record record;
-  final ValueNotifier<double>? factor ;
-  final VoidCallback? requestClose ;
-  const SlideRecordItem({Key? key, required this.record,this.factor,this.requestClose}) : super(key: key);
+  final ValueNotifier<double>? factor;
+  final VoidCallback? requestClose;
+  const SlideRecordItem(
+      {Key? key, required this.record, this.factor, this.requestClose})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -159,21 +161,27 @@ class SlideRecordItem extends StatelessWidget {
       factor: factor,
       actions: [
         GestureDetector(
-          onTap: ()=>_showDeleteDialog(context),
+          onTap: () => _showDeleteDialog(context),
           child: Container(
             width: 80,
             alignment: Alignment.center,
             color: Colors.red,
-            child: const Text("删除",style: TextStyle(color: Colors.white),),
+            child: const Text(
+              "删除",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
         GestureDetector(
-          onTap: ()=>_showEditDialog(context),
+          onTap: () => _showEditDialog(context),
           child: Container(
             width: 80,
             alignment: Alignment.center,
             color: Colors.blue,
-            child: const Text("修改",style: TextStyle(color: Colors.white),),
+            child: const Text(
+              "修改",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         )
       ],
@@ -187,11 +195,11 @@ class SlideRecordItem extends StatelessWidget {
     await showDialog(
         context: context,
         builder: (_) => Dialog(
-          backgroundColor: color,
-          child: PhoneDeleteRecord(
-            model: record,
-          ),
-        ));
+              backgroundColor: color,
+              child: PhoneDeleteRecord(
+                model: record,
+              ),
+            ));
   }
 
   void _showEditDialog(BuildContext context) {
@@ -253,7 +261,7 @@ class SwipeFlowDelegate extends FlowDelegate {
 class RecordPiece extends StatelessWidget {
   final Record record;
 
-  const RecordPiece({Key? key,required this.record}) : super(key: key);
+  const RecordPiece({Key? key, required this.record}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -261,22 +269,38 @@ class RecordPiece extends StatelessWidget {
     NavigationRailThemeData data = Theme.of(context).navigationRailTheme;
     TextStyle? title = data.unselectedLabelTextStyle;
 
-    return Container(
-        color: color,
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(record.title, style: title?.copyWith(fontSize: 14)),
-            Text(
-              record.content,
-              maxLines: 2,
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ));
+    return GestureDetector(
+      onTap: () => _navigateToDetail(context),
+      child: Container(
+          decoration: BoxDecoration(
+              color: color,
+              border: Border(
+                  bottom: BorderSide(
+                      width: 0.5, color: Colors.grey.withValues(alpha: 0.3)))),
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(record.title, style: title?.copyWith(fontSize: 16)),
+              Text(
+                record.content,
+                maxLines: 2,
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          )),
+    );
+  }
+
+  void _navigateToDetail(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RecordDetailPage(record: record),
+      ),
+    );
   }
 }

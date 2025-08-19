@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
 class Toast {
-
-  static toast( String msg,
+  static toast(String msg,
       {duration = const Duration(milliseconds: 1000), Color? color}) {
     showToast(
       msg,
@@ -15,18 +14,15 @@ class Toast {
     );
   }
 
-  static error(String msg,
-      {duration = const Duration(milliseconds: 1000)}) {
-    toast(msg, color: Colors.redAccent,duration: duration);
+  static error(String msg, {duration = const Duration(milliseconds: 1000)}) {
+    toast(msg, color: Colors.redAccent, duration: duration);
   }
 
-  static success( String msg,
-      {duration = const Duration(milliseconds: 1000)}) {
-    toast( msg, color: Colors.green,duration: duration);
+  static success(String msg, {duration = const Duration(milliseconds: 1000)}) {
+    toast(msg, color: Colors.green, duration: duration);
   }
 
-  static warning( String msg,
-      {duration = const Duration(milliseconds: 1000)}) {
-    toast(msg, color: Colors.orange,duration: duration);
+  static warning(String msg, {duration = const Duration(milliseconds: 1000)}) {
+    toast(msg, color: Colors.orange, duration: duration);
   }
 }

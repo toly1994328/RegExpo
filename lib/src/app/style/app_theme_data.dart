@@ -66,6 +66,7 @@ class AppThemeData {
         highlightColor: Colors.blue.withOpacity(0.1),
         scaffoldBackgroundColor: const Color(0xffFAFAFA),
         appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(fontWeight: FontWeight.bold),
             iconTheme: IconThemeData(color: Colors.black),
             systemOverlayStyle: SystemUiOverlayStyle(
                 statusBarColor: Colors.transparent,

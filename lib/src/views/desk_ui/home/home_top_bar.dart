@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker_ohos/file_picker_ohos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
@@ -64,22 +65,22 @@ class SaveRegexButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool emptyRegex = context.select<MatchBloc, bool>(
-          (value) => value.state.pattern.isEmpty,
+      (value) => value.state.pattern.isEmpty,
     );
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.0),
       child: GestureDetector(
-        onTap: emptyRegex?null:()=>_onSaveLinkRegex(context),
-        child:   Icon(
+        onTap: emptyRegex ? null : () => _onSaveLinkRegex(context),
+        child: Icon(
           TolyIcon.save,
           size: 24,
-          color: emptyRegex?Colors.grey: const Color(0xff59A869),
+          color: emptyRegex ? Colors.grey : const Color(0xff59A869),
         ),
       ),
     );
   }
 
-  void _onSaveLinkRegex(BuildContext context) async{
+  void _onSaveLinkRegex(BuildContext context) async {
     String regex = context.read<MatchBloc>().state.pattern;
     Record? record = context.read<RecordBloc>().state.active;
     LinkRegexBloc linkRegexBloc = context.read<LinkRegexBloc>();
@@ -92,7 +93,6 @@ class SaveRegexButton extends StatelessWidget {
     }
   }
 }
-
 
 class ThemeSwitchButton extends StatelessWidget {
   const ThemeSwitchButton({super.key});
@@ -153,6 +153,7 @@ class _RegexInputState extends State<RegexInput> {
       child: SizedBox(
         height: widget.height,
         child: TextField(
+          onTapOutside: (_) => FocusScope.of(context).unfocus(),
           controller: _ctrl,
           onChanged: widget.onRegexChange,
           style: TextStyle(fontSize: widget.fontSize),
@@ -160,15 +161,16 @@ class _RegexInputState extends State<RegexInput> {
           decoration: InputDecoration(
               filled: true,
               hoverColor: Colors.transparent,
-              contentPadding: EdgeInsets.zero,
+              isCollapsed: true,
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               fillColor: color,
-              prefixIcon: const Icon(Icons.edit, size: 18),
+              // prefixIcon: const Icon(Icons.edit, size: 18),
               border: const UnderlineInputBorder(
                 borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
               ),
               hintText: "输入正则表达式...",
-              hintStyle:  TextStyle(fontSize: widget.fontSize)),
+              hintStyle: TextStyle(fontSize: widget.fontSize)),
         ),
       ),
     );

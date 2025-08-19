@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker_ohos/file_picker_ohos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +9,12 @@ import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/views/phone_ui/match/match_panel.dart';
+import 'package:regexpo/src/views/phone_ui/record/record_edit_page.dart';
 
 class HomePopIcon extends StatelessWidget {
   final ValueChanged<File> onFileSelect;
 
-  const HomePopIcon({
+  HomePopIcon({
     super.key,
     required this.onFileSelect,
   });
@@ -30,6 +32,16 @@ class HomePopIcon extends StatelessWidget {
 
   List<PopupMenuEntry<String>> _buildItem(BuildContext context) {
     return [
+      PopupMenuItem<String>(
+        value: "new_record",
+        child: Row(
+          children: const [
+            Icon(Icons.add, size: 20),
+            SizedBox(width: 10),
+            Text("新建记录"),
+          ],
+        ),
+      ),
       PopupMenuItem<String>(
         value: "open_file",
         child: Row(
@@ -68,12 +80,16 @@ class HomePopIcon extends StatelessWidget {
   }
 
   void _onSelectItem(BuildContext context, String value) {
+    if (value == 'new_record') {
+      _navigateToNewRecord(context);
+      return;
+    }
     if (value == 'theme') {
       context.read<AppConfigBloc>().switchThemeMode();
       return;
     }
     if (value == 'open_file') {
-      _onSelectFile();
+      _onSelectFile(context);
       return;
     }
     if (value == 'match') {
@@ -86,32 +102,94 @@ class HomePopIcon extends StatelessWidget {
     }
   }
 
-  void _saveRegex(BuildContext context){
+  void _saveRegex(BuildContext context) {
     LinkRegexBloc bloc = context.read<LinkRegexBloc>();
     Record? record = context.read<RecordBloc>().state.active;
     if (record == null) return;
     String regex = context.read<MatchBloc>().state.pattern;
-    if(regex.isEmpty) return;
+    if (regex.isEmpty) return;
     bloc.insert(regex, record.id);
+  }
+
+  void _navigateToNewRecord(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const RecordEditPage(),
+      ),
+    );
   }
 
   void _showMatchDialog(BuildContext context) {
     showCupertinoModalPopup(
         context: context,
         builder: (context) => Container(
-          color: Colors.white,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height*0.618,
-          child: const PhoneMatchPanel(),
-        ));
+              color: Colors.white,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.618,
+              child: const PhoneMatchPanel(),
+            ));
   }
 
-  void _onSelectFile() async {
+  List<String> allowExtension = [
+    'txt',
+    'md',
+    'log',
+    'java',
+    'dart',
+    'py',
+    'js',
+    'ts',
+    'c',
+    'cpp',
+    'h',
+    'cs',
+    'php',
+    'rb',
+    'go',
+    'rs',
+    'kt',
+    'swift',
+    'json',
+    'xml',
+    'yaml',
+    'yml',
+    'toml',
+    'ini',
+    'cfg',
+    'conf',
+    'html',
+    'htm',
+    'css',
+    'scss',
+    'less',
+    'jsx',
+    'tsx',
+    'vue',
+    'sql',
+    'sh',
+    'bat',
+    'ps1',
+    'dockerfile',
+    'makefile',
+    'csv',
+    'tsv',
+    'properties',
+    'env'
+  ];
+
+  void _onSelectFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       PlatformFile file = result.files.single;
-      if (file.path != null && file.extension == "txt") {
-        onFileSelect(File(file.path!));
+      if (file.path != null) {
+        if (allowExtension.contains(file.extension?.toLowerCase())) {
+          onFileSelect(File(file.path!));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('不支持的文件类型: ${file.extension ?? "未知"}')),
+          );
+        }
       }
     }
   }

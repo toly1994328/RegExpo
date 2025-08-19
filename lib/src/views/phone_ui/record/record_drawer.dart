@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:regexpo/src/views/desk_ui/record/record_panel.dart';
+
 class RecordDrawer extends StatelessWidget {
   const RecordDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.light
-      ),
+      value:
+          const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
       child: Drawer(
-        width: MediaQuery.of(context).size.width*0.7,
-        child:Column(
+        width: MediaQuery.of(context).size.width * 0.7,
+        child: Column(
           children: const [
             _UnitDrawerHeader(),
             Expanded(child: RecordPanel()),
@@ -22,7 +22,6 @@ class RecordDrawer extends StatelessWidget {
     );
   }
 }
-
 
 class _UnitDrawerHeader extends StatelessWidget {
   final Color color;
@@ -71,7 +70,8 @@ class _UnitDrawerHeader extends StatelessWidget {
             child: Text(
               '基于 Flutter 框架实现的， 全平台正则表达式交互学习应用。',
               style: TextStyle(fontSize: 15, color: Colors.white, shadows: [
-                Shadow(color: color, offset: const Offset(.5, .5), blurRadius: 1)
+                Shadow(
+                    color: color, offset: const Offset(.5, .5), blurRadius: 1)
               ]),
             ),
           ),
@@ -80,7 +80,7 @@ class _UnitDrawerHeader extends StatelessWidget {
             children: const <Widget>[
               Spacer(flex: 5),
               Text(
-                '——Powered By 张风捷特烈',
+                '· 文本万象 遇正则通',
                 style: TextStyle(fontSize: 15, color: Colors.white, shadows: [
                   Shadow(
                       color: Colors.orangeAccent,

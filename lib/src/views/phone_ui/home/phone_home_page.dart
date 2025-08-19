@@ -5,6 +5,9 @@ import 'package:regexpo/src/views/desk_ui/home/tool_panel.dart';
 import 'package:regexpo/src/views/phone_ui/record/record_drawer.dart';
 import 'package:regexpo/src/views/phone_ui/record/record_page.dart';
 import 'package:regexpo/src/views/phone_ui/user/user_page.dart';
+import 'package:regexpo/src/views/phone_ui/home/clickable_content_panel.dart';
+import 'package:regexpo/src/views/phone_ui/user/regex_concept_list.dart';
+import 'package:regexpo/src/views/phone_ui/user/common_regex_list.dart';
 
 import 'bottom_bar.dart';
 import 'home_top_bar.dart';
@@ -17,7 +20,6 @@ class PhoneHomePage extends StatefulWidget {
 }
 
 class _PhoneHomePageState extends State<PhoneHomePage> {
-
   final PageController _pageCtrl = PageController();
 
   @override
@@ -51,8 +53,28 @@ class _PhoneHomePageState extends State<PhoneHomePage> {
   }
 }
 
-class RegexNotePage extends StatelessWidget {
+class RegexNotePage extends StatefulWidget {
   const RegexNotePage({super.key});
+
+  @override
+  State<RegexNotePage> createState() => _RegexNotePageState();
+}
+
+class _RegexNotePageState extends State<RegexNotePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +85,29 @@ class RegexNotePage extends StatelessWidget {
         titleSpacing: 0,
         centerTitle: true,
         backgroundColor: color,
-        title: Text("正则语法速查",style: TextStyle(color: titleColor,fontSize: 16),),
+        title: Text("正则手记", style: TextStyle(color: titleColor, fontSize: 16)),
         elevation: 0,
+        bottom: TabBar(
+          dividerHeight: 0,
+          controller: _tabController,
+          tabs: const [
+            Tab(text: '正则概念'),
+            Tab(text: '符号一览'),
+            Tab(text: '常用正则'),
+          ],
+        ),
       ),
-      body: const RegexNoteList(fontSize: 14,),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          RegexConceptList(),
+          RegexNoteList(fontSize: 16),
+          CommonRegexList(),
+        ],
+      ),
     );
   }
 }
-
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
@@ -84,7 +121,7 @@ class HomeContent extends StatelessWidget {
       drawer: const RecordDrawer(),
       body: Column(
         children: [
-          const Expanded(child: ContentTextPanel(),),
+          const Expanded(child: ClickableContentPanel()),
           Container(
             height: 24,
             alignment: Alignment.center,
@@ -98,7 +135,3 @@ class HomeContent extends StatelessWidget {
     );
   }
 }
-
-
-
-

@@ -27,65 +27,68 @@ class UserPage extends StatelessWidget {
               Stack(
                 children: [
                   Container(
-                    height: 180,
+                    height: 170,
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(bottom: 40),
+                    margin: const EdgeInsets.only(bottom: 30),
                     child: Image.asset(
                       'assets/images/draw_bg3.webp',
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned(
-                    top: 50,
-                    right: 20,
-                    child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(4)),
-                        child: const Icon(
-                          Icons.color_lens_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        )),
-                  ),
+                  // Positioned(
+                  //   top: 50,
+                  //   right: 20,
+                  //   child: Container(
+                  //       padding: const EdgeInsets.all(6),
+                  //       decoration: BoxDecoration(
+                  //           color: Colors.black.withOpacity(0.5),
+                  //           borderRadius: BorderRadius.circular(4)),
+                  //       child: const Icon(
+                  //         Icons.color_lens_outlined,
+                  //         color: Colors.white,
+                  //         size: 20,
+                  //       )),
+                  // ),
                   Positioned(
                     bottom: 0,
-                    height: 60,
+                    height: 40,
                     width: MediaQuery.of(context).size.width,
                     child: ColoredBox(
                       color: color,
                     ),
                   ),
                   Positioned(
-                    bottom: 20,
+                    bottom: 0,
                     left: 40,
                     child: CircleImage(
                       size: 80,
                       shadowColor: Theme.of(context).primaryColor.withAlpha(33),
-                      image: AssetImage('assets/images/icon_head_big.webp'),
+                      image: AssetImage(
+                          'ohos/entry/src/main/resources/base/media/logo.png'),
                     ),
                   ),
                   Positioned(
-                      bottom: 20,
+                      bottom: 6,
                       right: 30,
-                      child: Text(
-                        '张风捷特烈·出品',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold),
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.end,
+                        children: [
+                          Text(
+                            '正则通',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            ' V0.1.0',
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                        ],
                       ))
                 ],
               ),
-              Expanded(
-                  child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
-                child: Text(
-                    "RegExpo 是一款基于 Flutter 构建的，全平台文本正则表达式交互匹配应用。可以帮助开发者可视化地感知，文本正则匹配结果，对文本处理、正则学习都大有帮助。\n\n源代码完全开放， Github：\nhttps://github.com/toly1994328/RegExp"),
-              ))
-              // const Expanded(child: MePageItem())
+              const Expanded(child: MePageItem())
             ],
           ),
         ));

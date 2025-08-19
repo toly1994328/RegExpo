@@ -63,7 +63,7 @@ class RecordBloc extends Cubit<RecordState> {
 
   Future<TaskResult> deleteById(int id) async {
     try {
-      int  result = await repository.deleteById(id);
+      int result = await repository.deleteById(id);
       if (result > 0) {
         loadRecord(operation: LoadType.delete);
         return const TaskResult.success();
@@ -72,14 +72,16 @@ class RecordBloc extends Cubit<RecordState> {
       }
     } catch (e) {
       debugPrint(e.toString());
-      return  TaskResult.error(msg: "删除失败! $e");
+      return TaskResult.error(msg: "删除失败! $e");
     }
   }
 
   Future<TaskResult> deleteAll() async {
     try {
       await repository.deleteAll();
-      loadRecord(operation: LoadType.load,);
+      loadRecord(
+        operation: LoadType.load,
+      );
       return const TaskResult.success();
     } catch (e) {
       debugPrint(e.toString());
@@ -88,6 +90,7 @@ class RecordBloc extends Cubit<RecordState> {
   }
 
   Future<TaskResult> openFile(File file) async {
+    print("=====openFile:${file}========");
     String content = file.readAsStringSync();
     if (content.length > 1500) {
       content = content.substring(0, 1500);
@@ -118,7 +121,7 @@ class RecordBloc extends Cubit<RecordState> {
       }
     } catch (e) {
       debugPrint(e.toString());
-      return  TaskResult.error(msg: "添加失败! $e");
+      return TaskResult.error(msg: "添加失败! $e");
     }
   }
 
@@ -133,7 +136,7 @@ class RecordBloc extends Cubit<RecordState> {
       }
     } catch (e) {
       debugPrint(e.toString());
-      return  TaskResult.error(msg: "更新失败! $e");
+      return TaskResult.error(msg: "更新失败! $e");
     }
   }
 
@@ -196,79 +199,78 @@ class RecordBloc extends Cubit<RecordState> {
   }
 
   void select(int id) {
-    if(state.active?.id==id) return;
-    if(state is! LoadedRecordState) return;
+    if (state.active?.id == id) return;
+    if (state is! LoadedRecordState) return;
     LoadedRecordState _state = state as LoadedRecordState;
     // 维护 cache tab
     List<Record> cache = _state.cacheRecord;
-    List<Record> containsList = cache.where((e) => e.id==id).toList();
-    if(containsList.isNotEmpty){
+    List<Record> containsList = cache.where((e) => e.id == id).toList();
+    if (containsList.isNotEmpty) {
       //缓存包含激活记录，将记录移到缓存首位
-      cache.removeWhere((e) => e.id==id);
+      cache.removeWhere((e) => e.id == id);
       cache.insert(0, containsList.first);
-    }else{
-      Record record = _state.records.where((e) => e.id==id).first;
+    } else {
+      Record record = _state.records.where((e) => e.id == id).first;
       cache.insert(0, record);
     }
     emit(state.copyWith(activeRecordId: id));
   }
 
   void selectCacheTab(int id) {
-    if(state.active?.id==id) return;
-    if(state is! LoadedRecordState) return;
+    if (state.active?.id == id) return;
+    if (state is! LoadedRecordState) return;
     emit(state.copyWith(activeRecordId: id));
   }
 
   void removeCacheTab(int id) {
-    if(state is! LoadedRecordState) return;
+    if (state is! LoadedRecordState) return;
     LoadedRecordState _state = state as LoadedRecordState;
-    if(_state.cacheTabs.length==1) return;
+    if (_state.cacheTabs.length == 1) return;
     int activeRecordId = _state.activeRecordId;
     List<Record> cache = List.of(state.cacheRecord);
     cache.removeWhere((e) => e.id == id);
-    if(_state.activeRecordId == id){
+    if (_state.activeRecordId == id) {
       //当前激活索引被删除
       activeRecordId = _state.nextCacheId;
     }
 
-    RecordState newState = state.copyWith(
-        activeRecordId: activeRecordId,
-        cacheTabs: cache
-    );
+    RecordState newState =
+        state.copyWith(activeRecordId: activeRecordId, cacheTabs: cache);
     emit(newState);
   }
 
   List<Record> _handleCacheTabs(List<Record> records, LoadType operation) {
     List<Record> cache = state.cacheRecord;
-    switch(operation){
+    switch (operation) {
       case LoadType.load:
       case LoadType.refresh:
       case LoadType.more:
-        if(cache.isNotEmpty){
-        return cache;
-      }else{
-        return [records.first];
-      }
+        if (cache.isNotEmpty) {
+          return cache;
+        } else {
+          return [records.first];
+        }
       case LoadType.add:
-       return  [records.first,...List.of(cache)];
+        return [records.first, ...List.of(cache)];
       case LoadType.delete:
-      //如果删除的是已激活页签，需要清除 cache 中的对应元素
-      if(state is LoadedRecordState){
-        LoadedRecordState state = this.state as LoadedRecordState;
-        Record nextActiveRecord = state.records[state.nextActiveId];
-        cache.removeWhere((e) => e.id==state.activeRecordId||e.id==nextActiveRecord.id);
-        return [nextActiveRecord,...List.of(cache)];
-      }
-      break;
+        //如果删除的是已激活页签，需要清除 cache 中的对应元素
+        if (state is LoadedRecordState) {
+          LoadedRecordState state = this.state as LoadedRecordState;
+          Record nextActiveRecord = state.records[state.nextActiveId];
+          cache.removeWhere((e) =>
+              e.id == state.activeRecordId || e.id == nextActiveRecord.id);
+          return [nextActiveRecord, ...List.of(cache)];
+        }
+        break;
       case LoadType.edit:
-        int activeId = state.active?.id??records.first.id;
-        int targetIndex = cache.lastIndexWhere((e) => e.id==activeId);
-        if(targetIndex!=-1){
+        int activeId = state.active?.id ?? records.first.id;
+        int targetIndex = cache.lastIndexWhere((e) => e.id == activeId);
+        if (targetIndex != -1) {
           // 修改的记录包含在缓存中
           List<Record> editCache = List.of(cache);
-          Record current = records.where((e) => e.id==activeId).first;
+          Record current = records.where((e) => e.id == activeId).first;
           editCache.removeAt(targetIndex);
-          editCache.insert(targetIndex,current);
+          editCache.insert(targetIndex, current);
           return editCache;
         }
         break;
