@@ -124,8 +124,6 @@ class _PhoneLoadedPanelV2State extends State<PhoneLoadedPanelV2>
         context: context,
         builder: (_) => Dialog(
               backgroundColor: color,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
               child: PhoneDeleteRecord(
                 model: record,
               ),

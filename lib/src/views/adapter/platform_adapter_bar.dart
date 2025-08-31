@@ -60,7 +60,7 @@ class PlatformAdapterBar extends StatelessWidget {
             height: 20,
           ),
           Text(
-            '正则通',
+            'RegExpo',
             style: TextStyle(
               color: titleColor,
               fontSize: 12,

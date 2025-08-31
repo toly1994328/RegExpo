@@ -56,7 +56,7 @@ class _UnitDrawerHeader extends StatelessWidget {
                 ),
               ),
               const Text(
-                '正则通',
+                'RegExpo',
                 style: TextStyle(fontSize: 24, color: Colors.white, shadows: [
                   Shadow(
                       color: Colors.black, offset: Offset(1, 1), blurRadius: 3)

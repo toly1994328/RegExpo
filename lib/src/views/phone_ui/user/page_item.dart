@@ -33,7 +33,7 @@ class MePageItem extends StatelessWidget {
           child: Text.rich(
             TextSpan(
               children: [
-                const TextSpan(text: '正则通 是一款基于 '),
+                const TextSpan(text: 'RegExpo 是一款基于 '),
                 TextSpan(
                   text: 'Flutter',
                   style: const TextStyle(
@@ -127,7 +127,7 @@ class MePageItem extends StatelessWidget {
         builder: (context) => const InfoPage(
           title: '项目开源地址',
           content:
-              '正则通 是一个完全开源的项目，基于 Flutter 框架开发，支持多平台运行。\n\n项目特点：\n• 跨平台支持（Android、iOS、HarmonyOS、Windows、macOS、Linux、Web）\n• 实时正则匹配和高亮显示\n• 丰富的正则表达式示例\n• 直观的匹配结果展示\n• 支持正则表达式语法速查\n• 本地数据存储\n\n欢迎访问 GitHub 仓库查看源代码、提交问题或贡献代码。如果这个项目对您有帮助，请给我们一个 Star ⭐\nhttps://github.com/toly1994328/RegExpo',
+              'RegExpo 是一个完全开源的项目，基于 Flutter 框架开发，支持多平台运行。\n\n项目特点：\n• 跨平台支持（Android、iOS、HarmonyOS、Windows、macOS、Linux、Web）\n• 实时正则匹配和高亮显示\n• 丰富的正则表达式示例\n• 直观的匹配结果展示\n• 支持正则表达式语法速查\n• 本地数据存储\n\n欢迎访问 GitHub 仓库查看源代码、提交问题或贡献代码。如果这个项目对您有帮助，请给我们一个 Star ⭐',
           url: 'https://github.com/toly1994328/RegExpo',
         ),
       ),
