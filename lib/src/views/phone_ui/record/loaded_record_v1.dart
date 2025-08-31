@@ -195,6 +195,8 @@ class SlideRecordItem extends StatelessWidget {
     await showDialog(
         context: context,
         builder: (_) => Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
               backgroundColor: color,
               child: PhoneDeleteRecord(
                 model: record,
@@ -281,7 +283,8 @@ class RecordPiece extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 2,
             children: [
               Text(record.title, style: title?.copyWith(fontSize: 16)),
               Text(

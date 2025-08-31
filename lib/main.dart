@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/app/style/app_theme_data.dart';
@@ -22,17 +21,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeMode mode = context.select<AppConfigBloc, ThemeMode>(
-          (value) => value.state.themeMode,
+      (value) => value.state.themeMode,
     );
     return BlocRelation(
       child: PlatformAdapterBar(
         mode: mode,
         child: MaterialApp(
-          title: 'regexpo',
+          title: '正则通',
           debugShowCheckedModeBanner: false,
           themeMode: mode,
           theme: AppThemeData.light,
-          darkTheme:  AppThemeData.dark,
+          darkTheme: AppThemeData.dark,
           home: const SplashPage(),
         ),
       ),
