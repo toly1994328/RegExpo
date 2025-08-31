@@ -5,7 +5,7 @@ import 'package:regexpo/src/views/desk_ui/home/tool_panel.dart';
 import 'package:regexpo/src/views/phone_ui/record/record_drawer.dart';
 import 'package:regexpo/src/views/phone_ui/record/record_page.dart';
 import 'package:regexpo/src/views/phone_ui/user/user_page.dart';
-import 'package:regexpo/src/views/phone_ui/home/phone_rich_text_editor.dart';
+import 'package:regexpo/src/views/phone_ui/home/rich_text_display_panel.dart';
 import 'package:regexpo/src/views/phone_ui/user/regex_concept_list.dart';
 import 'package:regexpo/src/views/phone_ui/user/common_regex_list.dart';
 
@@ -121,7 +121,7 @@ class HomeContent extends StatelessWidget {
       drawer: const RecordDrawer(),
       body: Column(
         children: [
-          const Expanded(child: PhoneRichTextEditor()),
+          const Expanded(child: RichTextDisplayPanel()),
           Container(
             height: 24,
             alignment: Alignment.center,
