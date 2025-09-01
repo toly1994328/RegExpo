@@ -31,3 +31,9 @@ class UpdateRegexConfig extends MatchEvent {
 
   const UpdateRegexConfig({required this.config});
 }
+
+class ReplaceText extends MatchEvent {
+  final String replacement;
+
+  const ReplaceText({required this.replacement});
+}

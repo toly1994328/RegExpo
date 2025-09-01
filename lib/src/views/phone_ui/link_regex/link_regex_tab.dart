@@ -33,7 +33,7 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
     TextStyle style = const TextStyle(height: 1, fontSize: 12);
     if (state is EmptyLinkRegexState) {
       return GestureDetector(
-        onTap: ()=>showAddDialog(context),
+        onTap: () => showAddDialog(context),
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
@@ -60,20 +60,20 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => activeTab(context, tab),
-            onLongPress:  () => showOpDialog(context, tab),
+            onLongPress: () => showOpDialog(context, tab),
             child: Container(
               decoration: BoxDecoration(
-                  border: active?Border(
-                      bottom: BorderSide(color: primaryColor)
-                  ):null
-              ),
+                  border: active
+                      ? Border(bottom: BorderSide(color: primaryColor))
+                      : null),
               height: 25,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(tab.regex, style: const TextStyle(height: 1, fontSize: 12)),
+                    child: Text(tab.regex,
+                        style: const TextStyle(height: 1, fontSize: 12)),
                   ),
                   Gap.dividerVI
                 ],
@@ -120,7 +120,6 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
   void showAddDialog(BuildContext context) {
     Color color = Theme.of(context).colorScheme.surface;
 
-
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -137,10 +136,12 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
         context: context,
         barrierDismissible: false,
         builder: (_) => Dialog(
-          backgroundColor: color,
-          child: SizedBox(
-              height: 350,
-              child: EditRegexPanel(model: bloc.state.activeRegex,)),
-        ));
+              backgroundColor: color,
+              child: SizedBox(
+                  height: 350,
+                  child: EditRegexPanel(
+                    model: bloc.state.activeRegex,
+                  )),
+            ));
   }
 }

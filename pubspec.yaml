@@ -36,13 +36,13 @@ dependencies:
 
   file_picker: ^10.1.8
   file_picker_ohos: ^1.0.1
-
+  fx_trace: ^0.0.5+6
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
   dio: ^4.0.6
   oktoast: ^3.4.0
   flutter_slidable: ^4.0.0
-
+  flutter_svg: ^2.2.0
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
   sqflite: ^2.2.0+3
@@ -82,6 +82,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/svg/
     - windows/runner/resources/app_icon.ico
     - ohos/entry/src/main/resources/base/media/logo.png
     - assets/data.json

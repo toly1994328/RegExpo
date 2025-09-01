@@ -4,11 +4,14 @@ import 'dart:io';
 import 'package:file_picker_ohos/file_picker_ohos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fx_trace/fx_trace.dart';
 import 'package:regexpo/src/app/iconfont/toly_icon.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/components/toly_ui/feedback_widget.dart';
 import 'package:regexpo/src/components/logo.dart';
 import 'package:regexpo/src/models/models.dart';
+
+import '../../../blocs/fx_event/fx_event.dart';
 
 class HomeTopBar extends StatelessWidget {
   final ValueChanged<String> onRegexChange;
@@ -135,13 +138,15 @@ class RegexInput extends StatefulWidget {
   State<RegexInput> createState() => _RegexInputState();
 }
 
-class _RegexInputState extends State<RegexInput> {
+class _RegexInputState extends State<RegexInput>
+    with FxSingleEventMixin<RegexInput, InputEvent> {
   final TextEditingController _ctrl = TextEditingController();
-
+  FocusNode _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
     LinkRegexState regex = context.read<LinkRegexBloc>().state;
+    _focusNode.addListener(_onFocusChange);
     _listenLinkRegexChange(context, regex);
   }
 
@@ -153,6 +158,7 @@ class _RegexInputState extends State<RegexInput> {
       child: SizedBox(
         height: widget.height,
         child: TextField(
+          focusNode: _focusNode,
           onTapOutside: (_) => FocusScope.of(context).unfocus(),
           controller: _ctrl,
           onChanged: widget.onRegexChange,
@@ -176,6 +182,32 @@ class _RegexInputState extends State<RegexInput> {
     );
   }
 
+  void _insertSymbol(String symbol) {
+    final text = _ctrl.text;
+    final selection = _ctrl.selection;
+    
+    String newText;
+    int newOffset;
+    
+    if (symbol == '←') {
+      if (selection.start > 0) {
+        newText = text.replaceRange(selection.start - 1, selection.end, '');
+        newOffset = selection.start - 1;
+      } else {
+        return;
+      }
+    } else {
+      newText = text.replaceRange(selection.start, selection.end, symbol);
+      newOffset = selection.start + symbol.length;
+    }
+    
+    _ctrl.value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newOffset),
+    );
+    widget.onRegexChange(newText);
+  }
+
   void _listenLinkRegexChange(BuildContext context, LinkRegexState state) {
     if (state is LoadedLinkRegexState) {
       LinkRegex? regex = state.activeRegex;
@@ -192,6 +224,27 @@ class _RegexInputState extends State<RegexInput> {
   @override
   void dispose() {
     _ctrl.dispose();
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
     super.dispose();
+  }
+
+  @override
+  void onEvent(InputEvent event) {
+    if (event is RegexInputEvent) {
+      _insertSymbol(event.symbol);
+    }
+    if (event is FocusEvent) {
+      _focusNode.requestFocus();
+    }
+  }
+
+  void _onFocusChange() {
+    MatchBloc bloc = context.read<MatchBloc>();
+    RegExpConfig cfg = bloc.state.config;
+    cfg = cfg.copyWith(
+      keyboardMode: _focusNode.hasFocus,
+    );
+    bloc.add(UpdateRegexConfig(config: cfg));
   }
 }

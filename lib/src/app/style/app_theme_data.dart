@@ -88,6 +88,7 @@ class AppThemeData {
         ),
         // primarySwatch: Colors.blue,
         textTheme: const TextTheme(
+          titleMedium: TextStyle(color: Colors.black, fontSize: 14),
           displayMedium: TextStyle(color: Colors.black, fontSize: 14),
         ),
         inputDecorationTheme:

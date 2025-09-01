@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regexpo/src/blocs/blocs.dart';
+import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/views/desk_ui/home/content_text_panel.dart';
 import 'package:regexpo/src/views/desk_ui/home/home_foot.dart';
 import 'package:regexpo/src/views/desk_ui/home/tool_panel.dart';
@@ -9,6 +12,8 @@ import 'package:regexpo/src/views/phone_ui/home/rich_text_display_panel.dart';
 import 'package:regexpo/src/views/phone_ui/user/regex_concept_list.dart';
 import 'package:regexpo/src/views/phone_ui/user/common_regex_list.dart';
 
+import '../../../blocs/fx_event/fx_event.dart';
+import '../link_regex/link_regex_tab.dart';
 import 'bottom_bar.dart';
 import 'home_top_bar.dart';
 
@@ -121,17 +126,175 @@ class HomeContent extends StatelessWidget {
       drawer: const RecordDrawer(),
       body: Column(
         children: [
-          const Expanded(child: RichTextDisplayPanel()),
           Container(
-            height: 24,
             alignment: Alignment.center,
             color: color,
-            child: const RegexConfigTools(
+            child: const RegexConfigIconsTools(
               fontSize: 13,
             ),
           ),
+          const ReplaceInputField(),
+          const LinkRegexTab(),
+          const Expanded(child: RichTextDisplayPanel()),
+          const OptionStatusBar(),
         ],
       ),
+    );
+  }
+}
+
+class ReplaceInputField extends StatefulWidget {
+  const ReplaceInputField({super.key});
+
+  @override
+  State<ReplaceInputField> createState() => _ReplaceInputFieldState();
+}
+
+class _ReplaceInputFieldState extends State<ReplaceInputField> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _executeReplace(BuildContext context) {
+    if (_controller.text.isNotEmpty) {
+      context.read<MatchBloc>().add(ReplaceText(replacement: _controller.text));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Color? color = Theme.of(context).inputDecorationTheme.fillColor;
+    RegExpConfig config = context.select((MatchBloc bloc) => bloc.state.config);
+    DividerThemeData data = DividerTheme.of(context);
+    List<Widget> children = [];
+    if (config.keyboardMode) {
+      children.add(TextFieldTapRegion(
+        child: RegexSymbolsPanel(
+          onSymbolTap: (symbol) {
+            RegexInputEvent(symbol).emit();
+          },
+        ),
+      ));
+    }
+    if (config.replaceMode) {
+      children.add(Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    color: data.color ?? Colors.black12,
+                    width: data.thickness ?? 1))),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                style: const TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: color,
+                  hintText: '输入替换文本...',
+                  hintStyle: const TextStyle(fontSize: 14),
+                  border: const UnderlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            GestureDetector(
+              onTap: () => _executeReplace(context),
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        color: Theme.of(context).primaryColor, width: 2)),
+                child: Icon(
+                  Icons.check,
+                  size: 20,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ));
+    }
+
+    if (children.isEmpty) return const SizedBox.shrink();
+    if (children.length == 1) return children.first;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: children,
+    );
+  }
+}
+
+class OptionStatusBar extends StatefulWidget {
+  const OptionStatusBar({super.key});
+
+  @override
+  State<OptionStatusBar> createState() => _OptionStatusBarState();
+}
+
+class _OptionStatusBarState extends State<OptionStatusBar> {
+  final Map<String, String> _configMessages = {
+    'multiLine': '多行模式：^ 和 \$ 匹配每行的开始和结束',
+    'caseSensitive': '大小写敏感：区分字母大小写进行匹配',
+    'caseInsensitive': '大小写不敏感：忽略字母大小写进行匹配',
+    'dotAll': '点通配模式：. 匹配包括换行符在内的所有字符',
+    'unicode': 'Unicode模式：启用 Unicode 匹配支持',
+    'replaceMode': '替换模式：启用正则替换功能',
+  };
+
+  List<String> _getActiveConfigMessages(RegExpConfig config) {
+    List<String> messages = [];
+    if (config.multiLine) messages.add(_configMessages['multiLine']!);
+    if (config.caseSensitive) messages.add(_configMessages['caseInsensitive']!);
+    if (config.dotAll) messages.add(_configMessages['dotAll']!);
+    if (config.unicode) messages.add(_configMessages['unicode']!);
+    if (config.replaceMode) messages.add(_configMessages['replaceMode']!);
+    return messages;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MatchBloc, MatchState>(
+      builder: (context, state) {
+        final messages = _getActiveConfigMessages(state.config);
+        if (messages.isEmpty) return const SizedBox.shrink();
+        return Container(
+          width: double.infinity,
+          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: messages
+                .map((message) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ),
+        );
+      },
     );
   }
 }

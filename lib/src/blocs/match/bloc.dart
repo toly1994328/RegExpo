@@ -14,6 +14,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
     on<ChangeContent>(_onChangeContent);
     on<HoverMatchRegex>(_onHoverMatchRegex);
     on<UpdateRegexConfig>(_onUpdateRegexConfig);
+    on<ReplaceText>(_onReplaceText);
   }
 
   void _onChangeRegex(ChangeRegex event, Emitter<MatchState> emit){
@@ -51,5 +52,26 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
       event.config,
     );
     emit(match);
+  }
+
+  void _onReplaceText(ReplaceText event, Emitter<MatchState> emit) {
+    try {
+      RegExp regex = RegExp(
+        state.pattern,
+        multiLine: state.config.multiLine,
+        caseSensitive: state.config.caseSensitive,
+        unicode: state.config.unicode,
+        dotAll: state.config.dotAll,
+      );
+      String replacedContent = state.content.replaceAll(regex, event.replacement);
+      MatchState match = parser.match(
+        replacedContent,
+        state.pattern,
+        state.config,
+      );
+      emit(match);
+    } catch (e) {
+      emit(MatchError(error: e.toString()));
+    }
   }
 }

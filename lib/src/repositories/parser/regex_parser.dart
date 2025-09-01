@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/models/models.dart';
 
-
 const kRenderColors = [Colors.red, Colors.green, Colors.blue];
 const Map<String, String> ksListMap = {
   '\t': 't',
@@ -30,7 +29,7 @@ class RegexParser {
         content: content,
         pattern: pattern,
         config: config,
-        span: TextSpan(text: content),
+        span: TextSpan(text: content, style: const TextStyle(color: Colors.black)),
       );
     }
 
@@ -66,7 +65,7 @@ class RegexParser {
       index++;
       return '';
     }, onNonMatch: (str) {
-      span.add(TextSpan(text: str));
+      span.add(TextSpan(text: str, style: const TextStyle(color: Colors.black)));
       return '';
     });
 

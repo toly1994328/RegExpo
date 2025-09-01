@@ -8,7 +8,6 @@ class ContentTextPanel extends StatelessWidget {
   const ContentTextPanel({super.key});
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Expanded(
@@ -59,7 +58,11 @@ class EmptyContent extends StatelessWidget {
       child: Column(
         children: [
           const Spacer(),
-          Image.asset('assets/images/regexpo_logo.png',width: 100,height:100,),
+          Image.asset(
+            'assets/images/regexpo_logo.png',
+            width: 100,
+            height: 100,
+          ),
           const SizedBox(
             height: 16,
           ),
@@ -77,7 +80,7 @@ class EmptyContent extends StatelessWidget {
           ),
           OutlinedButton(
               style: OutlinedButton.styleFrom(
-                foregroundColor: Theme.of(context).primaryColor,
+                  foregroundColor: Theme.of(context).primaryColor,
                   side: BorderSide(color: Theme.of(context).primaryColor)),
               onPressed: () => insertTestData(context),
               child: const Text('导入测试数据')),
@@ -90,13 +93,15 @@ class EmptyContent extends StatelessWidget {
                   0xff6E6E6E,
                 )),
           ),
-          const SizedBox(height: 10,)
+          const SizedBox(
+            height: 10,
+          )
         ],
       ),
     );
   }
 
-  void insertTestData(BuildContext context) async{
+  void insertTestData(BuildContext context) async {
     await DefaultData.insertDefaultRecoder();
     RecordBloc bloc = context.read<RecordBloc>();
     bloc.loadRecord(operation: LoadType.refresh);

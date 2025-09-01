@@ -1,27 +1,101 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
 import 'package:regexpo/src/repositories/impl/db/helper/default_data.dart';
+import 'package:regexpo/src/components/rich_text_editing_controller.dart';
+import 'package:regexpo/src/models/models.dart';
 
-class RichTextDisplayPanel extends StatelessWidget {
+import '../match/match_panel.dart';
+
+class RichTextDisplayPanel extends StatefulWidget {
   const RichTextDisplayPanel({super.key});
 
   @override
+  State<RichTextDisplayPanel> createState() => _RichTextDisplayPanelState();
+}
+
+class _RichTextDisplayPanelState extends State<RichTextDisplayPanel> {
+  late RichTextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = RichTextEditingController();
+    final currentState = context.read<MatchBloc>().state;
+    _controller.text = currentState.content;
+    _controller.richTextSpan = currentState.inlineSpan;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  MatchInfo? _findMatchAtPosition(List<MatchInfo> results, int position) {
+    for (final match in results) {
+      if (position >= match.startPos && position <= match.endPos) {
+        return match;
+      }
+    }
+    return null;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MatchBloc, MatchState>(
+    return BlocConsumer<MatchBloc, MatchState>(
+      listener: (context, state) {
+        if (_controller.text != state.content) {
+          _controller.text = state.content;
+        }
+        _controller.richTextSpan = state.inlineSpan;
+      },
       builder: (context, state) {
         if (state.content.isEmpty) {
           return const EmptyContent();
         }
-        
-        return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-          children: [
-            Text.rich(
-              state.inlineSpan,
-              style: Theme.of(context).textTheme.displayMedium,
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+          child: TextField(
+            controller: _controller,
+            onTapOutside: (_) {
+              FocusScope.of(context).unfocus();
+            },
+            maxLines: null,
+            style: TextStyle(color: Colors.black, fontSize: 14),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
             ),
-          ],
+            onTap: () {
+              Future.delayed(const Duration(milliseconds: 50), () {
+                final position = _controller.selection.baseOffset;
+                if (state is MatchSuccess) {
+                  final matchInfo =
+                      _findMatchAtPosition(state.results, position);
+                  if (matchInfo != null) {
+                    context
+                        .read<MatchBloc>()
+                        .add(HoverMatchRegex(matchInfo: matchInfo));
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) => Container(
+                              color: Colors.white,
+                              width: MediaQuery.of(context).size.width,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.618,
+                              child: const PhoneMatchPanel(),
+                            ));
+                  }
+                }
+              });
+            },
+            onChanged: (content) {
+              context.read<MatchBloc>().add(ChangeContent(content: content));
+            },
+          ),
         );
       },
     );
@@ -37,7 +111,8 @@ class EmptyContent extends StatelessWidget {
       child: Column(
         children: [
           const Spacer(),
-          Image.asset('assets/images/regexpo_logo.png', width: 100, height: 100),
+          Image.asset('assets/images/regexpo_logo.png',
+              width: 100, height: 100),
           const SizedBox(height: 16),
           const Text(
             "Welcome To Flutter RegExpo",
