@@ -14,16 +14,18 @@ class RichTextEditingController extends TextEditingController {
     TextStyle? style,
     required bool withComposing,
   }) {
+    print(_richTextSpan == null);
     if (_richTextSpan != null) {
-      final defaultStyle = (style ?? const TextStyle()).copyWith(color: Colors.black);
+      final defaultStyle =
+          (style ?? const TextStyle()).copyWith(color: Colors.black);
       return TextSpan(
-        style: defaultStyle,
+        style: TextStyle(color: Colors.white, fontSize: 16),
         children: [_richTextSpan!],
       );
     }
     return super.buildTextSpan(
       context: context,
-      style: (style ?? const TextStyle()).copyWith(color: Colors.black),
+      style: TextStyle(color: Colors.white),
       withComposing: withComposing,
     );
   }

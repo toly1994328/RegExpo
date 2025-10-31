@@ -13,6 +13,10 @@ class BlocRelation extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        BlocListener<AppConfigBloc, AppConfig>(
+          listenWhen: (p, n) => p.appThemeMode != n.appThemeMode,
+          listener: _listenAppThemeMode,
+        ),
         BlocListener<RecordBloc, RecordState>(
           listenWhen: (p, n) =>
               p.active != n.active || p.runtimeType != n.runtimeType,
@@ -24,6 +28,16 @@ class BlocRelation extends StatelessWidget {
       ],
       child: child,
     );
+  }
+
+  void _listenAppThemeMode(BuildContext context, AppConfig state) {
+    MatchBloc matchBloc = context.read<MatchBloc>();
+    matchBloc.add(ThemeChange(
+        style: TextStyle(
+            color: state.themeMode == ThemeMode.light
+                ? Colors.black
+                : Colors.white,
+            fontSize: 14)));
   }
 
   void _listenLinkRegexChange(BuildContext context, LinkRegexState state) {

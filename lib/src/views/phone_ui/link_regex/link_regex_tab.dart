@@ -15,16 +15,18 @@ class LinkRegexTab extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 26,
-      child: Row(
-        children: [
-          Expanded(
-            child: BlocBuilder<LinkRegexBloc, LinkRegexState>(
-              builder: _buildByState,
+    return TextFieldTapRegion(
+      child: SizedBox(
+        height: 26,
+        child: Row(
+          children: [
+            Expanded(
+              child: BlocBuilder<LinkRegexBloc, LinkRegexState>(
+                builder: _buildByState,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

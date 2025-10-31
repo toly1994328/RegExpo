@@ -8,6 +8,7 @@ import 'package:regexpo/src/blocs/fx_event/fx_event.dart';
 
 import 'package:regexpo/src/models/models.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
+import '../../../app/iconfont/toly_icon.dart';
 import 'home_top_bar.dart';
 
 class FootBar extends StatelessWidget {
@@ -84,30 +85,32 @@ class RegexConfigIconsTools extends StatelessWidget {
     RegExpConfig config = context.select<MatchBloc, RegExpConfig>(
       (value) => value.state.config,
     );
-
+    ThemeMode mode =
+        context.select((AppConfigBloc bloc) => bloc.state.themeMode);
     List<Widget> children = [];
+
+    Color iconColor = mode == ThemeMode.dark ? Colors.white : Color(0xff333333);
+    Color borderColor = mode == ThemeMode.dark ? Colors.white : Colors.black;
 
     for (int i = 0; i < assets.length; i++) {
       bool active = checkActive(config, i);
       Widget center = GestureDetector(
         onTap: () => _onSelect(context, i),
         child: Center(
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 0),
-              child: Container(
-                width: 32,
-                height: 32,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: active ? color.withValues(alpha: 0.1) : null,
-                    border: Border.all(color: active ? color : Colors.black),
-                    borderRadius: BorderRadius.circular(8)),
-                child: SvgPicture.asset(
-                  assets[i],
-                  width: 20,
-                  color: active ? color : Color(0xff333333),
-                ),
-              )),
+          child: Container(
+            width: 30,
+            height: 30,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: active ? color.withValues(alpha: 0.1) : null,
+                border: Border.all(color: active ? color : borderColor),
+                borderRadius: BorderRadius.circular(8)),
+            child: SvgPicture.asset(
+              assets[i],
+              width: 20,
+              color: active ? color : iconColor,
+            ),
+          ),
         ),
       );
       if (i != 5) {
@@ -122,6 +125,56 @@ class RegexConfigIconsTools extends StatelessWidget {
       }
     }
 
+    Widget icon = mode == ThemeMode.dark
+        ? const Icon(TolyIcon.wb_sunny, size: 20)
+        : const Icon(TolyIcon.dark, size: 20);
+
+    children.add(Expanded(
+      child: GestureDetector(
+        onTap: () {
+          LinkRegexBloc bloc = context.read<LinkRegexBloc>();
+          Record? record = context.read<RecordBloc>().state.active;
+          if (record == null) return;
+          String regex = context.read<MatchBloc>().state.pattern;
+          if (regex.isEmpty) return;
+          bloc.insert(regex, record.id);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('正则表达式已保存')),
+          );
+        },
+        child: Center(
+          child: Container(
+            width: 30,
+            height: 30,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(color: borderColor),
+                borderRadius: BorderRadius.circular(8)),
+            child: const Icon(TolyIcon.save, size: 20),
+          ),
+        ),
+      ),
+    ));
+
+    children.add(Expanded(
+      child: GestureDetector(
+        onTap: () {
+          context.read<AppConfigBloc>().switchThemeMode();
+        },
+        child: Center(
+          child: Container(
+            width: 30,
+            height: 30,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(color: borderColor),
+                borderRadius: BorderRadius.circular(8)),
+            child: icon,
+          ),
+        ),
+      ),
+    ));
+
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 10),
       child: Row(children: children),
@@ -135,7 +188,6 @@ class RegexConfigIconsTools extends StatelessWidget {
         'assets/svg/unicode.svg',
         'assets/svg/keyboard.svg',
         'assets/svg/replace.svg',
-        'assets/svg/copy.svg',
       ];
 
   void _onSelect(BuildContext context, int index) {
@@ -144,11 +196,11 @@ class RegexConfigIconsTools extends StatelessWidget {
 
     if (index == 6) {
       // 拷贝功能 - 这里需要获取要拷贝的文本
-      String textToCopy = bloc.state.content; // 替换为实际要拷贝的文本
-      Clipboard.setData(ClipboardData(text: textToCopy));
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('已复制到剪贴板')),
-      );
+      // String textToCopy = bloc.state.content; // 替换为实际要拷贝的文本
+      // Clipboard.setData(ClipboardData(text: textToCopy));
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('已复制到剪贴板')),
+      // );
       return;
     }
 
@@ -224,6 +276,7 @@ class RegexSymbolsPanel extends StatelessWidget {
     {'symbol': '{', 'desc': '量词开始'},
     {'symbol': '}', 'desc': '量词结束'},
     {'symbol': r'\', 'desc': '转义符'},
+    {'symbol': '[^]', 'desc': '否定字符'},
     {'symbol': 'd', 'desc': '数字'},
     {'symbol': 'w', 'desc': '单词字符'},
     {'symbol': 's', 'desc': '空白字符'},
@@ -239,7 +292,11 @@ class RegexSymbolsPanel extends StatelessWidget {
     {'symbol': '{n,m}', 'desc': 'n到m次'},
     {'symbol': '(?:)', 'desc': '非捕获分组'},
     {'symbol': '(?<>)', 'desc': '命名分组'},
+    {'symbol': '＜', 'desc': '光标左移'},
+    {'symbol': '＞', 'desc': '光标右移'},
     {'symbol': '←', 'desc': '删除'},
+    {'symbol': '☇', 'desc': '撤回'},
+    {'symbol': '✖', 'desc': '清空'},
   ];
 
   @override
@@ -256,10 +313,10 @@ class RegexSymbolsPanel extends StatelessWidget {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
-          childAspectRatio: 1.6,
-          crossAxisSpacing: 6,
-          mainAxisSpacing: 6,
+          crossAxisCount: 7,
+          childAspectRatio: 1.5,
+          crossAxisSpacing: 4,
+          mainAxisSpacing: 4,
         ),
         itemCount: symbols.length,
         itemBuilder: (context, index) =>
@@ -291,12 +348,11 @@ class RegexSymbolsPanel extends StatelessWidget {
             Text(
               symbol['symbol']!,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontFamily: 'monospace',
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 1),
             Text(
               symbol['desc']!,
               style: TextStyle(

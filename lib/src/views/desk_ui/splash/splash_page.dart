@@ -104,8 +104,12 @@ class _SplashPageState extends State<SplashPage> {
     int delay = widget.minCostMs - cost;
 
     // 初始化数据
-    await DataInitializer.initializeDataIfNeeded();
-    recoder.loadRecord();
+    try {
+      await DataInitializer.initializeDataIfNeeded();
+      recoder.loadRecord();
+    } catch (e) {
+      print(e);
+    }
 
     if (delay > 0) {
       await Future.delayed(Duration(milliseconds: delay));

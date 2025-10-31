@@ -30,16 +30,11 @@
     "products": [
       {
         "name": "default",
-        "signingConfig": "default",
-        "compatibleSdkVersion": "5.1.0(18)",
-        "runtimeOS": "HarmonyOS",
+        "signingConfig": "release",
+        "compileSdkVersion": "6.0.0(20)",
+        "targetSdkVersion": "6.0.0(20)",
+        "compatibleSdkVersion": "5.0.0(12)"
       },
-//      {
-//        "name": "release",
-//        "signingConfig": "release",
-//        "compatibleSdkVersion": "5.1.0(18)",
-//        "runtimeOS": "HarmonyOS",
-//      }
     ],
     "buildModeSet": [
       {

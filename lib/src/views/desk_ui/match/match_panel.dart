@@ -13,7 +13,7 @@ class MatchPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     Color color = Theme.of(context).colorScheme.surface;
 
-    bool mobile = Platform.isIOS || Platform.isAndroid;
+    bool mobile = Platform.isIOS || Platform.isAndroid || Platform.isOhos;
     TextStyle title = mobile
         ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
         : const TextStyle(fontSize: 11);
@@ -114,7 +114,7 @@ class _MatchPanelMatchPanelListState extends State<MatchListView> {
         ],
       );
     }
-    bool mobile = Platform.isIOS || Platform.isAndroid;
+    bool mobile = Platform.isIOS || Platform.isAndroid || Platform.isOhos;
 
     void reset([dynamic v]) {
       if (!mobile) return;

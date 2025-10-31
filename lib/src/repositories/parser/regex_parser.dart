@@ -22,6 +22,7 @@ class RegexParser {
     String pattern,
     RegExpConfig config, {
     MatchInfo? activeMatch,
+    TextStyle? style,
   }) {
     if (pattern.isEmpty || content.isEmpty) {
       return MatchSuccess(
@@ -29,7 +30,7 @@ class RegexParser {
         content: content,
         pattern: pattern,
         config: config,
-        span: TextSpan(text: content, style: const TextStyle(color: Colors.black)),
+        span: TextSpan(text: content, style: style),
       );
     }
 
@@ -65,7 +66,7 @@ class RegexParser {
       index++;
       return '';
     }, onNonMatch: (str) {
-      span.add(TextSpan(text: str, style: const TextStyle(color: Colors.black)));
+      span.add(TextSpan(text: str, style: style));
       return '';
     });
 

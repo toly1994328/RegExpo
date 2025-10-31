@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regexpo/src/blocs/blocs.dart';
@@ -14,6 +17,7 @@ import 'package:regexpo/src/views/phone_ui/user/common_regex_list.dart';
 
 import '../../../blocs/fx_event/fx_event.dart';
 import '../link_regex/link_regex_tab.dart';
+import '../match/match_panel.dart';
 import 'bottom_bar.dart';
 import 'home_top_bar.dart';
 
@@ -123,6 +127,11 @@ class HomeContent extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const PhoneHomeTopBar(),
+      onDrawerChanged: (v) async {
+        print("========onDrawerChanged==============");
+        await Future.delayed(Duration(milliseconds: 0));
+        FocusScope.of(context).unfocus();
+      },
       drawer: const RecordDrawer(),
       body: Column(
         children: [
@@ -193,18 +202,18 @@ class _ReplaceInputFieldState extends State<ReplaceInputField> {
             Expanded(
               child: TextField(
                 controller: _controller,
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 14, color: Colors.white),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: color,
+                  isCollapsed: true,
                   hintText: '输入替换文本...',
-                  hintStyle: const TextStyle(fontSize: 14),
                   border: const UnderlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.all(Radius.circular(6)),
                   ),
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 ),
               ),
             ),
@@ -212,8 +221,8 @@ class _ReplaceInputFieldState extends State<ReplaceInputField> {
             GestureDetector(
               onTap: () => _executeReplace(context),
               child: Container(
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -269,29 +278,120 @@ class _OptionStatusBarState extends State<OptionStatusBar> {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Theme.of(context).dividerTheme.color ?? Colors.white;
     return BlocBuilder<MatchBloc, MatchState>(
       builder: (context, state) {
         final messages = _getActiveConfigMessages(state.config);
-        if (messages.isEmpty) return const SizedBox.shrink();
-        return Container(
-          width: double.infinity,
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: messages
-                .map((message) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
-                        message,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).primaryColor,
+        List<Widget> children = [];
+
+        if (messages.isNotEmpty) {
+          children.add(Container(
+            width: double.infinity,
+            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: messages
+                  .map((message) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          message,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
-                      ),
-                    ))
-                .toList(),
+                      ))
+                  .toList(),
+            ),
+          ));
+        }
+
+        children.add(Divider(
+          height: 1 / window.devicePixelRatio,
+          thickness: 1 / window.devicePixelRatio,
+          color: color,
+        ));
+        children.add(const StatusInfoBar());
+        children.add(Divider(
+          height: 1 / window.devicePixelRatio,
+          thickness: 1 / window.devicePixelRatio,
+          color: color,
+        ));
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: children,
+        );
+      },
+    );
+  }
+}
+
+class StatusInfoBar extends StatelessWidget {
+  const StatusInfoBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MatchBloc, MatchState>(
+      builder: (context, state) {
+        String statusText = '';
+        String matchInfo = '';
+        Color color = Colors.greenAccent.withOpacity(0.1);
+
+        if (state is MatchError) {
+          statusText = '错误: ${state.error}';
+          color = Colors.red.withOpacity(0.1);
+        } else if (state is MatchSuccess) {
+          statusText = '规则正常';
+          matchInfo = 'match: ${state.matchCount}   group: ${state.groupCount}';
+        }
+
+        String charCount = '字符总数: ${state.content.length}';
+
+        List<Widget> children = [];
+
+        if (statusText.isNotEmpty) {
+          children.add(Text(
+            statusText,
+            style: TextStyle(
+              fontSize: 12,
+              color: state is MatchError ? Colors.red : Colors.blue,
+            ),
+          ));
+        }
+
+        if (matchInfo.isNotEmpty) {
+          children.add(const SizedBox(width: 16));
+          children.add(Text(
+            matchInfo,
+            style: const TextStyle(fontSize: 12, color: Colors.blue),
+          ));
+        }
+        children.add(Spacer());
+        children.add(
+          Text(
+            charCount,
+            style: const TextStyle(fontSize: 12, color: Colors.blue),
+          ),
+        );
+        return GestureDetector(
+          onTap: () {
+            showCupertinoModalPopup(
+                context: context,
+                builder: (context) => Container(
+                      color: Colors.white,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.618,
+                      child: const PhoneMatchPanel(),
+                    ));
+          },
+          child: Container(
+            width: double.infinity,
+            color: color,
+            padding:
+                const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+            child: Row(children: children),
           ),
         );
       },

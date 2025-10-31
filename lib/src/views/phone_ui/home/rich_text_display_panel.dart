@@ -22,9 +22,15 @@ class _RichTextDisplayPanelState extends State<RichTextDisplayPanel> {
   void initState() {
     super.initState();
     _controller = RichTextEditingController();
-    final currentState = context.read<MatchBloc>().state;
-    _controller.text = currentState.content;
-    _controller.richTextSpan = currentState.inlineSpan;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    MatchBloc bloc = context.read<MatchBloc>();
+    _controller.text = bloc.state.content;
+    // bloc.style = Theme.of(context).textTheme.displayMedium;
+    _controller.richTextSpan = bloc.state.inlineSpan();
   }
 
   @override
@@ -44,12 +50,13 @@ class _RichTextDisplayPanelState extends State<RichTextDisplayPanel> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle? style = Theme.of(context).textTheme.displayMedium;
     return BlocConsumer<MatchBloc, MatchState>(
       listener: (context, state) {
         if (_controller.text != state.content) {
           _controller.text = state.content;
         }
-        _controller.richTextSpan = state.inlineSpan;
+        _controller.richTextSpan = state.inlineSpan(style);
       },
       builder: (context, state) {
         if (state.content.isEmpty) {
@@ -64,7 +71,8 @@ class _RichTextDisplayPanelState extends State<RichTextDisplayPanel> {
               FocusScope.of(context).unfocus();
             },
             maxLines: null,
-            style: TextStyle(color: Colors.black, fontSize: 14),
+            style: style,
+            // style: TextStyle(color: Colors.white, fontSize: 14),
             decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import '../../models/models.dart';
 
@@ -13,17 +14,22 @@ class ChangeRegex extends MatchEvent {
   const ChangeRegex({required this.pattern});
 }
 
-class ChangeContent extends MatchEvent{
+class ChangeContent extends MatchEvent {
   final String content;
 
   const ChangeContent({required this.content});
 }
 
-
 class HoverMatchRegex extends MatchEvent {
   final MatchInfo? matchInfo;
 
   const HoverMatchRegex({required this.matchInfo});
+}
+
+class ThemeChange extends MatchEvent {
+  final TextStyle style;
+
+  const ThemeChange({required this.style});
 }
 
 class UpdateRegexConfig extends MatchEvent {

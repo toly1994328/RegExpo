@@ -91,8 +91,8 @@ class AppThemeData {
           titleMedium: TextStyle(color: Colors.black, fontSize: 14),
           displayMedium: TextStyle(color: Colors.black, fontSize: 14),
         ),
-        inputDecorationTheme:
-            const InputDecorationTheme(fillColor: Colors.white),
+        inputDecorationTheme: InputDecorationTheme(
+            fillColor: Colors.white, hintStyle: TextStyle(color: Colors.grey)),
         navigationRailTheme: const NavigationRailThemeData(
             backgroundColor: Colors.white,
             indicatorColor: Color(0xff6E6E6E),

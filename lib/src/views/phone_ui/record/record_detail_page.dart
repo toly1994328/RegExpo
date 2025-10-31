@@ -82,7 +82,7 @@ class _RecordDetailPageState extends State<RecordDetailPage> {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.grey[50],
+                // color: Colors.grey[50],
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey[300]!),
               ),
@@ -91,7 +91,7 @@ class _RecordDetailPageState extends State<RecordDetailPage> {
                   if (state is MatchSuccess &&
                       state.content == widget.record.content) {
                     return SelectableText.rich(
-                      TextSpan(children: [state.inlineSpan]),
+                      TextSpan(children: [state.inlineSpan()]),
                       style: const TextStyle(fontSize: 14, height: 1.6),
                     );
                   }

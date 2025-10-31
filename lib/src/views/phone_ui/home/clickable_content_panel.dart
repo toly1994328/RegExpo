@@ -45,7 +45,7 @@ class _ClickableContentPanelState extends State<ClickableContentPanel> {
   Widget _buildClickableText(BuildContext context, MatchState state) {
     if (state is! MatchSuccess) {
       return Text.rich(
-        state.inlineSpan,
+        state.inlineSpan(),
         style: Theme.of(context).textTheme.displayMedium,
       );
     }
@@ -58,19 +58,19 @@ class _ClickableContentPanelState extends State<ClickableContentPanel> {
 
   InlineSpan _buildClickableSpan(BuildContext context, MatchSuccess state) {
     if (state.span is! TextSpan) return state.span;
-    
+
     TextSpan originalSpan = state.span as TextSpan;
     if (originalSpan.children == null) return originalSpan;
 
     List<InlineSpan> clickableChildren = [];
     int matchIndex = 0;
-    
+
     for (InlineSpan child in originalSpan.children!) {
       if (child is TextSpan && child.style?.color != null) {
         // 这是高亮的匹配文本，添加点击功能和激活背景色
         final currentIndex = matchIndex;
         final isActive = _activeMatchIndex == currentIndex;
-        
+
         clickableChildren.add(
           TextSpan(
             text: child.text,
@@ -120,7 +120,8 @@ class EmptyContent extends StatelessWidget {
       child: Column(
         children: [
           const Spacer(),
-          Image.asset('assets/images/regexpo_logo.png', width: 100, height: 100),
+          Image.asset('assets/images/regexpo_logo.png',
+              width: 100, height: 100),
           const SizedBox(height: 16),
           const Text(
             "Welcome To Flutter RegExpo",

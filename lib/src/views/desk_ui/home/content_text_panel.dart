@@ -23,7 +23,7 @@ class ContentTextPanel extends StatelessWidget {
                       horizontal: 20.0, vertical: 10),
                   children: [
                     Text.rich(
-                      state.inlineSpan,
+                      state.inlineSpan(),
                       style: Theme.of(context).textTheme.displayMedium,
                     )
                   ],
@@ -34,7 +34,7 @@ class ContentTextPanel extends StatelessWidget {
                         horizontal: 20.0, vertical: 10),
                     child: RepaintBoundary(
                       child: Text.rich(
-                        state.inlineSpan,
+                        state.inlineSpan(),
                         style: Theme.of(context).textTheme.displayMedium,
                       ),
                     ),

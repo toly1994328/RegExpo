@@ -14,11 +14,16 @@ class AppConfigBloc extends Cubit<AppConfig> {
 
   AppConfigBloc() : super(const AppConfig());
 
-  void initApp() async{
-   // 读取数据
-   int mode = (await sp).getInt(SpKey.appThemeModel)??0;
-   await LocalDb.instance.initDb();
-   emit(state.copyWith(appThemeMode: mode,inited: true));
+  void initApp() async {
+    // 读取数据
+    try {
+      int mode = (await sp).getInt(SpKey.appThemeModel) ?? 0;
+      await LocalDb.instance.initDb();
+      emit(state.copyWith(appThemeMode: mode, inited: true));
+    } catch (e) {
+      print(e);
+      emit(state.copyWith(inited: true));
+    }
   }
 
   void switchThemeMode() async {
